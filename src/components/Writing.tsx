@@ -22,20 +22,20 @@ export default function Writing() {
   return (
     <section
       id="writing"
-      className="min-h-screen py-20 px-6 relative bg-black"
+      className="min-h-screen py-20 px-6 relative bg-primary"
       ref={ref}
     >
       <div className="max-w-6xl mx-auto">
         <motion.div
-          className="border border-gray-700 bg-gray-900/50 rounded-lg p-6 md:p-8 font-mono text-sm md:text-base"
+          className="border border-border bg-secondary/50 rounded-lg p-6 md:p-8 font-mono text-sm md:text-base"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
           {/* Command */}
           <div className="mb-6">
-            <span className="text-gray-500">$</span>{" "}
-            <span className="text-green-400">ls -la ~/writing</span>
+            <span className="text-text-muted">$</span>{" "}
+            <span className="text-green">ls -la ~/writing</span>
           </div>
 
           {/* Header */}
@@ -43,7 +43,7 @@ export default function Writing() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.2 }}
-            className="mb-4 pl-4 text-gray-500 text-xs"
+            className="mb-4 pl-4 text-text-muted text-xs"
           >
             total {articles.length}
           </motion.div>
@@ -58,12 +58,12 @@ export default function Writing() {
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
               >
-                <div className="border-l-2 border-gray-700 group-hover:border-yellow-500 pl-4 transition-colors">
+                <div className="border-l-2 border-border group-hover:border-yellow pl-4 transition-colors">
                   {/* Date and platform */}
-                  <div className="flex items-baseline gap-3 mb-2 flex-wrap text-xs text-gray-500">
+                  <div className="flex items-baseline gap-3 mb-2 flex-wrap text-xs text-text-muted">
                     <span>{article.date}</span>
                     <span>•</span>
-                    <span className="text-cyan-400">{article.platform}</span>
+                    <span className="text-cyan">{article.platform}</span>
                   </div>
 
                   {/* Title */}
@@ -73,13 +73,13 @@ export default function Writing() {
                     rel="noopener noreferrer"
                     className="block group/link"
                   >
-                    <h3 className="text-green-400 font-semibold mb-2 group-hover/link:text-green-300 group-hover/link:underline transition-colors">
+                    <h3 className="text-green font-semibold mb-2 group-hover/link:opacity-80 group-hover/link:underline transition-colors">
                       {article.title}
                     </h3>
                   </a>
 
                   {/* Description */}
-                  <p className="text-gray-400 mb-3 text-sm leading-relaxed">
+                  <p className="text-text-secondary mb-3 text-sm leading-relaxed">
                     {article.description}
                   </p>
 
@@ -88,7 +88,7 @@ export default function Writing() {
                     {article.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded border border-yellow-500/30"
+                        className="text-xs text-yellow bg-yellow/10 px-2 py-1 rounded border border-yellow/30"
                       >
                         {tag}
                       </span>
@@ -100,7 +100,7 @@ export default function Writing() {
                     href={article.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-400 hover:text-blue-300 hover:underline text-sm inline-flex items-center gap-1"
+                    className="text-blue hover:opacity-80 hover:underline text-sm inline-flex items-center gap-1"
                   >
                     Read article
                     <svg
@@ -127,19 +127,19 @@ export default function Writing() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.6 }}
-            className="mt-8 pt-6 border-t border-gray-800 text-gray-500 text-xs pl-4"
+            className="mt-8 pt-6 border-t border-tertiary text-text-muted text-xs pl-4"
           >
             <div className="space-y-1">
               <div>
-                <span className="text-green-400">→</span> More articles coming soon...
+                <span className="text-green">→</span> More articles coming soon...
               </div>
               <div>
-                <span className="text-green-400">→</span> Follow on{" "}
+                <span className="text-green">→</span> Follow on{" "}
                 <a
                   href="https://medium.com/@mohanadfteha"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 hover:underline"
+                  className="text-blue hover:underline"
                 >
                   Medium
                 </a>

@@ -1,23 +1,70 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ededed;
-  --terminal-green: #00ff00;
-  --terminal-cyan: #00ffff;
-  --terminal-yellow: #ffff00;
+  /* Dark mode colors (default) */
+  --bg-primary: #000000;
+  --bg-secondary: rgb(17, 24, 39); /* gray-900 */
+  --bg-tertiary: rgb(55, 65, 81); /* gray-700 */
+  --text-primary: #ededed;
+  --text-secondary: rgb(156, 163, 175); /* gray-400 */
+  --text-muted: rgb(107, 114, 128); /* gray-500 */
+  --border: rgb(55, 65, 81); /* gray-700 */
+  --accent-green: rgb(34, 197, 94); /* green-500 */
+  --accent-cyan: rgb(34, 211, 238); /* cyan-400 */
+  --accent-yellow: rgb(250, 204, 21); /* yellow-400 */
+  --accent-blue: rgb(96, 165, 250); /* blue-400 */
+  --accent-purple: rgb(192, 132, 252); /* purple-400 */
+  --accent-red: rgb(239, 68, 68); /* red-500 */
+  --scrollbar-track: #0a0a0a;
+  --scrollbar-thumb: rgba(34, 197, 94, 0.4);
+  --scrollbar-thumb-hover: rgba(34, 197, 94, 0.6);
+  --selection-bg: rgba(34, 197, 94, 0.3);
+  --selection-text: #fff;
+}
+
+:root[data-theme="light"] {
+  /* Light mode colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: rgb(243, 244, 246); /* gray-100 */
+  --bg-tertiary: rgb(229, 231, 235); /* gray-200 */
+  --text-primary: rgb(17, 24, 39); /* gray-900 */
+  --text-secondary: rgb(75, 85, 99); /* gray-600 */
+  --text-muted: rgb(107, 114, 128); /* gray-500 */
+  --border: rgb(209, 213, 219); /* gray-300 */
+  --accent-green: rgb(22, 163, 74); /* green-600 */
+  --accent-cyan: rgb(8, 145, 178); /* cyan-600 */
+  --accent-yellow: rgb(202, 138, 4); /* yellow-600 */
+  --accent-blue: rgb(37, 99, 235); /* blue-600 */
+  --accent-purple: rgb(147, 51, 234); /* purple-600 */
+  --accent-red: rgb(220, 38, 38); /* red-600 */
+  --scrollbar-track: #f3f4f6;
+  --scrollbar-thumb: rgba(22, 163, 74, 0.4);
+  --scrollbar-thumb-hover: rgba(22, 163, 74, 0.6);
+  --selection-bg: rgba(22, 163, 74, 0.3);
+  --selection-text: #000;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-primary: var(--bg-primary);
+  --color-secondary: var(--bg-secondary);
+  --color-tertiary: var(--bg-tertiary);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-green: var(--accent-green);
+  --color-cyan: var(--accent-cyan);
+  --color-yellow: var(--accent-yellow);
+  --color-blue: var(--accent-blue);
+  --color-purple: var(--accent-purple);
+  --color-red: var(--accent-red);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: var(--font-geist-mono), "Courier New", monospace;
 }
 
@@ -32,27 +79,27 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
-  border-left: 1px solid #1a1a1a;
+  background: var(--scrollbar-track);
+  border-left: 1px solid var(--border);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(34, 197, 94, 0.4);
+  background: var(--scrollbar-thumb);
   border-radius: 2px;
-  border: 2px solid #0a0a0a;
+  border: 2px solid var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 197, 94, 0.6);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Selection color */
 ::selection {
-  background: rgba(34, 197, 94, 0.3);
-  color: #fff;
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }
 
 ::-moz-selection {
-  background: rgba(34, 197, 94, 0.3);
-  color: #fff;
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }

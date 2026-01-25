@@ -58,20 +58,20 @@ export default function OpenSource() {
   return (
     <section
       id="opensource"
-      className="min-h-screen py-20 px-6 relative bg-black"
+      className="min-h-screen py-20 px-6 relative bg-primary"
       ref={ref}
     >
       <div className="max-w-6xl mx-auto">
         <motion.div
-          className="border border-gray-700 bg-gray-900/50 rounded-lg p-6 md:p-8 font-mono text-sm md:text-base"
+          className="border border-border bg-secondary/50 rounded-lg p-6 md:p-8 font-mono text-sm md:text-base"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
           {/* Command */}
           <div className="mb-6">
-            <span className="text-gray-500">$</span>{" "}
-            <span className="text-green-400">git log --author="mohanadft" --all --oneline</span>
+            <span className="text-text-muted">$</span>{" "}
+            <span className="text-green">git log --author="mohanadft" --all --oneline</span>
           </div>
 
           {/* Stats */}
@@ -79,10 +79,10 @@ export default function OpenSource() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.2 }}
-            className="mb-6 pl-4 text-gray-400 text-xs"
+            className="mb-6 pl-4 text-text-secondary text-xs"
           >
-            <span className="text-cyan-400">{totalPRs} merged PRs</span> across{" "}
-            <span className="text-yellow-400">{contributions.length} projects</span>
+            <span className="text-cyan">{totalPRs} merged PRs</span> across{" "}
+            <span className="text-yellow">{contributions.length} projects</span>
           </motion.div>
 
           {/* Contributions list */}
@@ -95,19 +95,19 @@ export default function OpenSource() {
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
               >
-                <div className="border-l-2 border-gray-700 group-hover:border-green-500 pl-4 transition-colors">
+                <div className="border-l-2 border-border group-hover:border-green pl-4 transition-colors">
                   {/* Project name */}
                   <div className="flex items-baseline gap-3 mb-2 flex-wrap">
-                    <span className="text-green-400 font-semibold">
+                    <span className="text-green font-semibold">
                       {contrib.project}
                     </span>
-                    <span className="text-gray-600 text-xs">
+                    <span className="text-text-muted text-xs">
                       {contrib.prs.length} PR{contrib.prs.length > 1 ? "s" : ""}
                     </span>
                   </div>
 
                   {/* Description */}
-                  <p className="text-gray-400 mb-3 text-sm">
+                  <p className="text-text-secondary mb-3 text-sm">
                     {contrib.description}
                   </p>
 
@@ -119,7 +119,7 @@ export default function OpenSource() {
                         href={`https://github.com/${contrib.repo}/pull/${pr}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-purple-400 bg-purple-400/10 px-2 py-1 rounded border border-purple-500/30 font-mono hover:bg-purple-400/20 hover:border-purple-500/50 transition-colors"
+                        className="text-xs text-purple bg-purple/10 px-2 py-1 rounded border border-purple/30 font-mono hover:bg-purple/20 hover:border-purple/50 transition-colors"
                       >
                         #{pr} ✓
                       </a>
@@ -131,7 +131,7 @@ export default function OpenSource() {
                     {contrib.tech.map((tech) => (
                       <span
                         key={tech}
-                        className="text-xs text-gray-500 bg-gray-800/50 px-2 py-0.5 rounded"
+                        className="text-xs text-text-muted bg-tertiary/50 px-2 py-0.5 rounded"
                       >
                         {tech}
                       </span>
@@ -147,19 +147,19 @@ export default function OpenSource() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 1.2 }}
-            className="mt-8 pt-6 border-t border-gray-800 text-gray-500 text-xs pl-4"
+            className="mt-8 pt-6 border-t border-tertiary text-text-muted text-xs pl-4"
           >
             <div className="space-y-2">
               <div>
-                <span className="text-green-400">→</span> All contributions merged and deployed
+                <span className="text-green">→</span> All contributions merged and deployed
               </div>
               <div>
-                <span className="text-green-400">→</span> View full history:{" "}
+                <span className="text-green">→</span> View full history:{" "}
                 <a
                   href="https://gist.github.com/mohanadft/04fedcf4f229dacffdde52cc475a9f5f"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 hover:underline"
+                  className="text-blue hover:underline"
                 >
                   gist.github.com/mohanadft
                 </a>

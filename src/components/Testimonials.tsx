@@ -28,20 +28,20 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="min-h-screen py-20 px-6 relative bg-black"
+      className="min-h-screen py-20 px-6 relative bg-primary"
       ref={ref}
     >
       <div className="max-w-6xl mx-auto">
         <motion.div
-          className="border border-gray-700 bg-gray-900/50 rounded-lg p-6 md:p-8 font-mono text-sm md:text-base"
+          className="border border-border bg-secondary/50 rounded-lg p-6 md:p-8 font-mono text-sm md:text-base"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
           {/* Command */}
           <div className="mb-6">
-            <span className="text-gray-500">$</span>{" "}
-            <span className="text-green-400">cat testimonials.txt</span>
+            <span className="text-text-muted">$</span>{" "}
+            <span className="text-green">cat testimonials.txt</span>
           </div>
 
           {/* Testimonials */}
@@ -54,15 +54,15 @@ export default function Testimonials() {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.2 + index * 0.2 }}
               >
-                <div className="border-l-2 border-gray-700 group-hover:border-cyan-500 pl-4 transition-colors">
+                <div className="border-l-2 border-border group-hover:border-cyan pl-4 transition-colors">
                   {/* Header */}
                   <div className="mb-3">
                     <div className="flex items-baseline gap-2 flex-wrap mb-1">
-                      <span className="text-cyan-400 font-semibold">
+                      <span className="text-cyan font-semibold">
                         {testimonial.name}
                       </span>
-                      <span className="text-gray-600">—</span>
-                      <span className="text-yellow-400 text-sm">
+                      <span className="text-text-muted">—</span>
+                      <span className="text-yellow text-sm">
                         {testimonial.role}
                       </span>
                     </div>
@@ -70,7 +70,7 @@ export default function Testimonials() {
                       href={testimonial.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-400 hover:text-blue-300 hover:underline text-xs inline-flex items-center gap-1"
+                      className="text-blue hover:opacity-80 hover:underline text-xs inline-flex items-center gap-1"
                     >
                       <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -80,7 +80,7 @@ export default function Testimonials() {
                   </div>
 
                   {/* Quote */}
-                  <div className="mb-4 text-gray-300 leading-relaxed text-sm border-l-2 border-gray-800 pl-3 italic">
+                  <div className="mb-4 text-text-primary leading-relaxed text-sm border-l-2 border-tertiary pl-3 italic">
                     "{testimonial.quote}"
                   </div>
 
@@ -89,7 +89,7 @@ export default function Testimonials() {
                     {testimonial.highlights.map((highlight) => (
                       <span
                         key={highlight}
-                        className="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded border border-green-500/30"
+                        className="text-xs text-green bg-green/10 px-2 py-1 rounded border border-green/30"
                       >
                         ✓ {highlight}
                       </span>
@@ -99,7 +99,7 @@ export default function Testimonials() {
 
                 {/* Separator */}
                 {index < testimonials.length - 1 && (
-                  <div className="mt-6 border-t border-gray-800" />
+                  <div className="mt-6 border-t border-tertiary" />
                 )}
               </motion.div>
             ))}
@@ -110,9 +110,9 @@ export default function Testimonials() {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.8 }}
-            className="mt-8 pt-6 border-t border-gray-800 text-gray-500 text-xs pl-4"
+            className="mt-8 pt-6 border-t border-tertiary text-text-muted text-xs pl-4"
           >
-            <span className="text-green-400">EOF</span> - End of testimonials
+            <span className="text-green">EOF</span> - End of testimonials
           </motion.div>
         </motion.div>
       </div>
