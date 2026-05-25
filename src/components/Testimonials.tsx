@@ -10,14 +10,18 @@ const testimonials = [
     role: "Tech Leader",
     linkedin: "https://www.linkedin.com/in/mbarhoush",
     quote: "Mohanad's performance has been nothing short of exceptional. His code showcases deep understanding of algorithms and data structures, particularly in backend development. Outstanding problem-solving skills with efficient, well-organized solutions. I wholeheartedly recommend him for any Backend role that demands brilliance and expertise.",
-    highlights: ["Backend expertise", "Problem-solving", "Clean code"],
+  },
+  {
+    name: "Wasim Juned",
+    role: "",
+    linkedin: "https://www.linkedin.com/in/wasimjuned",
+    quote: "An outstanding engineer - a real pleasure working with him.",
   },
   {
     name: "Saleh Marouf",
     role: "Full Stack Software Engineer",
     linkedin: "https://www.linkedin.com/in/saleh-marouf",
     quote: "Outstanding teammate and developer. Highly skilled in solving complex problems with creative solutions. Great balance of technical expertise and communication. I strongly recommend Mohanad for any team looking for a reliable, talented, and dedicated professional.",
-    highlights: ["Creative solutions", "Team collaboration", "Technical expertise"],
   },
 ];
 
@@ -61,10 +65,12 @@ export default function Testimonials() {
                       <span className="text-cyan font-semibold">
                         {testimonial.name}
                       </span>
-                      <span className="text-text-muted">—</span>
-                      <span className="text-yellow text-sm">
-                        {testimonial.role}
-                      </span>
+                      {testimonial.role && (
+                        <>
+                          <span className="text-text-muted">—</span>
+                          <span className="text-yellow text-sm">{testimonial.role}</span>
+                        </>
+                      )}
                     </div>
                     <a
                       href={testimonial.linkedin}
@@ -84,17 +90,6 @@ export default function Testimonials() {
                     "{testimonial.quote}"
                   </div>
 
-                  {/* Highlights */}
-                  <div className="flex flex-wrap gap-2">
-                    {testimonial.highlights.map((highlight) => (
-                      <span
-                        key={highlight}
-                        className="text-xs text-green bg-green/10 px-2 py-1 rounded border border-green/30"
-                      >
-                        ✓ {highlight}
-                      </span>
-                    ))}
-                  </div>
                 </div>
 
                 {/* Separator */}

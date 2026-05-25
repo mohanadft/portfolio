@@ -6,6 +6,22 @@ import { useRef } from "react";
 
 const projects = [
   {
+    id: "mini-osb",
+    name: "mini-osb",
+    description: "A mini Open Service Broker for Kubernetes",
+    longDescription: "A mini Open Service Broker that provisions real Kubernetes pods (Redis, Postgres) via declarative config or GitHub webhooks. Includes a dashboard UI and supports any service catalog.",
+    tech: ["JavaScript", "HTML", "Kubernetes", "Open Service Broker API"],
+    features: [
+      "Provisions real Kubernetes pods (Redis, Postgres) on demand",
+      "Supports declarative config and GitHub webhook triggers",
+      "Dashboard UI for managing provisioned services",
+      "Extensible service catalog support"
+    ],
+    url: "https://github.com/mohanadft/mini-osb",
+    inspiredBy: "https://www.youtube.com/watch?v=55pTFVoclvE",
+    date: "2026-05"
+  },
+  {
     id: "contextly",
     name: "Contextly",
     description: "Context-aware word explanations for readers in Chrome",
@@ -94,15 +110,30 @@ export default function Projects() {
                   </ul>
                 </div>
 
-                {/* Link */}
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm text-cyan hover:text-cyan/80 hover:underline inline-flex items-center gap-1"
-                >
-                  View on GitHub →
-                </a>
+                {/* Links */}
+                <div className="flex flex-wrap gap-4 items-center">
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-cyan hover:text-cyan/80 hover:underline inline-flex items-center gap-1"
+                  >
+                    View on GitHub →
+                  </a>
+                  {"inspiredBy" in project && typeof project.inspiredBy === "string" && (
+                    <span className="text-xs text-text-muted">
+                      inspired by:{" "}
+                      <a
+                        href={project.inspiredBy}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-text-secondary hover:text-cyan hover:underline"
+                      >
+                        youtube
+                      </a>
+                    </span>
+                  )}
+                </div>
               </motion.div>
             ))}
           </div>
