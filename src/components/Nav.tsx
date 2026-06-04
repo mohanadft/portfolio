@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const sections = [
   { id: "about", label: "about" },
-  { id: "experience", label: "exp" },
+  { id: "experience", label: "experience" },
   { id: "projects", label: "projects" },
-  { id: "opensource", label: "oss" },
+  { id: "opensource", label: "open-source" },
   { id: "writing", label: "writing" },
-  { id: "testimonials", label: "tests" },
+  { id: "testimonials", label: "testimonials" },
   { id: "contact", label: "contact" },
 ];
 
@@ -56,11 +56,10 @@ export default function Nav() {
           initial={{ y: -48, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -48, opacity: 0 }}
-          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
           className="fixed top-0 left-0 right-0 z-40 bg-primary/90 backdrop-blur-md border-b border-border-subtle"
           aria-label="Section navigation"
         >
-          {/* Desktop nav */}
           <div className="hidden md:flex max-w-6xl mx-auto px-6 h-11 items-center gap-1 font-mono text-xs">
             <span className="text-green font-semibold tracking-tight mr-3">
               mohanadft
@@ -70,18 +69,24 @@ export default function Nav() {
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className={`px-2.5 py-1.5 rounded transition-colors ${
+                className={`relative px-2.5 py-1.5 rounded transition-colors duration-200 ${
                   active === s.id
-                    ? "text-green bg-green/10"
+                    ? "text-green"
                     : "text-text-muted hover:text-text-secondary"
                 }`}
               >
                 {s.label}
+                {active === s.id && (
+                  <motion.div
+                    layoutId="nav-active"
+                    className="absolute inset-0 bg-green/10 rounded"
+                    transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                  />
+                )}
               </a>
             ))}
           </div>
 
-          {/* Mobile nav */}
           <div className="md:hidden relative">
             <div className="flex items-center justify-between px-4 pr-14 h-11 font-mono text-xs">
               <div className="flex items-center gap-2">

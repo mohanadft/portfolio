@@ -30,7 +30,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="py-28 md:py-36 px-6 relative bg-primary"
+      className="py-32 md:py-40 px-6 relative bg-primary"
       ref={ref}
     >
       <div className="max-w-3xl mx-auto font-mono">
@@ -45,10 +45,10 @@ export default function Contact() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-secondary/60 border border-border rounded-lg p-5 md:p-8 text-sm"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="group/json bg-secondary/60 border border-border-subtle rounded-lg p-5 md:p-8 text-sm hover:border-border transition-colors duration-300"
         >
           <div className="text-text-muted">{"{"}</div>
 
@@ -92,7 +92,7 @@ export default function Contact() {
                     href={link.url}
                     target={link.isEmail ? undefined : "_blank"}
                     rel={link.isEmail ? undefined : "noopener noreferrer"}
-                    className="text-blue hover:text-cyan transition-colors"
+                    className="text-blue hover:text-cyan transition-colors link-hover"
                   >
                     &quot;{link.value}&quot;
                   </a>
@@ -136,9 +136,9 @@ export default function Contact() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.8 }}
-          className="mt-16 pt-6 border-t border-border-subtle text-text-muted text-xs"
+          className="mt-20 pt-6 border-t border-border-subtle text-text-muted text-xs"
         >
-          Built by Mohanad Fteha
+          Built by Mohanad Fteha, 2026
         </motion.div>
       </div>
     </section>

@@ -51,7 +51,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="py-20 md:py-28 px-6 relative bg-primary"
+      className="py-24 md:py-32 px-6 relative bg-primary"
       ref={ref}
     >
       <div className="max-w-3xl mx-auto font-mono">
@@ -69,18 +69,21 @@ export default function Projects() {
           {projects.map((project, index) => (
             <motion.article
               key={project.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{
                 duration: 0.5,
                 delay: 0.15 + index * 0.15,
-                ease: [0.25, 0.1, 0.25, 1],
+                ease: [0.16, 1, 0.3, 1],
               }}
-              className="group bg-secondary/60 border border-border rounded-lg p-5 md:p-6 hover:border-border transition-colors"
+              className="group bg-secondary/60 border border-border-subtle rounded-lg p-5 md:p-6 hover:border-border transition-all duration-300 hover:shadow-[0_0_24px_-8px_oklch(0.75_0.19_152_/_0.08)]"
             >
               <div className="flex items-baseline gap-3 mb-3 flex-wrap">
                 <span className="text-yellow text-xs">*</span>
-                <h3 className="text-lg font-bold text-text-primary tracking-tight">
+                <h3
+                  className="font-bold text-text-primary tracking-[-0.02em]"
+                  style={{ fontSize: "clamp(1.05rem, 1.5vw, 1.2rem)" }}
+                >
                   {project.name}
                 </h3>
                 <span className="text-text-muted text-xs">
@@ -96,7 +99,7 @@ export default function Projects() {
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className="text-xs text-cyan bg-cyan/5 px-2 py-0.5 rounded border border-cyan/10"
+                    className="text-xs text-cyan bg-cyan/5 px-2 py-0.5 rounded border border-cyan/10 transition-all duration-200 hover:bg-cyan/10 hover:border-cyan/20"
                   >
                     {tech}
                   </span>
@@ -117,7 +120,7 @@ export default function Projects() {
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue hover:text-cyan transition-colors inline-flex items-center gap-1.5"
+                  className="text-blue hover:text-cyan transition-colors inline-flex items-center gap-1.5 link-hover"
                 >
                   GitHub
                   <svg
@@ -142,7 +145,7 @@ export default function Projects() {
                         href={project.inspiredBy}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-text-secondary hover:text-cyan transition-colors"
+                        className="text-text-secondary hover:text-cyan transition-colors link-hover"
                       >
                         this talk
                       </a>
@@ -164,7 +167,7 @@ export default function Projects() {
             href="https://github.com/mohanadft"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue hover:text-cyan transition-colors"
+            className="text-blue hover:text-cyan transition-colors link-hover"
           >
             github.com/mohanadft
           </a>

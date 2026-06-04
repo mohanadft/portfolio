@@ -34,7 +34,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-20 md:py-28 px-6 relative bg-secondary/30"
+      className="py-24 md:py-32 px-6 relative bg-secondary/30"
       ref={ref}
     >
       <div className="max-w-3xl mx-auto font-mono">
@@ -48,16 +48,16 @@ export default function Testimonials() {
           <span className="text-green">cat testimonials.log</span>
         </motion.div>
 
-        <div className="space-y-10">
+        <div className="space-y-12">
           {testimonials.map((testimonial, index) => (
             <motion.blockquote
               key={testimonial.name}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{
                 duration: 0.5,
                 delay: 0.1 + index * 0.12,
-                ease: [0.25, 0.1, 0.25, 1],
+                ease: [0.16, 1, 0.3, 1],
               }}
               className="relative"
             >
@@ -70,7 +70,7 @@ export default function Testimonials() {
                   href={testimonial.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cyan hover:text-green transition-colors font-semibold"
+                  className="text-cyan hover:text-green transition-colors font-semibold link-hover"
                 >
                   {testimonial.name}
                 </a>
@@ -91,7 +91,7 @@ export default function Testimonials() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.6 }}
-          className="mt-12 pt-6 border-t border-border-subtle text-text-muted text-xs"
+          className="mt-14 pt-6 border-t border-border-subtle text-text-muted text-xs"
         >
           EOF
         </motion.div>

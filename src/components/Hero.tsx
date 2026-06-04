@@ -17,7 +17,7 @@ export default function Hero() {
       } else {
         clearInterval(typingInterval);
       }
-    }, 100);
+    }, 70);
 
     return () => clearInterval(typingInterval);
   }, []);
@@ -33,7 +33,7 @@ export default function Hero() {
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-primary px-6">
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none opacity-[0.04]"
         style={{
           backgroundImage:
             "repeating-linear-gradient(0deg, var(--accent-green) 0px, transparent 1px, transparent 4px)",
@@ -42,9 +42,9 @@ export default function Hero() {
 
       <motion.div
         className="relative w-full max-w-3xl"
-        initial={{ opacity: 0, scale: 0.98 }}
+        initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="bg-tertiary/80 border border-border rounded-t-lg px-4 py-2.5 flex items-center gap-2">
           <div className="flex gap-1.5">
@@ -62,7 +62,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
+              transition={{ delay: 0.2, duration: 0.3 }}
               className="text-green"
             >
               <span className="text-text-muted">$</span> whoami
@@ -71,8 +71,9 @@ export default function Hero() {
             <motion.h1
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-text-primary pl-4 text-2xl md:text-3xl font-bold tracking-tight"
+              transition={{ delay: 0.35, duration: 0.3 }}
+              className="text-text-primary pl-4 font-bold tracking-[-0.04em]"
+              style={{ fontSize: "clamp(1.75rem, 5vw, 3rem)" }}
             >
               {displayedText}
               <span
@@ -85,7 +86,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2 }}
+              transition={{ delay: 1.2, duration: 0.3 }}
               className="text-green pt-3"
             >
               <span className="text-text-muted">$</span> cat role.txt
@@ -94,11 +95,11 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2.2 }}
+              transition={{ delay: 1.35, duration: 0.3 }}
               className="pl-4 space-y-1.5"
             >
               <div className="text-text-primary">
-                <span className="text-yellow font-semibold">
+                <span className="text-yellow font-semibold text-base md:text-lg">
                   Software Engineer
                 </span>{" "}
                 <span className="text-text-muted">/</span>{" "}
@@ -123,7 +124,7 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2.8 }}
+              transition={{ delay: 1.6, duration: 0.3 }}
               className="text-green pt-3"
             >
               <span className="text-text-muted">$</span> ls ~/
@@ -132,7 +133,7 @@ export default function Hero() {
             <motion.nav
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 3 }}
+              transition={{ delay: 1.7, duration: 0.3 }}
               className="pl-4 flex gap-x-5 gap-y-2 flex-wrap"
               aria-label="Page sections"
             >
@@ -144,21 +145,24 @@ export default function Hero() {
                 { href: "#writing", label: "writing" },
                 { href: "#testimonials", label: "testimonials" },
                 { href: "#contact", label: "contact" },
-              ].map((link) => (
-                <a
+              ].map((link, i) => (
+                <motion.a
                   key={link.href}
                   href={link.href}
-                  className="text-blue hover:text-cyan transition-colors"
+                  className="text-blue hover:text-cyan transition-colors link-hover"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.7 + i * 0.04, duration: 0.25 }}
                 >
                   {link.label}/
-                </a>
+                </motion.a>
               ))}
             </motion.nav>
 
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 3.5 }}
+              transition={{ delay: 2.1, duration: 0.3 }}
               className="text-text-muted pt-3 flex items-center"
             >
               <span>$</span>
@@ -178,7 +182,15 @@ export default function Hero() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at center, color-mix(in srgb, var(--accent-green) 3%, transparent), transparent 70%)",
+            "radial-gradient(ellipse at center, oklch(0.75 0.19 152 / 0.06), transparent 70%)",
+        }}
+      />
+
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, transparent 50%, oklch(0.13 0.006 250 / 0.6) 100%)",
         }}
       />
     </section>

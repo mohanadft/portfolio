@@ -61,7 +61,7 @@ export default function OpenSource() {
       className="py-20 md:py-28 px-6 relative bg-secondary/30"
       ref={ref}
     >
-      <div className="max-w-3xl mx-auto font-mono">
+      <div className="max-w-5xl mx-auto font-mono">
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -91,8 +91,9 @@ export default function OpenSource() {
               initial={{ opacity: 0, x: -8 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{
-                duration: 0.4,
-                delay: 0.15 + index * 0.06,
+                duration: 0.35,
+                delay: 0.15 + index * 0.04,
+                ease: [0.16, 1, 0.3, 1],
               }}
               className="group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4"
             >
@@ -113,7 +114,7 @@ export default function OpenSource() {
                     href={`https://github.com/${contrib.repo}/pull/${pr}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-purple bg-purple/8 px-1.5 py-0.5 rounded font-mono hover:bg-purple/15 transition-colors"
+                    className="text-xs text-purple bg-purple/8 px-1.5 py-0.5 rounded font-mono hover:bg-purple/15 hover:text-purple transition-all duration-200"
                   >
                     #{pr}
                   </a>
@@ -126,7 +127,7 @@ export default function OpenSource() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.7 }}
+          transition={{ delay: 0.5 }}
           className="mt-10 pt-6 border-t border-border-subtle text-text-muted text-xs space-y-1"
         >
           <div>All contributions merged and deployed</div>
@@ -136,7 +137,7 @@ export default function OpenSource() {
               href="https://gist.github.com/mohanadft/04fedcf4f229dacffdde52cc475a9f5f"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue hover:text-cyan transition-colors"
+              className="text-blue hover:text-cyan transition-colors link-hover"
             >
               gist.github.com/mohanadft
             </a>

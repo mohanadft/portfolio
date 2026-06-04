@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-04T14:15:00Z",
+  "title": "Design System: Mohanad Fteha Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "phosphor-green": {
+        "role": "primary",
+        "displayName": "Phosphor Green",
+        "canonical": "oklch(0.75 0.19 152)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 152)",
+          "oklch(0.25 0.08 152)",
+          "oklch(0.35 0.12 152)",
+          "oklch(0.50 0.15 152)",
+          "oklch(0.65 0.18 152)",
+          "oklch(0.75 0.19 152)",
+          "oklch(0.85 0.14 152)",
+          "oklch(0.95 0.06 152)"
+        ]
+      },
+      "signal-cyan": {
+        "role": "secondary",
+        "displayName": "Signal Cyan",
+        "canonical": "oklch(0.78 0.11 195)",
+        "tonalRamp": [
+          "oklch(0.15 0.03 195)",
+          "oklch(0.25 0.05 195)",
+          "oklch(0.35 0.07 195)",
+          "oklch(0.50 0.09 195)",
+          "oklch(0.65 0.10 195)",
+          "oklch(0.78 0.11 195)",
+          "oklch(0.87 0.07 195)",
+          "oklch(0.95 0.03 195)"
+        ]
+      },
+      "amber-glow": {
+        "role": "secondary",
+        "displayName": "Amber Glow",
+        "canonical": "oklch(0.82 0.155 80)",
+        "tonalRamp": [
+          "oklch(0.15 0.04 80)",
+          "oklch(0.25 0.07 80)",
+          "oklch(0.35 0.10 80)",
+          "oklch(0.50 0.12 80)",
+          "oklch(0.65 0.14 80)",
+          "oklch(0.82 0.155 80)",
+          "oklch(0.90 0.10 80)",
+          "oklch(0.95 0.05 80)"
+        ]
+      },
+      "deep-void": {
+        "role": "neutral",
+        "displayName": "Deep Void",
+        "canonical": "oklch(0.13 0.006 250)",
+        "tonalRamp": [
+          "oklch(0.08 0.004 250)",
+          "oklch(0.13 0.006 250)",
+          "oklch(0.16 0.006 250)",
+          "oklch(0.19 0.008 260)",
+          "oklch(0.22 0.008 260)",
+          "oklch(0.27 0.008 260)",
+          "oklch(0.35 0.008 260)",
+          "oklch(0.45 0.008 260)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero name only. The largest text on the site." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings (About, Experience, etc.)." },
+      "title": { "displayName": "Title", "purpose": "Job titles, project names, article titles." },
+      "body": { "displayName": "Body", "purpose": "All running text. Max 65ch." },
+      "label": { "displayName": "Label", "purpose": "Command prompts, dates, metadata, tags, footer." }
+    },
+    "shadows": [
+      {
+        "name": "card-hover-glow",
+        "value": "0 0 24px -8px oklch(0.75 0.19 152 / 0.08)",
+        "purpose": "Diffuse phosphor glow on project card hover. The only shadow in the system."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-expo-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default easing for all transitions and entrance animations."
+      },
+      {
+        "name": "spring-nav",
+        "value": "spring(stiffness: 500, damping: 35)",
+        "purpose": "Nav active indicator slide. Framer Motion spring."
+      },
+      {
+        "name": "link-underline",
+        "value": "transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Sliding underline on link hover. scaleX(0) to scaleX(1), transform-origin left."
+      }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "768px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Terminal Window",
+      "kind": "custom",
+      "refersTo": "terminal-window",
+      "description": "The signature component. Title bar with traffic-light dots + body panel.",
+      "html": "<div class=\"ds-terminal\"><div class=\"ds-terminal-bar\"><div class=\"ds-terminal-dots\"><span class=\"ds-dot ds-dot-red\"></span><span class=\"ds-dot ds-dot-yellow\"></span><span class=\"ds-dot ds-dot-green\"></span></div><span class=\"ds-terminal-label\">bash</span></div><div class=\"ds-terminal-body\"><span class=\"ds-prompt\">$</span> <span class=\"ds-cmd\">whoami</span><div class=\"ds-output\">mohanad-fteha</div></div></div>",
+      "css": ".ds-terminal { font-family: 'Geist Mono', 'Courier New', monospace; font-size: 14px; } .ds-terminal-bar { background: oklch(0.19 0.008 260); border: 1px solid oklch(0.27 0.008 260); border-radius: 8px 8px 0 0; padding: 10px 16px; display: flex; align-items: center; gap: 8px; } .ds-terminal-dots { display: flex; gap: 6px; } .ds-dot { width: 10px; height: 10px; border-radius: 50%; } .ds-dot-red { background: oklch(0.63 0.19 25 / 0.8); } .ds-dot-yellow { background: oklch(0.82 0.155 80 / 0.8); } .ds-dot-green { background: oklch(0.75 0.19 152 / 0.8); } .ds-terminal-label { color: oklch(0.52 0.008 160); font-size: 12px; margin-left: 8px; letter-spacing: 0.05em; } .ds-terminal-body { background: oklch(0.16 0.006 250); border: 1px solid oklch(0.27 0.008 260); border-top: none; border-radius: 0 0 8px 8px; padding: 24px 40px; } .ds-prompt { color: oklch(0.52 0.008 160); } .ds-cmd { color: oklch(0.75 0.19 152); } .ds-output { color: oklch(0.9 0.006 250); padding-left: 16px; margin-top: 8px; }"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "project-card",
+      "description": "Card for showcasing projects. Subtle border, green glow on hover.",
+      "html": "<article class=\"ds-project-card\"><div class=\"ds-card-header\"><span class=\"ds-commit-dot\">*</span><h3 class=\"ds-card-title\">mini-osb</h3><span class=\"ds-card-date\">2026-05</span></div><p class=\"ds-card-desc\">A mini Open Service Broker that provisions real Kubernetes pods.</p></article>",
+      "css": ".ds-project-card { background: oklch(0.16 0.006 250 / 0.6); border: 1px solid oklch(0.21 0.008 260); border-radius: 8px; padding: 20px 24px; font-family: 'Geist Mono', 'Courier New', monospace; transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1); } .ds-project-card:hover { border-color: oklch(0.27 0.008 260); box-shadow: 0 0 24px -8px oklch(0.75 0.19 152 / 0.08); } .ds-card-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; } .ds-commit-dot { color: oklch(0.82 0.155 80); font-size: 12px; } .ds-card-title { color: oklch(0.9 0.006 250); font-weight: 700; font-size: clamp(1.05rem, 1.5vw, 1.2rem); letter-spacing: -0.02em; } .ds-card-date { color: oklch(0.52 0.008 160); font-size: 12px; } .ds-card-desc { color: oklch(0.68 0.006 250); font-size: 14px; line-height: 1.7; max-width: 60ch; }"
+    },
+    {
+      "name": "Tech Tag",
+      "kind": "chip",
+      "refersTo": "tech-tag",
+      "description": "Inline tag for technology labels. Cyan tinted.",
+      "html": "<span class=\"ds-tech-tag\">TypeScript</span>",
+      "css": ".ds-tech-tag { font-family: 'Geist Mono', 'Courier New', monospace; font-size: 12px; color: oklch(0.78 0.11 195); background: oklch(0.78 0.11 195 / 0.05); border: 1px solid oklch(0.78 0.11 195 / 0.1); border-radius: 4px; padding: 2px 8px; transition: background 0.2s, border-color 0.2s; } .ds-tech-tag:hover { background: oklch(0.78 0.11 195 / 0.1); border-color: oklch(0.78 0.11 195 / 0.2); }"
+    },
+    {
+      "name": "PR Badge",
+      "kind": "chip",
+      "refersTo": "pr-badge",
+      "description": "Pull request number badge. Purple tinted.",
+      "html": "<a class=\"ds-pr-badge\" href=\"#\">#4614</a>",
+      "css": ".ds-pr-badge { font-family: 'Geist Mono', 'Courier New', monospace; font-size: 12px; color: oklch(0.7 0.15 300); background: oklch(0.7 0.15 300 / 0.08); border-radius: 4px; padding: 2px 6px; text-decoration: none; transition: background 0.2s, color 0.2s; } .ds-pr-badge:hover { background: oklch(0.7 0.15 300 / 0.15); }"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Navigation link with animated active indicator.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link\" href=\"#\">about</a><a class=\"ds-nav-link ds-nav-active\" href=\"#\">experience</a><a class=\"ds-nav-link\" href=\"#\">projects</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 4px; font-family: 'Geist Mono', 'Courier New', monospace; font-size: 12px; } .ds-nav-link { color: oklch(0.52 0.008 160); padding: 6px 10px; border-radius: 4px; text-decoration: none; transition: color 0.2s; position: relative; } .ds-nav-link:hover { color: oklch(0.68 0.006 250); } .ds-nav-active { color: oklch(0.75 0.19 152); } .ds-nav-active::before { content: ''; position: absolute; inset: 0; background: oklch(0.75 0.19 152 / 0.1); border-radius: 4px; }"
+    },
+    {
+      "name": "External Link",
+      "kind": "button",
+      "refersTo": "nav-link",
+      "description": "Text link with sliding underline on hover.",
+      "html": "<a class=\"ds-link\" href=\"#\">github.com/mohanadft</a>",
+      "css": ".ds-link { font-family: 'Geist Mono', 'Courier New', monospace; font-size: 14px; color: oklch(0.7 0.14 260); text-decoration: none; position: relative; transition: color 0.2s; } .ds-link::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); } .ds-link:hover { color: oklch(0.78 0.11 195); } .ds-link:hover::after { transform: scaleX(1); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Phosphor Terminal",
+    "overview": "A CRT monitor in a dim room. Warm phosphor green glows against deep, blue-tinted black. Scanlines pulse at the edge of perception. Every character is deliberate; every command produces a result. The monitor is the interface.\n\nThis system rejects generic dev portfolio templates, over-designed agency sites, plain GitHub READMEs rendered as websites, and cookie-cutter terminal themes. The terminal metaphor is an identity choice; it says \"I live in the command line\" without being gimmicky.",
+    "keyCharacteristics": [
+      "Phosphor warmth: all neutrals tinted, never pure gray",
+      "Structural precision: components as well-machined parts",
+      "Atmospheric depth: noise + scanline + radial glow",
+      "Varied animation: per-section personality, unified expo easing",
+      "Selective restraint: bold where it matters, quiet everywhere else"
+    ],
+    "rules": [
+      { "name": "The No Pure Gray Rule", "body": "Every neutral carries chroma 0.005-0.008 tinted toward the brand hue (250-260). Pure gray is dead; tinted neutrals are alive.", "section": "colors" },
+      { "name": "The Semantic Color Rule", "body": "Each accent has exactly one role. Green is commands. Cyan is technical content. Yellow is headings. Blue is links. Purple is PRs. Red is errors.", "section": "colors" },
+      { "name": "The Mono Commitment Rule", "body": "One family for everything. Size and weight do the hierarchy work, not font switching.", "section": "typography" },
+      { "name": "The Breathing Room Rule", "body": "Body line-height is 1.7, not 1.5. Light text on dark backgrounds needs more air. Cap body lines at 65ch.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. The only shadow is the project card hover glow, reinforcing the phosphor metaphor.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use OKLCH for all color values.",
+      "Do tint every neutral toward the brand hue at chroma 0.005-0.008.",
+      "Do vary animation per section.",
+      "Do use the expo easing curve cubic-bezier(0.16, 1, 0.3, 1) for all transitions.",
+      "Do respect prefers-reduced-motion.",
+      "Do keep body text at max 65ch and 1.7 line-height.",
+      "Do vary section padding for rhythm."
+    ],
+    "donts": [
+      "Don't use generic dev portfolio templates.",
+      "Don't add gratuitous parallax, 3D blobs, or style-over-substance effects.",
+      "Don't use cookie-cutter terminal green without the phosphor warmth shift.",
+      "Don't use border-left or border-right greater than 1px as a colored accent stripe.",
+      "Don't use gradient text.",
+      "Don't use glassmorphism as a default surface treatment.",
+      "Don't animate CSS layout properties.",
+      "Don't add a second font family.",
+      "Don't use em dashes in any copy.",
+      "Don't make every section the same width."
+    ]
+  }
+}

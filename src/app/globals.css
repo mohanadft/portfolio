@@ -1,49 +1,49 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #111113;
-  --bg-tertiary: #1a1a1e;
-  --bg-elevated: #222226;
-  --text-primary: #e0e0e0;
-  --text-secondary: #9a9a9a;
-  --text-muted: #6b6b6b;
-  --border: #2a2a2e;
-  --border-subtle: #1e1e22;
-  --accent-green: #3ddc84;
-  --accent-cyan: #56d4e0;
-  --accent-yellow: #f0c53f;
-  --accent-blue: #6ba3f7;
-  --accent-purple: #c490f7;
-  --accent-red: #ef5f5f;
-  --scrollbar-track: #0a0a0a;
-  --scrollbar-thumb: rgba(61, 220, 132, 0.25);
-  --scrollbar-thumb-hover: rgba(61, 220, 132, 0.45);
-  --selection-bg: rgba(61, 220, 132, 0.25);
-  --selection-text: #fff;
+  --bg-primary: oklch(0.13 0.006 250);
+  --bg-secondary: oklch(0.16 0.006 250);
+  --bg-tertiary: oklch(0.19 0.008 260);
+  --bg-elevated: oklch(0.22 0.008 260);
+  --text-primary: oklch(0.9 0.006 250);
+  --text-secondary: oklch(0.68 0.006 250);
+  --text-muted: oklch(0.52 0.008 160);
+  --border: oklch(0.27 0.008 260);
+  --border-subtle: oklch(0.21 0.008 260);
+  --accent-green: oklch(0.75 0.19 152);
+  --accent-cyan: oklch(0.78 0.11 195);
+  --accent-yellow: oklch(0.82 0.155 80);
+  --accent-blue: oklch(0.7 0.14 260);
+  --accent-purple: oklch(0.7 0.15 300);
+  --accent-red: oklch(0.63 0.19 25);
+  --scrollbar-track: oklch(0.13 0.006 250);
+  --scrollbar-thumb: oklch(0.75 0.19 152 / 0.25);
+  --scrollbar-thumb-hover: oklch(0.75 0.19 152 / 0.45);
+  --selection-bg: oklch(0.75 0.19 152 / 0.25);
+  --selection-text: oklch(0.97 0.003 250);
 }
 
 :root[data-theme="light"] {
-  --bg-primary: #fafaf9;
-  --bg-secondary: #f2f2f0;
-  --bg-tertiary: #e8e8e5;
-  --bg-elevated: #ffffff;
-  --text-primary: #1a1a1a;
-  --text-secondary: #5c5c5c;
-  --text-muted: #8a8a8a;
-  --border: #d4d4d0;
-  --border-subtle: #e2e2de;
-  --accent-green: #1a9d54;
-  --accent-cyan: #0a7e8c;
-  --accent-yellow: #9a7b0a;
-  --accent-blue: #2563eb;
-  --accent-purple: #7c3aed;
-  --accent-red: #dc2626;
-  --scrollbar-track: #f2f2f0;
-  --scrollbar-thumb: rgba(26, 157, 84, 0.3);
-  --scrollbar-thumb-hover: rgba(26, 157, 84, 0.5);
-  --selection-bg: rgba(26, 157, 84, 0.2);
-  --selection-text: #000;
+  --bg-primary: oklch(0.975 0.005 90);
+  --bg-secondary: oklch(0.95 0.005 90);
+  --bg-tertiary: oklch(0.92 0.006 90);
+  --bg-elevated: oklch(0.995 0.003 90);
+  --text-primary: oklch(0.18 0.01 250);
+  --text-secondary: oklch(0.42 0.01 250);
+  --text-muted: oklch(0.55 0.01 250);
+  --border: oklch(0.84 0.006 90);
+  --border-subtle: oklch(0.9 0.005 90);
+  --accent-green: oklch(0.48 0.15 155);
+  --accent-cyan: oklch(0.45 0.1 200);
+  --accent-yellow: oklch(0.5 0.12 80);
+  --accent-blue: oklch(0.5 0.17 260);
+  --accent-purple: oklch(0.48 0.18 300);
+  --accent-red: oklch(0.5 0.18 25);
+  --scrollbar-track: oklch(0.95 0.005 90);
+  --scrollbar-thumb: oklch(0.48 0.15 155 / 0.3);
+  --scrollbar-thumb-hover: oklch(0.48 0.15 155 / 0.5);
+  --selection-bg: oklch(0.48 0.15 155 / 0.2);
+  --selection-text: oklch(0.1 0.01 250);
 }
 
 @theme inline {
@@ -70,6 +70,7 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-geist-mono), "Courier New", monospace;
+  line-height: 1.7;
 }
 
 html {
@@ -88,7 +89,7 @@ html {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -97,7 +98,7 @@ html {
 
 ::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -112,4 +113,65 @@ html {
 ::-moz-selection {
   background: var(--selection-bg);
   color: var(--selection-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: var(--bg-secondary);
+  color: var(--accent-green);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+:root[data-theme="light"] .noise-overlay {
+  opacity: 0.02;
+}
+
+.link-hover {
+  position: relative;
+}
+
+.link-hover::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.link-hover:hover::after {
+  transform: scaleX(1);
 }

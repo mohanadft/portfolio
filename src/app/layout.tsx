@@ -18,6 +18,17 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
   },
+  openGraph: {
+    title: "Mohanad Fteha | Software Engineer",
+    description: "Backend engineer building scalable systems with Node.js, TypeScript, Rust, and AWS.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "Mohanad Fteha | Software Engineer",
+    description: "Backend engineer building scalable systems with Node.js, TypeScript, Rust, and AWS.",
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -42,7 +53,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <a href="#about" className="skip-link">
+          Skip to content
+        </a>
         {children}
+        <div className="noise-overlay" aria-hidden="true" />
       </body>
     </html>
   );

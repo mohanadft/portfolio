@@ -41,11 +41,12 @@ export default function Writing() {
           {articles.map((article, index) => (
             <motion.article
               key={article.url}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{
                 duration: 0.5,
                 delay: 0.15 + index * 0.1,
+                ease: [0.16, 1, 0.3, 1],
               }}
             >
               <div className="flex items-baseline gap-3 mb-2 text-xs text-text-muted">
@@ -59,7 +60,7 @@ export default function Writing() {
                 rel="noopener noreferrer"
                 className="group/link block"
               >
-                <h3 className="text-base md:text-lg font-semibold text-text-primary mb-2 group-hover/link:text-green transition-colors">
+                <h3 className="text-base md:text-lg font-semibold text-text-primary mb-2 group-hover/link:text-green transition-colors duration-200">
                   {article.title}
                 </h3>
               </a>
@@ -72,7 +73,7 @@ export default function Writing() {
                 {article.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs text-yellow bg-yellow/5 px-2 py-0.5 rounded border border-yellow/10"
+                    className="text-xs text-yellow bg-yellow/5 px-2 py-0.5 rounded border border-yellow/10 transition-all duration-200 hover:bg-yellow/10 hover:border-yellow/20"
                   >
                     {tag}
                   </span>
@@ -83,7 +84,7 @@ export default function Writing() {
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue hover:text-cyan transition-colors text-sm inline-flex items-center gap-1.5"
+                className="text-blue hover:text-cyan transition-colors text-sm inline-flex items-center gap-1.5 link-hover"
               >
                 Read article
                 <svg
@@ -115,7 +116,7 @@ export default function Writing() {
             href="https://medium.com/@mohanadfteha"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue hover:text-cyan transition-colors"
+            className="text-blue hover:text-cyan transition-colors link-hover"
           >
             Medium
           </a>

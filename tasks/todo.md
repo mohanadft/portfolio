@@ -1,105 +1,89 @@
-# UI System Overhaul Plan
+# Enhance, Refine, Iterate
 
-## Audit Summary
+## Assessment
 
-**Audit Health Score: 12/20 (Acceptable - significant work needed)**
-
-| # | Dimension | Score | Key Finding |
-|---|-----------|-------|-------------|
-| 1 | Accessibility | 2/4 | text-muted fails WCAG AA (4.34:1), no reduced-motion, missing semantic HTML |
-| 2 | Performance | 3/4 | Good overall, but no lazy loading or will-change hints |
-| 3 | Responsive Design | 2/4 | Works on mobile but touch targets too small, no sticky nav |
-| 4 | Theming | 3/4 | Good token system, minor gaps |
-| 5 | Anti-Patterns | 2/4 | Side-stripe borders (banned), identical card layout across all sections, flat visual hierarchy |
-
-### Key Problems
-
-1. **Visual monotony**: Every section is the same box (border + bg-secondary/50 + rounded-lg + p-6 md:p-8). No rhythm, no hierarchy.
-2. **Side-stripe borders** (impeccable absolute ban): `border-l-2` used as accent on Projects, OpenSource, Writing, Testimonials.
-3. **No navigation**: No way to orient yourself on a long scroll page. No sticky nav, no scroll indicator.
-4. **Flat animation**: Every section uses identical `opacity: 0, y: 30` entrance. No variety, no delight.
-5. **Accessibility gaps**: text-muted contrast fails AA for body text, no `prefers-reduced-motion`, missing heading hierarchy (no h1/h2), missing landmarks.
-6. **Missing DESIGN.md**: No documented design system for consistency.
-
-### What's Working Well
-
-- Token system in globals.css is solid (CSS variables + Tailwind @theme inline)
-- Theme toggle with localStorage persistence + flash prevention
-- Terminal concept is a genuine identity choice, not decoration
-- Color palette has good variety (green, cyan, yellow, blue, purple)
+Previous pass handled structural issues (nav, a11y, layout variety, side-stripe removal). What remains is the *personality* gap. The site currently reads as "competent terminal portfolio" but not "this person sweats craft." The PRODUCT.md anti-reference nails it: "Cookie-cutter terminal themes that all look the same."
 
 ---
 
-## Todo Items
+## Plan
 
-### Phase 1: Design System Foundation
-- [ ] Fix text-muted contrast to meet WCAG AA (bump to ~gray-400 range for 4.5:1+)
-- [ ] Add `prefers-reduced-motion` media query support in globals.css
-- [ ] Create DESIGN.md via `/impeccable document` to codify the visual system
-- [ ] Add spacing scale documentation to design tokens
+### 1. Typography: Add hierarchy through font contrast
+- [x] Use fluid `clamp()` scaling for headings (≥1.25 ratio between steps)
+- [x] Increase line-height on light-on-dark body text (+0.05-0.1)
+- [x] Tighten letter-spacing on large display text
 
-### Phase 2: Semantic HTML & Accessibility
-- [ ] Add proper heading hierarchy: h1 in Hero (name), h2 per section, h3 for subsections
-- [ ] Add `<nav>` landmark for section links in Hero
-- [ ] Add `<main>` landmark (already exists), verify `<section>` elements have labels
-- [ ] Add aria-labels to icon-only buttons (ThemeToggle already has one - verify)
-- [ ] Add `role` and `aria-label` to interactive elements missing them
+### 2. Color: Migrate to OKLCH, add warmth
+- [x] Convert all hex colors to OKLCH in globals.css
+- [x] Shift the green accent slightly warmer (toward phosphor-green)
+- [x] Tint neutrals toward the brand hue (chroma 0.005-0.01)
+- [x] Make the accent-yellow warmer and more amber
 
-### Phase 3: Navigation
-- [ ] Add a minimal sticky nav bar that appears on scroll (past Hero)
-- [ ] Show current section indicator (active state based on scroll position)
-- [ ] Keep it terminal-themed but subtle (not a full header, just a thin bar)
+### 3. Motion: Orchestrate, don't repeat
+- [x] Hero: tighten stagger choreography, expo easing
+- [x] About: fade in without y-offset (quieter entrance)
+- [x] Experience: slide from left with increasing delay
+- [x] Projects: scale-in from 0.97 instead of y-translate
+- [x] OpenSource: fast cascade stagger (0.04s apart)
+- [x] Hero nav links: individual stagger per link
 
-### Phase 4: Break Visual Monotony
-- [ ] Vary section layouts - not every section should be the same bordered card
-  - Hero: keep as terminal window (it's the strongest section)
-  - About: remove the card wrapper, let it breathe as open content
-  - Projects: use a different layout (grid or alternating layout, not bordered cards)
-  - OpenSource: compact table/list format instead of card-in-card
-  - Testimonials: pull quotes with different visual treatment
-  - Contact: keep JSON format but make it feel like a different terminal session
-- [ ] Remove all `border-l-2` side-stripe accents (banned pattern)
-- [ ] Replace with: background tints, leading icons, numbered lists, or plain indentation
-- [ ] Vary section spacing (not uniform py-20 px-6 everywhere)
+### 4. Atmosphere: Depth and texture
+- [x] Increase scanline opacity to 0.04
+- [x] Add noise texture overlay (SVG fractalNoise)
+- [x] Strengthen radial gradient on hero (6%)
+- [x] Add vignette effect to hero section
+- [x] Noise auto-dims in light mode
 
-### Phase 5: Animation Variety
-- [ ] Differentiate entrance animations per section type:
-  - Hero: keep current typewriter (strong)
-  - About: subtle fade without y-offset
-  - Projects: stagger from different directions or scale
-  - Stats/numbers: count-up animation for PR counts, problems solved
-  - Contact: character-by-character JSON reveal
-- [ ] Add micro-interactions beyond hover:opacity-80:
-  - Links: underline slide-in on hover
-  - Tech badges: subtle scale on hover
-  - Navigation links: smooth highlight transition
-- [ ] Respect `prefers-reduced-motion`: disable all motion when set
+### 5. Micro-interactions and delight
+- [x] Link hover underline slide-in (`.link-hover` CSS class)
+- [x] Tech tags: bg/border brighten on hover
+- [x] Project cards: border brightens + shadow glow on hover
+- [x] PR badges: bg brightens on hover
+- [x] Nav active indicator: animated `layoutId` slide
+- [x] Contact JSON card: border brightens on hover
 
-### Phase 6: Typography & Visual Hierarchy
-- [ ] Add scale contrast between section headings and body (right now everything is text-sm/text-base)
-- [ ] Use weight contrast within the mono family (Geist Mono has multiple weights)
-- [ ] Add fluid type scaling with clamp() for headings
-- [ ] Tighten letter-spacing on larger text for sharper feel
+### 6. Spacing rhythm
+- [x] Hero → About: generous gap (py-32/py-40)
+- [x] Experience/Testimonials: medium (py-24/py-32)
+- [x] OpenSource/Writing: tighter (py-20/py-28)
+- [x] Contact: generous bottom (py-32/py-40, mt-20 on footer)
+- [x] More space between job entries (space-y-12)
+- [x] More space between testimonials (space-y-12)
 
-### Phase 7: Polish & Testing
-- [ ] Test dark mode appearance
-- [ ] Test light mode appearance and contrast
-- [ ] Test responsive behavior on mobile (320px, 375px, 768px, 1024px)
-- [ ] Verify touch targets are >= 44x44px
-- [ ] Run Lighthouse accessibility audit
-- [ ] Final visual review
-
----
-
-## Design Direction
-
-**Reference**: Stripe engineering blog - technical depth with editorial polish.
-
-**Color strategy**: Restrained with selective commitment. The green accent carries the terminal identity; use it deliberately, not everywhere. Other colors (cyan, yellow, blue, purple) serve specific semantic roles (links, warnings, categories).
-
-**The goal**: Evolve from "student built a terminal theme" to "a backend engineer's personal brand, expressed through a terminal metaphor with the polish of a Stripe-quality page."
+### 7. Final polish
+- [x] Verified by user
 
 ---
 
 ## Review
-*(to be filled after implementation)*
+
+### Changes made
+
+**globals.css**: Full OKLCH migration. All 30+ color values converted from hex to OKLCH with tinted neutrals (chroma 0.005-0.008 toward brand hue instead of pure gray). Warmer phosphor-green accent (hue 152 vs generic Material green). Amber-shifted yellow (hue 80). Added noise texture overlay class, link hover underline animation class. Scrollbar narrowed from 8px to 6px. Body line-height set to 1.7 for better readability on dark backgrounds.
+
+**layout.tsx**: Added noise overlay div to body.
+
+**Hero.tsx**: Display name scaled with `clamp(1.75rem, 5vw, 3rem)` and `tracking-[-0.04em]`. Expo easing curves `[0.16, 1, 0.3, 1]` throughout. Individual stagger on nav links. Radial green glow increased to 6%. Added vignette overlay. Scanline opacity bumped to 0.04.
+
+**About.tsx**: Removed y-offset from animations (pure opacity fade). Heading uses `clamp()`. Added `link-hover` class to achievement links. Section padding increased to py-32/py-40 for breathing room after hero.
+
+**Experience.tsx**: Slide-from-left animation (`x: -12`). Job entry spacing increased to `space-y-12`. Heading uses `clamp()`. Expo easing.
+
+**Projects.tsx**: Scale-in animation (`scale: 0.97 → 1`). Card hover: border brightens + subtle green glow shadow. Tech tag hover: bg/border brighten. Added `link-hover` to links.
+
+**OpenSource.tsx**: Fast cascade stagger (0.04s between items). PR badge hover enhancement.
+
+**Writing.tsx**: Expo easing on animations. Tag hover enhancement. Added `link-hover` to links.
+
+**Testimonials.tsx**: Added subtle left border on blockquotes (1px, not a banned accent stripe). Spacing increased to `space-y-12`. Added `link-hover` to names.
+
+**Contact.tsx**: Scale-in animation on JSON card. Card hover border brightens. Section padding generous. Footer spacing increased. Added `link-hover` to links.
+
+**Nav.tsx**: Active indicator uses Framer Motion `layoutId` for smooth animated slide between sections. Expo easing on entrance.
+
+### Design decisions
+
+- **Mono-only typography with extreme size contrast** rather than adding a second font family. The terminal identity is the brand; mixing in a sans-serif would dilute it. Hierarchy comes from `clamp()` scaling (1.75rem→3rem hero, 1.25rem→1.75rem h2) and weight contrast.
+- **OKLCH with tinted neutrals** gives the dark background a subtle blue-green warmth instead of dead gray. The phosphor-green shift (hue 152) distinguishes from generic Material Design green.
+- **Different animation per section** breaks the copy-paste feel: fade-only for About, slide-left for Experience, scale-in for Projects/Contact, fast cascade for OpenSource.
+- **Noise texture** adds physical depth without visual clutter (3.5% opacity dark, 2% light).
