@@ -4,152 +4,141 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 
-const contactMethods = [
-  { name: "GitHub", value: "github.com/mohanadft", url: "https://github.com/mohanadft", command: "open_github" },
-  { name: "LinkedIn", value: "linkedin.com/in/mohanad-fteha", url: "https://www.linkedin.com/in/mohanad-fteha", command: "open_linkedin" },
-  { name: "Email", value: "mohanadfteha@gmail.com", url: "mailto:mohanadfteha@gmail.com", command: "send_mail" },
+const links = [
+  {
+    key: "github",
+    value: "github.com/mohanadft",
+    url: "https://github.com/mohanadft",
+  },
+  {
+    key: "linkedin",
+    value: "linkedin.com/in/mohanad-fteha",
+    url: "https://www.linkedin.com/in/mohanad-fteha",
+  },
+  {
+    key: "email",
+    value: "mohanadfteha@gmail.com",
+    url: "mailto:mohanadfteha@gmail.com",
+    isEmail: true,
+  },
 ];
 
 export default function Contact() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <section
       id="contact"
-      className="min-h-screen flex items-center justify-center py-20 px-6 relative bg-primary"
+      className="py-28 md:py-36 px-6 relative bg-primary"
       ref={ref}
     >
-      <div className="max-w-4xl w-full">
+      <div className="max-w-3xl mx-auto font-mono">
         <motion.div
-          className="border border-border bg-secondary/50 rounded-lg p-6 md:p-8 font-mono text-sm md:text-base"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5 }}
+          className="mb-10 text-sm text-text-muted"
         >
-          {/* Command header */}
-          <div className="mb-6">
-            <span className="text-text-muted">$</span>{" "}
-            <span className="text-green">cat contact.json</span>
-          </div>
+          <span className="text-text-muted">$</span>{" "}
+          <span className="text-green">cat contact.json</span>
+        </motion.div>
 
-          {/* JSON-style output */}
-          <div className="pl-4 space-y-4 text-text-primary">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 0.2 }}
-            >
-              <div className="text-cyan">{"{"}</div>
-            </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="bg-secondary/60 border border-border rounded-lg p-5 md:p-8 text-sm"
+        >
+          <div className="text-text-muted">{"{"}</div>
 
-            <div className="pl-4 space-y-3">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.3 }}
-              >
-                <span className="text-yellow">"status"</span>
-                <span className="text-text-muted">: </span>
-                <span className="text-green">"available_for_work"</span>
-                <span className="text-text-muted">,</span>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.4 }}
-              >
-                <span className="text-yellow">"message"</span>
-                <span className="text-text-muted">: </span>
-                <span className="text-green">
-                  "Building scalable systems and solving complex problems. Let's connect!"
-                </span>
-                <span className="text-text-muted">,</span>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.5 }}
-              >
-                <div className="mb-2">
-                  <span className="text-yellow">"links"</span>
-                  <span className="text-text-muted">: {"{"}</span>
-                </div>
-                <div className="pl-4 space-y-2">
-                  {contactMethods.map((method, index) => (
-                    <motion.div
-                      key={method.name}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ delay: 0.6 + index * 0.1 }}
-                      className="group"
-                    >
-                      <span className="text-purple">"{method.name.toLowerCase()}"</span>
-                      <span className="text-text-muted">: </span>
-                      <a
-                        href={method.url}
-                        target={method.name === "Email" ? undefined : "_blank"}
-                        rel={method.name === "Email" ? undefined : "noopener noreferrer"}
-                        className="text-blue hover:opacity-80 hover:underline"
-                      >
-                        "{method.value}"
-                      </a>
-                      <span className="text-text-muted">
-                        {index < contactMethods.length - 1 ? "," : ""}
-                      </span>
-                      <span className="text-text-muted ml-2 opacity-0 group-hover:opacity-100 transition-opacity text-xs">
-                        // {method.command}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-                <div className="text-text-muted">{"}"}</div>
-              </motion.div>
+          <div className="pl-4 py-3 space-y-2">
+            <div>
+              <span className="text-yellow">&quot;status&quot;</span>
+              <span className="text-text-muted">: </span>
+              <span className="text-green">
+                &quot;available_for_work&quot;
+              </span>
+              <span className="text-text-muted">,</span>
             </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 1 }}
-            >
-              <div className="text-cyan">{"}"}</div>
-            </motion.div>
+            <div>
+              <span className="text-yellow">&quot;message&quot;</span>
+              <span className="text-text-muted">: </span>
+              <span className="text-green">
+                &quot;Building scalable systems. Let&apos;s connect.&quot;
+              </span>
+              <span className="text-text-muted">,</span>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 1.2 }}
-              className="pt-6 border-t border-tertiary"
-            >
-              <div className="text-text-muted text-xs space-y-1">
-                <div>
-                  <span className="text-text-muted">#</span> Feel free to reach out for:
-                </div>
-                <div className="pl-4 space-y-0.5">
-                  <div>
-                    <span className="text-cyan">→</span> Backend engineering opportunities
-                  </div>
-                  <div>
-                    <span className="text-cyan">→</span> Systems design discussions
-                  </div>
-                  <div>
-                    <span className="text-cyan">→</span> Open source collaborations
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            <div>
+              <span className="text-yellow">&quot;links&quot;</span>
+              <span className="text-text-muted">{": {"}</span>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 1 } : {}}
-              transition={{ delay: 1.4 }}
-              className="pt-4 text-text-muted text-xs"
-            >
-              <span className="text-text-muted">$</span> Built by Mohanad Fteha with ❤️
-            </motion.div>
+            <div className="pl-4 space-y-1.5">
+              {links.map((link, index) => (
+                <motion.div
+                  key={link.key}
+                  initial={{ opacity: 0 }}
+                  animate={isInView ? { opacity: 1 } : {}}
+                  transition={{ delay: 0.3 + index * 0.08 }}
+                >
+                  <span className="text-purple">
+                    &quot;{link.key}&quot;
+                  </span>
+                  <span className="text-text-muted">: </span>
+                  <a
+                    href={link.url}
+                    target={link.isEmail ? undefined : "_blank"}
+                    rel={link.isEmail ? undefined : "noopener noreferrer"}
+                    className="text-blue hover:text-cyan transition-colors"
+                  >
+                    &quot;{link.value}&quot;
+                  </a>
+                  {index < links.length - 1 && (
+                    <span className="text-text-muted">,</span>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="text-text-muted">{"}"}</div>
           </div>
+
+          <div className="text-text-muted">{"}"}</div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.6 }}
+          className="mt-8 text-text-muted text-xs space-y-1.5"
+        >
+          <div className="text-text-muted">Reach out for:</div>
+          <div className="pl-4 space-y-1 text-text-secondary">
+            <div>
+              <span className="text-cyan">{">"}</span> Backend engineering
+              opportunities
+            </div>
+            <div>
+              <span className="text-cyan">{">"}</span> Systems design
+              discussions
+            </div>
+            <div>
+              <span className="text-cyan">{">"}</span> Open source
+              collaborations
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.8 }}
+          className="mt-16 pt-6 border-t border-border-subtle text-text-muted text-xs"
+        >
+          Built by Mohanad Fteha
         </motion.div>
       </div>
     </section>

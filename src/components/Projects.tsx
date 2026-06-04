@@ -8,149 +8,166 @@ const projects = [
   {
     id: "mini-osb",
     name: "mini-osb",
-    description: "A mini Open Service Broker for Kubernetes",
-    longDescription: "A mini Open Service Broker that provisions real Kubernetes pods (Redis, Postgres) via declarative config or GitHub webhooks. Includes a dashboard UI and supports any service catalog.",
+    description:
+      "A mini Open Service Broker that provisions real Kubernetes pods (Redis, Postgres) via declarative config or GitHub webhooks. Includes a dashboard UI and supports any service catalog.",
     tech: ["JavaScript", "HTML", "Kubernetes", "Open Service Broker API"],
     features: [
       "Provisions real Kubernetes pods (Redis, Postgres) on demand",
       "Supports declarative config and GitHub webhook triggers",
       "Dashboard UI for managing provisioned services",
-      "Extensible service catalog support"
+      "Extensible service catalog support",
     ],
     url: "https://github.com/mohanadft/mini-osb",
     inspiredBy: "https://www.youtube.com/watch?v=55pTFVoclvE",
-    date: "2026-05"
+    date: "2026-05",
   },
   {
     id: "contextly",
     name: "Contextly",
-    description: "Context-aware word explanations for readers in Chrome",
-    longDescription: "A Chrome extension that helps non-native English readers understand unfamiliar words by providing AI-powered, context-aware explanations instead of traditional dictionary definitions.",
-    tech: ["JavaScript", "Chrome Extension", "Node.js", "Express", "HuggingFace Zephyr-7B"],
+    description:
+      "A Chrome extension that helps non-native English readers understand unfamiliar words by providing AI-powered, context-aware explanations instead of traditional dictionary definitions.",
+    tech: [
+      "JavaScript",
+      "Chrome Extension",
+      "Node.js",
+      "Express",
+      "HuggingFace Zephyr-7B",
+    ],
     features: [
       "Context-aware explanations powered by AI",
       "Works across PDFs, articles, and documentation",
       "Smart word suggestions for quick lookup",
-      "Simple language explanations"
+      "Simple language explanations",
     ],
     url: "https://github.com/mohanadft/contextly",
-    date: "2026-01"
-  }
+    date: "2026-01",
+  },
 ];
 
 export default function Projects() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
     <section
       id="projects"
-      className="min-h-screen py-20 px-6 relative bg-primary"
+      className="py-20 md:py-28 px-6 relative bg-primary"
       ref={ref}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-3xl mx-auto font-mono">
         <motion.div
-          className="border border-border bg-secondary/50 rounded-lg p-6 md:p-8 font-mono text-sm md:text-base"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5 }}
+          className="mb-10 text-sm text-text-muted"
         >
-          {/* Command */}
-          <div className="mb-6">
-            <span className="text-text-muted">$</span>{" "}
-            <span className="text-green">git log --oneline --graph</span>
-          </div>
+          <span className="text-text-muted">$</span>{" "}
+          <span className="text-green">git log --oneline --graph</span>
+        </motion.div>
 
-          {/* Projects list */}
-          <div className="pl-4 space-y-8">
-            {projects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ delay: 0.3 + index * 0.2 }}
-                className="border-l-2 border-green pl-4"
-              >
-                {/* Commit hash and title */}
-                <div className="mb-2">
-                  <span className="text-yellow">*</span>{" "}
-                  <span className="text-cyan font-semibold">{project.name}</span>
-                  <span className="text-text-muted ml-2 text-xs">({project.date})</span>
-                </div>
+        <div className="space-y-8">
+          {projects.map((project, index) => (
+            <motion.article
+              key={project.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 0.5,
+                delay: 0.15 + index * 0.15,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
+              className="group bg-secondary/60 border border-border rounded-lg p-5 md:p-6 hover:border-border transition-colors"
+            >
+              <div className="flex items-baseline gap-3 mb-3 flex-wrap">
+                <span className="text-yellow text-xs">*</span>
+                <h3 className="text-lg font-bold text-text-primary tracking-tight">
+                  {project.name}
+                </h3>
+                <span className="text-text-muted text-xs">
+                  {project.date}
+                </span>
+              </div>
 
-                {/* Description */}
-                <div className="mb-3 text-text-secondary">
-                  {project.longDescription}
-                </div>
+              <p className="text-text-secondary text-sm leading-relaxed mb-4 max-w-[60ch]">
+                {project.description}
+              </p>
 
-                {/* Tech stack */}
-                <div className="mb-3">
-                  <span className="text-text-muted text-xs">Tech:</span>
-                  <div className="flex flex-wrap gap-2 mt-1">
-                    {project.tech.map((tech: string) => (
-                      <span
-                        key={tech}
-                        className="text-xs bg-tertiary/50 text-blue px-2 py-1 rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Features */}
-                <div className="mb-3">
-                  <span className="text-text-muted text-xs">Features:</span>
-                  <ul className="mt-1 space-y-1">
-                    {project.features.map((feature: string, i: number) => (
-                      <li key={i} className="text-sm text-text-secondary">
-                        <span className="text-green">→</span> {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Links */}
-                <div className="flex flex-wrap gap-4 items-center">
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-cyan hover:text-cyan/80 hover:underline inline-flex items-center gap-1"
+              <div className="flex flex-wrap gap-1.5 mb-4">
+                {project.tech.map((tech) => (
+                  <span
+                    key={tech}
+                    className="text-xs text-cyan bg-cyan/5 px-2 py-0.5 rounded border border-cyan/10"
                   >
-                    View on GitHub →
-                  </a>
-                  {"inspiredBy" in project && typeof project.inspiredBy === "string" && (
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              <ul className="space-y-1.5 mb-4 text-sm text-text-secondary">
+                {project.features.map((feature, i) => (
+                  <li key={i} className="flex gap-2.5">
+                    <span className="text-green shrink-0">{">"}</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-wrap gap-4 items-center text-sm">
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue hover:text-cyan transition-colors inline-flex items-center gap-1.5"
+                >
+                  GitHub
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 17L17 7M17 7H7M17 7v10"
+                    />
+                  </svg>
+                </a>
+                {"inspiredBy" in project &&
+                  typeof project.inspiredBy === "string" && (
                     <span className="text-xs text-text-muted">
-                      inspired by:{" "}
+                      inspired by{" "}
                       <a
                         href={project.inspiredBy}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-text-secondary hover:text-cyan hover:underline"
+                        className="text-text-secondary hover:text-cyan transition-colors"
                       >
-                        youtube
+                        this talk
                       </a>
                     </span>
                   )}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
 
-          {/* Footer */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.5 }}
-            className="mt-8 pt-6 border-t border-tertiary text-text-muted text-xs pl-4"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.5 }}
+          className="mt-10 text-text-muted text-xs"
+        >
+          <span className="text-green">{">"}</span> More on{" "}
+          <a
+            href="https://github.com/mohanadft"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue hover:text-cyan transition-colors"
           >
-            <span className="text-green">→</span> Check out my{" "}
-            <a href="https://github.com/mohanadft" target="_blank" rel="noopener noreferrer" className="text-blue hover:underline">
-              GitHub
-            </a>
-            {" "}for code samples
-          </motion.div>
+            github.com/mohanadft
+          </a>
         </motion.div>
       </div>
     </section>

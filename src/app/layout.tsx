@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ThemeToggle from "@/components/ThemeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mohanad Fteha | Backend Engineer",
-  description: "Backend Engineer specializing in systems programming, databases, and performance optimization. Building scalable infrastructure with Rust, PostgreSQL, and Docker.",
+  title: "Mohanad Fteha | Software Engineer",
+  description: "Software Engineer specializing in backend development, serverless architectures, and infrastructure. Building scalable systems with Node.js, TypeScript, Rust, and AWS.",
   icons: {
     icon: "/favicon.svg",
   },
@@ -43,7 +42,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeToggle />
         {children}
       </body>
     </html>

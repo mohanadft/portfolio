@@ -51,121 +51,96 @@ const contributions = [
 
 export default function OpenSource() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const totalPRs = contributions.reduce((sum, c) => sum + c.prs.length, 0);
 
   return (
     <section
       id="opensource"
-      className="min-h-screen py-20 px-6 relative bg-primary"
+      className="py-20 md:py-28 px-6 relative bg-secondary/30"
       ref={ref}
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-3xl mx-auto font-mono">
         <motion.div
-          className="border border-border bg-secondary/50 rounded-lg p-6 md:p-8 font-mono text-sm md:text-base"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5 }}
+          className="mb-4 text-sm text-text-muted"
         >
-          {/* Command */}
-          <div className="mb-6">
-            <span className="text-text-muted">$</span>{" "}
-            <span className="text-green">git log --author="mohanadft" --all --oneline</span>
-          </div>
+          <span className="text-text-muted">$</span>{" "}
+          <span className="text-green">
+            git log --author=&quot;mohanadft&quot; --all --oneline
+          </span>
+        </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.2 }}
-            className="mb-6 pl-4 text-text-secondary text-xs"
-          >
-            <span className="text-cyan">{totalPRs} merged PRs</span> across{" "}
-            <span className="text-yellow">{contributions.length} projects</span>
-          </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.1 }}
+          className="mb-8 text-xs text-text-muted"
+        >
+          <span className="text-cyan">{totalPRs} merged PRs</span> across{" "}
+          <span className="text-yellow">{contributions.length} projects</span>
+        </motion.div>
 
-          {/* Contributions list */}
-          <div className="pl-4 space-y-6">
-            {contributions.map((contrib, index) => (
-              <motion.div
-                key={contrib.project}
-                className="group"
-                initial={{ opacity: 0, x: -20 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-              >
-                <div className="border-l-2 border-border group-hover:border-green pl-4 transition-colors">
-                  {/* Project name */}
-                  <div className="flex items-baseline gap-3 mb-2 flex-wrap">
-                    <span className="text-green font-semibold">
-                      {contrib.project}
-                    </span>
-                    <span className="text-text-muted text-xs">
-                      {contrib.prs.length} PR{contrib.prs.length > 1 ? "s" : ""}
-                    </span>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-text-secondary mb-3 text-sm">
-                    {contrib.description}
-                  </p>
-
-                  {/* PR numbers */}
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {contrib.prs.map((pr) => (
-                      <a
-                        key={pr}
-                        href={`https://github.com/${contrib.repo}/pull/${pr}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-purple bg-purple/10 px-2 py-1 rounded border border-purple/30 font-mono hover:bg-purple/20 hover:border-purple/50 transition-colors"
-                      >
-                        #{pr} ✓
-                      </a>
-                    ))}
-                  </div>
-
-                  {/* Tech tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {contrib.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="text-xs text-text-muted bg-tertiary/50 px-2 py-0.5 rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Footer */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 1.2 }}
-            className="mt-8 pt-6 border-t border-tertiary text-text-muted text-xs pl-4"
-          >
-            <div className="space-y-2">
-              <div>
-                <span className="text-green">→</span> All contributions merged and deployed
+        <div className="space-y-5">
+          {contributions.map((contrib, index) => (
+            <motion.div
+              key={contrib.project}
+              initial={{ opacity: 0, x: -8 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{
+                duration: 0.4,
+                delay: 0.15 + index * 0.06,
+              }}
+              className="group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4"
+            >
+              <div className="shrink-0 sm:w-32">
+                <span className="text-green font-semibold text-sm">
+                  {contrib.project}
+                </span>
               </div>
-              <div>
-                <span className="text-green">→</span> View full history:{" "}
-                <a
-                  href="https://gist.github.com/mohanadft/04fedcf4f229dacffdde52cc475a9f5f"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue hover:underline"
-                >
-                  gist.github.com/mohanadft
-                </a>
+
+              <div className="text-text-secondary text-sm hidden sm:block flex-1 min-w-0 truncate">
+                {contrib.description}
               </div>
-            </div>
-          </motion.div>
+
+              <div className="flex flex-wrap gap-1.5 mt-1 sm:mt-0 sm:ml-auto shrink-0">
+                {contrib.prs.map((pr) => (
+                  <a
+                    key={pr}
+                    href={`https://github.com/${contrib.repo}/pull/${pr}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-purple bg-purple/8 px-1.5 py-0.5 rounded font-mono hover:bg-purple/15 transition-colors"
+                  >
+                    #{pr}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.7 }}
+          className="mt-10 pt-6 border-t border-border-subtle text-text-muted text-xs space-y-1"
+        >
+          <div>All contributions merged and deployed</div>
+          <div>
+            Full history:{" "}
+            <a
+              href="https://gist.github.com/mohanadft/04fedcf4f229dacffdde52cc475a9f5f"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue hover:text-cyan transition-colors"
+            >
+              gist.github.com/mohanadft
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>
