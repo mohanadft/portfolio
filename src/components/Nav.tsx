@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const sections = [
@@ -8,35 +8,55 @@ const sections = [
   { id: "experience", label: "experience" },
   { id: "projects", label: "projects" },
   { id: "opensource", label: "open-source" },
-  { id: "writing", label: "writing" },
   { id: "testimonials", label: "testimonials" },
   { id: "contact", label: "contact" },
 ];
+
+const NAV_SHOW_THRESHOLD = 0.6;
 
 export default function Nav() {
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const visibleSections = useRef(new Set<string>());
 
   useEffect(() => {
     const onScroll = () => {
-      setVisible(window.scrollY > window.innerHeight * 0.6);
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i].id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120) {
-            setActive(sections[i].id);
-            return;
-          }
-        }
-      }
-      setActive("");
+      setVisible(window.scrollY > window.innerHeight * NAV_SHOW_THRESHOLD);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            visibleSections.current.add(entry.target.id);
+          } else {
+            visibleSections.current.delete(entry.target.id);
+          }
+        }
+
+        for (let i = sections.length - 1; i >= 0; i--) {
+          if (visibleSections.current.has(sections[i].id)) {
+            setActive(sections[i].id);
+            return;
+          }
+        }
+        setActive("");
+      },
+      { rootMargin: "-80px 0px -40% 0px", threshold: 0 }
+    );
+
+    for (const s of sections) {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -99,7 +119,7 @@ export default function Nav() {
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => setMenuOpen(!menuOpen)}
-                  className="text-text-muted hover:text-text-secondary p-1.5 cursor-pointer"
+                  className="text-text-muted hover:text-text-secondary p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
                   aria-label="Toggle navigation menu"
                 >
                   {menuOpen ? (
@@ -130,7 +150,7 @@ export default function Nav() {
                         key={s.id}
                         href={`#${s.id}`}
                         onClick={() => setMenuOpen(false)}
-                        className={`px-3 py-2.5 rounded transition-colors ${
+                        className={`px-3 py-3 rounded transition-colors ${
                           active === s.id
                             ? "text-green bg-green/10"
                             : "text-text-muted hover:text-text-secondary"

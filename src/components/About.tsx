@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
+import SectionHeading from "./SectionHeading";
 
 const skills = [
   {
@@ -34,32 +36,26 @@ export default function About() {
   return (
     <section
       id="about"
-      className="py-32 md:py-40 px-6 relative bg-primary"
+      className="py-28 md:py-36 px-6 relative bg-primary overflow-hidden"
       ref={ref}
     >
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, var(--accent-green) 0.5px, transparent 0.5px)",
+          backgroundSize: "24px 24px",
+        }}
+        aria-hidden="true"
+      />
       <div className="max-w-3xl mx-auto font-mono">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-          className="mb-10 text-sm text-text-muted"
-        >
-          <span className="text-text-muted">$</span>{" "}
-          <span className="text-green">cat about.md</span>
-        </motion.div>
-
+        <SectionHeading number="01" title="About" />
         <div className="space-y-10">
           <motion.div
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <h2
-              className="font-bold text-text-primary mb-5 tracking-[-0.03em]"
-              style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)" }}
-            >
-              About
-            </h2>
             <div className="flex gap-5 items-start">
               <p className="text-text-secondary leading-relaxed text-sm md:text-base max-w-[65ch]">
                 Backend-focused software engineer with 3 years of experience
@@ -69,9 +65,11 @@ export default function About() {
                 Tech for Palestine. Committed to writing clean, testable code
                 and making systems easier for the next person to work with.
               </p>
-              <img
+              <Image
                 src="/photo.jpg"
                 alt="Mohanad Fteha"
+                width={112}
+                height={112}
                 className="hidden sm:block w-24 h-24 md:w-28 md:h-28 rounded-lg object-cover shrink-0 border border-border-subtle md:grayscale md:hover:grayscale-0 transition-all duration-500"
               />
             </div>
@@ -143,15 +141,6 @@ export default function About() {
             </div>
           </motion.div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.5 }}
-          className="mt-14 pt-6 border-t border-border-subtle text-text-muted text-xs"
-        >
-          EOF
-        </motion.div>
       </div>
     </section>
   );

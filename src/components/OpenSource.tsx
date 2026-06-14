@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import SectionHeading from "./SectionHeading";
 
 const contributions = [
   {
@@ -58,21 +59,11 @@ export default function OpenSource() {
   return (
     <section
       id="opensource"
-      className="py-20 md:py-28 px-6 relative bg-secondary/30"
+      className="py-16 md:py-24 px-6 relative bg-secondary/30"
       ref={ref}
     >
       <div className="max-w-5xl mx-auto font-mono">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-4 text-sm text-text-muted"
-        >
-          <span className="text-text-muted">$</span>{" "}
-          <span className="text-green">
-            git log --author=&quot;mohanadft&quot; --all --oneline
-          </span>
-        </motion.div>
+        <SectionHeading number="04" title="Open Source" />
 
         <motion.div
           initial={{ opacity: 0 }}

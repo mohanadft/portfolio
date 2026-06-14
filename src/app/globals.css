@@ -7,7 +7,7 @@
   --bg-elevated: oklch(0.22 0.008 260);
   --text-primary: oklch(0.9 0.006 250);
   --text-secondary: oklch(0.68 0.006 250);
-  --text-muted: oklch(0.52 0.008 160);
+  --text-muted: oklch(0.56 0.008 160);
   --border: oklch(0.27 0.008 260);
   --border-subtle: oklch(0.21 0.008 260);
   --accent-green: oklch(0.75 0.19 152);
@@ -21,6 +21,8 @@
   --scrollbar-thumb-hover: oklch(0.75 0.19 152 / 0.45);
   --selection-bg: oklch(0.75 0.19 152 / 0.25);
   --selection-text: oklch(0.97 0.003 250);
+  --ambient-glow-color: oklch(0.75 0.19 152 / 0.04);
+  --watermark-opacity: 0.04;
 }
 
 :root[data-theme="light"] {
@@ -44,6 +46,8 @@
   --scrollbar-thumb-hover: oklch(0.48 0.15 155 / 0.5);
   --selection-bg: oklch(0.48 0.15 155 / 0.2);
   --selection-text: oklch(0.1 0.01 250);
+  --ambient-glow-color: oklch(0.48 0.15 155 / 0.03);
+  --watermark-opacity: 0.06;
 }
 
 @theme inline {
@@ -70,7 +74,8 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-geist-mono), "Courier New", monospace;
-  line-height: 1.7;
+  font-size: 0.9375rem;
+  line-height: 1.6;
 }
 
 html {
@@ -153,6 +158,63 @@ html {
 
 :root[data-theme="light"] .noise-overlay {
   opacity: 0.02;
+}
+
+@media (max-width: 768px) {
+  .noise-overlay {
+    display: none;
+  }
+}
+
+input.terminal-input:focus,
+input.terminal-input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+@keyframes pulse-border {
+  0%, 100% { border-color: oklch(0.75 0.19 152 / 0.15); }
+  50% { border-color: oklch(0.75 0.19 152 / 0.5); }
+}
+
+@keyframes scanline-flicker {
+  0%, 100% { opacity: 0.06; }
+  50% { opacity: 0.04; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
+  25% { transform: translateY(-12px) translateX(4px); opacity: 0.4; }
+  50% { transform: translateY(-6px) translateX(-3px); opacity: 0.2; }
+  75% { transform: translateY(-18px) translateX(6px); opacity: 0.35; }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+:root[data-theme="light"] .dark-only {
+  display: none;
+}
+
+.hero-glow {
+  background: radial-gradient(ellipse at center, var(--accent-green) / 0.09, transparent 65%);
+}
+
+:root[data-theme="light"] .hero-glow {
+  background: radial-gradient(ellipse at center, var(--accent-green) / 0.04, transparent 65%);
+}
+
+.hero-vignette {
+  background: radial-gradient(ellipse at center, transparent 50%, var(--bg-primary) / 0.6 100%);
 }
 
 .link-hover {

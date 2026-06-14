@@ -2,21 +2,20 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
+import SectionHeading from "./SectionHeading";
 
 const projects = [
   {
     id: "mini-osb",
     name: "mini-osb",
-    description:
-      "A mini Open Service Broker that provisions real Kubernetes pods (Redis, Postgres) via declarative config or GitHub webhooks. Includes a dashboard UI and supports any service catalog.",
+    problem:
+      "Developers provisioning databases and caches for microservices face manual kubectl workflows: slow, error-prone, and hard to automate from CI/CD pipelines.",
+    approach:
+      "Built a lightweight Open Service Broker that provisions real Kubernetes pods (Redis, Postgres) through a declarative config file or GitHub webhook triggers, with a dashboard UI for visibility.",
+    outcome:
+      "One-command service provisioning with an extensible catalog. Any new service type is a config entry, not a code change.",
     tech: ["JavaScript", "HTML", "Kubernetes", "Open Service Broker API"],
-    features: [
-      "Provisions real Kubernetes pods (Redis, Postgres) on demand",
-      "Supports declarative config and GitHub webhook triggers",
-      "Dashboard UI for managing provisioned services",
-      "Extensible service catalog support",
-    ],
     url: "https://github.com/mohanadft/mini-osb",
     inspiredBy: "https://www.youtube.com/watch?v=55pTFVoclvE",
     date: "2026-05",
@@ -24,8 +23,12 @@ const projects = [
   {
     id: "contextly",
     name: "Contextly",
-    description:
-      "A Chrome extension that helps non-native English readers understand unfamiliar words by providing AI-powered, context-aware explanations instead of traditional dictionary definitions.",
+    problem:
+      "Non-native English readers hit unfamiliar words and get dictionary definitions that ignore context. The meaning of 'bank' changes between a finance article and a geography paper.",
+    approach:
+      "Created a Chrome extension backed by HuggingFace Zephyr-7B that reads the surrounding paragraph and generates context-aware explanations in plain language.",
+    outcome:
+      "Works across PDFs, articles, and documentation with no copy-pasting. Highlight a word and get an explanation that fits the text you're reading.",
     tech: [
       "JavaScript",
       "Chrome Extension",
@@ -33,37 +36,40 @@ const projects = [
       "Express",
       "HuggingFace Zephyr-7B",
     ],
-    features: [
-      "Context-aware explanations powered by AI",
-      "Works across PDFs, articles, and documentation",
-      "Smart word suggestions for quick lookup",
-      "Simple language explanations",
-    ],
     url: "https://github.com/mohanadft/contextly",
     date: "2026-01",
   },
 ];
 
+function useCardTilt() {
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    el.style.transform = `perspective(800px) rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`;
+  }, []);
+
+  const onMouseLeave = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.style.transform = "";
+  }, []);
+
+  return { onMouseMove, onMouseLeave };
+}
+
 export default function Projects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const tilt = useCardTilt();
 
   return (
     <section
       id="projects"
-      className="py-24 md:py-32 px-6 relative bg-primary"
+      className="py-28 md:py-36 px-6 relative bg-primary"
       ref={ref}
     >
-      <div className="max-w-3xl mx-auto font-mono">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-10 text-sm text-text-muted"
-        >
-          <span className="text-text-muted">$</span>{" "}
-          <span className="text-green">git log --oneline --graph</span>
-        </motion.div>
+      <div className="max-w-4xl mx-auto font-mono">
+        <SectionHeading number="03" title="Projects" />
 
         <div className="space-y-8">
           {projects.map((project, index) => (
@@ -76,7 +82,9 @@ export default function Projects() {
                 delay: 0.15 + index * 0.15,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group bg-secondary/60 border border-border-subtle rounded-lg p-5 md:p-6 hover:border-border transition-all duration-300 hover:shadow-[0_0_24px_-8px_oklch(0.75_0.19_152_/_0.08)]"
+              onMouseMove={tilt.onMouseMove}
+              onMouseLeave={tilt.onMouseLeave}
+              className="group bg-secondary/60 border border-border-subtle rounded-lg p-5 md:p-6 hover:border-border transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_24px_-8px_var(--accent-green)] will-change-transform"
             >
               <div className="flex items-baseline gap-3 mb-3 flex-wrap">
                 <span className="text-yellow text-xs">*</span>
@@ -89,11 +97,25 @@ export default function Projects() {
                 <span className="text-text-muted text-xs">
                   {project.date}
                 </span>
+                <span className="ml-auto text-text-muted/30 text-[0.625rem] hidden sm:inline font-mono">
+                  {project.id.slice(0, 7)}
+                </span>
               </div>
 
-              <p className="text-text-secondary text-sm leading-relaxed mb-4 max-w-[60ch]">
-                {project.description}
-              </p>
+              <div className="space-y-3 mb-4 text-sm text-text-secondary">
+                <div className="flex gap-2.5">
+                  <span className="text-red shrink-0 mt-0.5 font-semibold text-xs">PROBLEM</span>
+                  <p className="leading-relaxed max-w-[58ch]">{project.problem}</p>
+                </div>
+                <div className="flex gap-2.5">
+                  <span className="text-yellow shrink-0 mt-0.5 font-semibold text-xs">APPROACH</span>
+                  <p className="leading-relaxed max-w-[58ch]">{project.approach}</p>
+                </div>
+                <div className="flex gap-2.5">
+                  <span className="text-green shrink-0 mt-0.5 font-semibold text-xs">OUTCOME</span>
+                  <p className="leading-relaxed max-w-[58ch]">{project.outcome}</p>
+                </div>
+              </div>
 
               <div className="flex flex-wrap gap-1.5 mb-4">
                 {project.tech.map((tech) => (
@@ -105,15 +127,6 @@ export default function Projects() {
                   </span>
                 ))}
               </div>
-
-              <ul className="space-y-1.5 mb-4 text-sm text-text-secondary">
-                {project.features.map((feature, i) => (
-                  <li key={i} className="flex gap-2.5">
-                    <span className="text-green shrink-0">{">"}</span>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
 
               <div className="flex flex-wrap gap-4 items-center text-sm">
                 <a
@@ -139,17 +152,14 @@ export default function Projects() {
                 </a>
                 {"inspiredBy" in project &&
                   typeof project.inspiredBy === "string" && (
-                    <span className="text-xs text-text-muted">
-                      inspired by{" "}
-                      <a
-                        href={project.inspiredBy}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-text-secondary hover:text-cyan transition-colors link-hover"
-                      >
-                        this talk
-                      </a>
-                    </span>
+                    <a
+                      href={project.inspiredBy}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-text-muted hover:text-cyan transition-colors link-hover"
+                    >
+                      inspired by a Kelsey Hightower talk
+                    </a>
                   )}
               </div>
             </motion.article>

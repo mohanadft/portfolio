@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import SectionHeading from "./SectionHeading";
 
 const testimonials = [
   {
@@ -10,20 +11,13 @@ const testimonials = [
     role: "Tech Leader",
     linkedin: "https://www.linkedin.com/in/mbarhoush",
     quote:
-      "Mohanad's performance has been nothing short of exceptional. His code showcases deep understanding of algorithms and data structures, particularly in backend development. Outstanding problem-solving skills with efficient, well-organized solutions. I wholeheartedly recommend him for any Backend role that demands brilliance and expertise.",
+      "Mohanad's performance has been nothing short of exceptional. His code showcases deep understanding of algorithms and data structures, particularly in backend development. Outstanding problem-solving skills with efficient, well-organized solutions.",
   },
   {
     name: "Wasim Juned",
     role: "",
     linkedin: "https://www.linkedin.com/in/wasimjuned",
-    quote: "An outstanding engineer - a real pleasure working with him.",
-  },
-  {
-    name: "Saleh Marouf",
-    role: "Full Stack Software Engineer",
-    linkedin: "https://www.linkedin.com/in/saleh-marouf",
-    quote:
-      "Outstanding teammate and developer. Highly skilled in solving complex problems with creative solutions. Great balance of technical expertise and communication. I strongly recommend Mohanad for any team looking for a reliable, talented, and dedicated professional.",
+    quote: "An outstanding engineer. A real pleasure working with him.",
   },
 ];
 
@@ -34,19 +28,11 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-24 md:py-32 px-6 relative bg-secondary/30"
+      className="py-24 md:py-32 px-6 relative bg-primary"
       ref={ref}
     >
-      <div className="max-w-3xl mx-auto font-mono">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-10 text-sm text-text-muted"
-        >
-          <span className="text-text-muted">$</span>{" "}
-          <span className="text-green">cat testimonials.log</span>
-        </motion.div>
+      <div className="max-w-2xl mx-auto font-mono">
+        <SectionHeading number="05" title="Testimonials" />
 
         <div className="space-y-12">
           {testimonials.map((testimonial, index) => (
@@ -87,14 +73,6 @@ export default function Testimonials() {
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.6 }}
-          className="mt-14 pt-6 border-t border-border-subtle text-text-muted text-xs"
-        >
-          EOF
-        </motion.div>
       </div>
     </section>
   );

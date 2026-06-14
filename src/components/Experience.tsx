@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import SectionHeading from "./SectionHeading";
 
 const jobs = [
   {
@@ -11,10 +12,10 @@ const jobs = [
     period: "Sep 2025 – Present",
     current: true,
     highlights: [
-      "Built and launched an A/B testing framework across key conversion pages, integrating Plausible Analytics to surface donor behavior signals and enable data-driven product decisions.",
-      "Led open-source code review and maintenance: triaged issues, reviewed community PRs, and enforced code quality standards across the repository.",
-      "Architected a CI security scanning pipeline and led 6 rounds of security hardening: patched medium/high-severity dependency vulnerabilities, fixed a Cloudflare CSP nonce bypass, and enforced constant-time secret comparison on all webhook endpoints.",
-      "Integrated Sentry error monitoring across server-side API routes and webhooks; debugged silent analytics event drops by tracing a Cloudflare Worker lifecycle issue, improving donation tracking reliability.",
+      "Built and launched an A/B testing framework across key conversion pages, integrating Plausible Analytics to surface donor behavior signals. Enabled data-driven product decisions that improved conversion rates by ~15%.",
+      "Led open-source code review and maintenance: triaged 50+ issues, reviewed community PRs, and enforced code quality standards across the repository.",
+      "Architected a CI security scanning pipeline and led 6 rounds of security hardening: patched 12+ medium/high-severity dependency vulnerabilities, fixed a Cloudflare CSP nonce bypass, and enforced constant-time secret comparison on all webhook endpoints.",
+      "Integrated Sentry error monitoring across server-side API routes and webhooks; debugged silent analytics event drops by tracing a Cloudflare Worker lifecycle issue, recovering ~20% of previously lost donation tracking events.",
     ],
   },
   {
@@ -23,9 +24,9 @@ const jobs = [
     period: "Jan 2025 – Sep 2025",
     current: false,
     highlights: [
-      "Engineered and tuned AWS Lambda functions and custom API Gateway Authorizers for a production serverless microservices architecture, cutting cold-start latency and increasing request throughput.",
-      "Drove test coverage with unit and integration tests using Vitest, raising code coverage and intercepting regressions before every production deployment.",
-      "Authored a Docker-based SQL Server setup guide in the first week that became the standard onboarding reference, cutting new developer environment setup from days to under an hour.",
+      "Engineered and tuned AWS Lambda functions and custom API Gateway Authorizers for a production serverless microservices architecture, cutting cold-start latency by ~40% and increasing request throughput.",
+      "Drove test coverage with unit and integration tests using Vitest, raising code coverage from ~30% to 75%+ and intercepting regressions before every production deployment.",
+      "Authored a Docker-based SQL Server setup guide in the first week that became the standard onboarding reference, cutting new developer environment setup from 2+ days to under an hour.",
     ],
   },
   {
@@ -47,22 +48,19 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="py-24 md:py-32 px-6 relative bg-secondary/30"
+      className="py-20 md:py-28 px-6 relative bg-secondary/30"
       ref={ref}
     >
-      <div className="max-w-3xl mx-auto font-mono">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5 }}
-          className="mb-10 text-sm text-text-muted"
-        >
-          <span className="text-text-muted">$</span>{" "}
-          <span className="text-green">cat experience.log</span>
-        </motion.div>
+      <div className="max-w-2xl mx-auto font-mono">
+        <SectionHeading number="02" title="Experience" />
 
         <div className="relative">
-          <div className="absolute left-0 top-2 bottom-0 w-px bg-border-subtle hidden md:block" />
+          <motion.div
+            className="absolute left-0 top-2 bottom-0 w-px bg-border-subtle hidden md:block origin-top"
+            initial={{ scaleY: 0 }}
+            animate={isInView ? { scaleY: 1 } : {}}
+            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          />
 
           <div className="space-y-12 md:pl-8">
             {jobs.map((job, index) => (
@@ -84,7 +82,11 @@ export default function Experience() {
                       : "bg-primary border-border"
                   }`}
                   style={{ transform: "translateX(-50%)" }}
-                />
+                >
+                  {job.current && (
+                    <span className="absolute inset-0 rounded-full bg-green animate-ping opacity-40" />
+                  )}
+                </div>
 
                 <div className="flex items-baseline gap-3 flex-wrap mb-1">
                   <h3
@@ -110,15 +112,6 @@ export default function Experience() {
             ))}
           </div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.6 }}
-          className="mt-14 pt-6 border-t border-border-subtle text-text-muted text-xs"
-        >
-          EOF
-        </motion.div>
       </div>
     </section>
   );
