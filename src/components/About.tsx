@@ -69,8 +69,8 @@ export default function About() {
                 src="/photo.jpg"
                 alt="Mohanad Fteha"
                 width={112}
-                height={112}
-                className="hidden sm:block w-24 h-24 md:w-28 md:h-28 rounded-lg object-cover shrink-0 border border-border-subtle md:grayscale md:hover:grayscale-0 transition-all duration-500"
+                height={224}
+                className="hidden sm:block w-24 md:w-28 h-auto rounded-lg object-cover shrink-0 border border-border-subtle md:grayscale md:hover:grayscale-0 transition-all duration-500"
               />
             </div>
           </motion.div>
