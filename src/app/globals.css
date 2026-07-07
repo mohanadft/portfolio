@@ -195,15 +195,18 @@ input.terminal-input:focus-visible {
   0%, 100% {
     opacity: var(--watermark-opacity);
     text-shadow: 0 0 0 transparent;
+    transform: scale(1);
   }
   50% {
-    opacity: calc(var(--watermark-opacity) * 2);
-    text-shadow: 0 0 30px color-mix(in oklch, var(--accent-green) 35%, transparent);
+    opacity: calc(var(--watermark-opacity) * 4.5);
+    text-shadow: 0 0 40px color-mix(in oklch, var(--accent-green) 45%, transparent);
+    transform: scale(1.02);
   }
 }
 
 .watermark-pulse {
-  animation: watermark-pulse 6s ease-in-out infinite;
+  animation: watermark-pulse 4.5s ease-in-out infinite;
+  transform-origin: left top;
 }
 
 @keyframes float {
