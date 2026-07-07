@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import SectionHeading from "./SectionHeading";
+import { EASE } from "@/lib/motion";
 
 const jobs = [
   {
@@ -48,18 +49,19 @@ export default function Experience() {
   return (
     <section
       id="experience"
-      className="py-20 md:py-28 px-6 relative bg-secondary/30"
+      className="py-16 md:py-section-generous px-6 relative bg-secondary/30 tint-cool"
       ref={ref}
     >
-      <div className="max-w-2xl mx-auto font-mono">
+      {/* width: narrow+gutter */}
+      <div className="max-w-3xl mx-auto font-mono">
         <SectionHeading number="02" title="Experience" />
 
         <div className="relative">
           <motion.div
-            className="absolute left-0 top-2 bottom-0 w-px bg-border-subtle hidden md:block origin-top"
+            className="absolute left-0 top-2 bottom-0 w-px bg-cyan/25 hidden md:block origin-top"
             initial={{ scaleY: 0 }}
             animate={isInView ? { scaleY: 1 } : {}}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 0.3, ease: EASE }}
           />
 
           <div className="space-y-12 md:pl-8">
@@ -71,7 +73,7 @@ export default function Experience() {
                 transition={{
                   duration: 0.5,
                   delay: 0.1 + index * 0.15,
-                  ease: [0.16, 1, 0.3, 1],
+                  ease: EASE,
                 }}
                 className="relative"
               >
@@ -79,7 +81,7 @@ export default function Experience() {
                   className={`absolute -left-8 top-1.5 hidden md:block w-2 h-2 rounded-full border ${
                     job.current
                       ? "bg-green border-green"
-                      : "bg-primary border-border"
+                      : "bg-primary border-cyan/40"
                   }`}
                   style={{ transform: "translateX(-50%)" }}
                 >

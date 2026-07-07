@@ -2,6 +2,9 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { INTRO_SESSION_KEY } from "@/lib/session";
+import { EASE } from "@/lib/motion";
+import TerminalWindow from "./TerminalWindow";
 
 const FULL_NAME = "Mohanad Fteha";
 const TYPING_SPEED_MS = 70;
@@ -30,7 +33,11 @@ const HINT_TEXT = 'try "help"';
 const HINT_DELAY_MS = 3500;
 const HINT_TYPE_MS = 80;
 
-function TerminalInput() {
+interface TerminalInputProps {
+  skipIntro: boolean;
+}
+
+function TerminalInput({ skipIntro }: TerminalInputProps) {
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<TerminalLine[]>([]);
   const [focused, setFocused] = useState(false);
@@ -97,9 +104,9 @@ function TerminalInput() {
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={skipIntro ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ delay: 2.1, duration: 0.3 }}
+      transition={skipIntro ? { duration: 0 } : { delay: 2.1, duration: 0.3 }}
       className="pt-3"
     >
       {history.length > 0 && (
@@ -156,17 +163,11 @@ function TerminalInput() {
             autoComplete="off"
             spellCheck={false}
           />
-          <motion.span
-            className="text-green"
-            animate={{ opacity: focused || !input ? [1, 0, 1] : 1 }}
-            transition={
-              focused || !input
-                ? { duration: 1.2, repeat: Infinity }
-                : { duration: 0 }
-            }
+          <span
+            className={`text-green ${focused || !input ? "cursor-decay-blink" : ""}`}
           >
             _
-          </motion.span>
+          </span>
         </span>
       </form>
 
@@ -186,11 +187,26 @@ function TerminalInput() {
 }
 
 export default function Hero() {
+  const [skipIntro, setSkipIntro] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
   const rafRef = useRef<number>(0);
 
+  const reveal = useCallback(
+    (delay: number) => ({
+      initial: skipIntro ? false : { opacity: 0 },
+      animate: { opacity: 1 },
+      transition: skipIntro ? { duration: 0 } : { delay, duration: 0.3 },
+    }),
+    [skipIntro]
+  );
+
   useEffect(() => {
+    if (skipIntro) {
+      setDisplayedText(FULL_NAME);
+      return;
+    }
+
     let index = 0;
     let lastTime = 0;
 
@@ -208,7 +224,7 @@ export default function Hero() {
 
     rafRef.current = requestAnimationFrame(step);
     return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+  }, [skipIntro]);
 
   useEffect(() => {
     const cursorInterval = setInterval(() => {
@@ -216,6 +232,13 @@ export default function Hero() {
     }, CURSOR_BLINK_MS);
 
     return () => clearInterval(cursorInterval);
+  }, []);
+
+  useEffect(() => {
+    if (sessionStorage.getItem(INTRO_SESSION_KEY) === "1") {
+      setSkipIntro(true);
+    }
+    sessionStorage.setItem(INTRO_SESSION_KEY, "1");
   }, []);
 
   return (
@@ -232,60 +255,35 @@ export default function Hero() {
         className="relative w-full max-w-3xl"
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.6, ease: EASE }}
       >
-        <div className="bg-tertiary/80 border border-border rounded-t-lg px-4 py-2.5 flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-red/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-yellow/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-green/80" />
-          </div>
-          <span className="text-text-muted text-xs ml-2 font-mono tracking-wide">
-            mohanad@gaza ~
-          </span>
-        </div>
-
-        <div className="bg-secondary border-x border-b border-border rounded-b-lg p-6 md:p-10 font-mono text-sm md:text-base">
+        <TerminalWindow
+          title="mohanad@gaza ~"
+          bodyClassName="p-6 md:p-10 text-sm md:text-base"
+        >
           <div className="space-y-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.3 }}
-              className="text-green"
-            >
+            <motion.div {...reveal(0.2)} className="text-green">
               <span className="text-text-muted">$</span> whoami
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.35, duration: 0.3 }}
+              {...reveal(0.35)}
               className="text-text-primary pl-4 font-bold tracking-[-0.04em]"
               style={{ fontSize: "clamp(1.75rem, 5vw, 3rem)" }}
             >
               {displayedText}
               <span
-                className={`${showCursor ? "opacity-100" : "opacity-0"} transition-opacity text-green`}
+                className={`cursor-decay text-green ${showCursor ? "" : "cursor-off"}`}
               >
                 _
               </span>
             </motion.h1>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.2, duration: 0.3 }}
-              className="text-green pt-3"
-            >
+            <motion.div {...reveal(1.2)} className="text-green pt-3">
               <span className="text-text-muted">$</span> cat role.txt
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.35, duration: 0.3 }}
-              className="pl-4 space-y-1.5"
-            >
+            <motion.div {...reveal(1.35)} className="pl-4 space-y-1.5">
               <div className="text-text-primary">
                 <span className="text-yellow font-semibold text-base md:text-lg">
                   Software Engineer
@@ -309,19 +307,12 @@ export default function Hero() {
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.6, duration: 0.3 }}
-              className="text-green pt-3"
-            >
+            <motion.div {...reveal(1.6)} className="text-green pt-3">
               <span className="text-text-muted">$</span> ls ~/
             </motion.div>
 
             <motion.nav
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.7, duration: 0.3 }}
+              {...reveal(1.7)}
               className="pl-4 flex gap-x-5 gap-y-2 flex-wrap"
               aria-label="Page sections"
             >
@@ -338,18 +329,16 @@ export default function Hero() {
                   key={link.href}
                   href={link.href}
                   className="text-blue hover:text-cyan transition-colors link-hover"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.7 + i * 0.04, duration: 0.25 }}
+                  {...reveal(1.7 + i * 0.04)}
                 >
                   {link.label}/
                 </motion.a>
               ))}
             </motion.nav>
 
-            <TerminalInput />
+            <TerminalInput skipIntro={skipIntro} />
           </div>
-        </div>
+        </TerminalWindow>
       </motion.div>
 
       <div

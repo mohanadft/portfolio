@@ -4,20 +4,23 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import SectionHeading from "./SectionHeading";
+import { EASE } from "@/lib/motion";
 
 const testimonials = [
   {
     name: "Mohammad Barhoush",
     role: "Tech Leader",
+    initials: "MB",
     linkedin: "https://www.linkedin.com/in/mbarhoush",
     quote:
-      "Mohanad's performance has been nothing short of exceptional. His code showcases deep understanding of algorithms and data structures, particularly in backend development. Outstanding problem-solving skills with efficient, well-organized solutions.",
+      "Mohanad's code showcases a deep understanding of algorithms and data structures, particularly in backend development: efficient, well-organized solutions with outstanding problem-solving skill throughout.",
   },
   {
     name: "Wasim Juned",
-    role: "",
-    linkedin: "https://www.linkedin.com/in/wasimjuned",
-    quote: "An outstanding engineer. A real pleasure working with him.",
+    role: undefined,
+    initials: "WJ",
+    linkedin: "https://www.linkedin.com/in/wasimjuned/",
+    quote: "An outstanding engineer, a real pleasure working with him.",
   },
 ];
 
@@ -28,51 +31,60 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-24 md:py-32 px-6 relative bg-primary"
+      className="py-14 md:py-section-tight px-6 relative bg-primary overflow-hidden"
       ref={ref}
     >
-      <div className="max-w-2xl mx-auto font-mono">
+      {/* width: narrow */}
+      <div className="max-w-2xl mx-auto font-mono relative">
         <SectionHeading number="05" title="Testimonials" />
 
-        <div className="space-y-12">
-          {testimonials.map((testimonial, index) => (
+        <span
+          className="absolute -top-2 left-0 font-bold text-green select-none pointer-events-none leading-none"
+          style={{
+            fontSize: "clamp(6rem, 16vw, 10rem)",
+            opacity: "var(--watermark-opacity)",
+          }}
+          aria-hidden="true"
+        >
+          &ldquo;
+        </span>
+
+        <div className="grid sm:grid-cols-2 gap-x-10 gap-y-10 relative">
+          {testimonials.map((testimonial, i) => (
             <motion.blockquote
               key={testimonial.name}
               initial={{ opacity: 0, y: 12 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                duration: 0.5,
-                delay: 0.1 + index * 0.12,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+              transition={{ duration: 0.5, delay: 0.1 + i * 0.1, ease: EASE }}
               className="relative"
             >
-              <p className="text-text-primary text-sm md:text-base leading-relaxed mb-4 max-w-[60ch]">
+              <p className="text-text-primary text-sm md:text-base leading-relaxed mb-4">
                 &ldquo;{testimonial.quote}&rdquo;
               </p>
 
-              <footer className="flex items-baseline gap-2 flex-wrap text-sm">
-                <a
-                  href={testimonial.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-cyan hover:text-green transition-colors font-semibold link-hover"
-                >
-                  {testimonial.name}
-                </a>
-                {testimonial.role && (
-                  <>
-                    <span className="text-text-muted">/</span>
-                    <span className="text-text-muted text-xs">
+              <footer className="flex items-center gap-3">
+                <span className="w-10 h-10 shrink-0 flex items-center justify-center rounded-md bg-tertiary border border-border text-green text-sm font-bold">
+                  {testimonial.initials}
+                </span>
+                <span className="text-sm">
+                  <a
+                    href={testimonial.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-text-primary hover:text-green transition-colors font-semibold link-hover"
+                  >
+                    {testimonial.name}
+                  </a>
+                  {testimonial.role && (
+                    <span className="block text-text-muted text-xs">
                       {testimonial.role}
                     </span>
-                  </>
-                )}
+                  )}
+                </span>
               </footer>
             </motion.blockquote>
           ))}
         </div>
-
       </div>
     </section>
   );

@@ -9,23 +9,28 @@ import SectionHeading from "./SectionHeading";
 const skills = [
   {
     category: "Languages",
-    items: ["TypeScript", "JavaScript", "Rust", "SQL"],
+    core: ["TypeScript", "Rust"],
+    items: ["JavaScript", "SQL"],
   },
   {
     category: "Frameworks",
-    items: ["Node.js", "Express.js", "NestJS", "Next.js", "Astro.js", "React"],
+    core: ["Node.js", "NestJS"],
+    items: ["Express.js", "Next.js", "Astro.js", "React"],
   },
   {
     category: "Databases",
-    items: ["PostgreSQL", "MongoDB", "MySQL", "Redis"],
+    core: ["PostgreSQL", "Redis"],
+    items: ["MongoDB", "MySQL"],
   },
   {
     category: "Infrastructure",
-    items: ["AWS Lambda", "EC2", "Cloudflare", "Docker", "Kubernetes", "GitHub Actions"],
+    core: ["AWS Lambda", "Kubernetes"],
+    items: ["EC2", "Cloudflare", "Docker", "GitHub Actions"],
   },
   {
     category: "Architecture",
-    items: ["REST", "GraphQL", "Microservices", "Serverless", "RabbitMQ", "BullMQ"],
+    core: ["Serverless", "Microservices"],
+    items: ["REST", "GraphQL", "RabbitMQ", "BullMQ"],
   },
 ];
 
@@ -36,7 +41,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="py-28 md:py-36 px-6 relative bg-primary overflow-hidden"
+      className="py-16 md:py-section-medium px-6 relative bg-primary overflow-hidden"
       ref={ref}
     >
       <div
@@ -48,8 +53,9 @@ export default function About() {
         }}
         aria-hidden="true"
       />
-      <div className="max-w-3xl mx-auto font-mono">
-        <SectionHeading number="01" title="About" />
+      {/* width: narrow */}
+      <div className="max-w-2xl mx-auto font-mono">
+        <SectionHeading number="01" title="About" accent="cyan" />
         <div className="space-y-10">
           <motion.div
             initial={{ opacity: 0 }}
@@ -91,11 +97,26 @@ export default function About() {
                   animate={isInView ? { opacity: 1 } : {}}
                   transition={{ delay: 0.3 + i * 0.06 }}
                 >
-                  <span className="text-green text-xs block mb-0.5">
+                  <span className="text-text-muted text-xs uppercase tracking-wider block mb-0.5">
                     {group.category}
                   </span>
-                  <span className="text-text-secondary">
-                    {group.items.join(", ")}
+                  <span>
+                    {group.core.map((item, j) => (
+                      <span key={item}>
+                        {j > 0 && (
+                          <span className="text-text-muted"> · </span>
+                        )}
+                        <span className="text-text-primary font-medium">
+                          {item}
+                        </span>
+                      </span>
+                    ))}
+                    {group.items.map((item) => (
+                      <span key={item}>
+                        <span className="text-text-muted"> · </span>
+                        <span className="text-text-secondary">{item}</span>
+                      </span>
+                    ))}
                   </span>
                 </motion.div>
               ))}

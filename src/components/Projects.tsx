@@ -1,9 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
 import SectionHeading from "./SectionHeading";
+import { EASE } from "@/lib/motion";
 
 const projects = [
   {
@@ -41,6 +42,8 @@ const projects = [
   },
 ];
 
+type Project = (typeof projects)[number];
+
 function useCardTilt() {
   const onMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
     const el = e.currentTarget;
@@ -57,21 +60,92 @@ function useCardTilt() {
   return { onMouseMove, onMouseLeave };
 }
 
+function ProjectBody({ project }: { project: Project }) {
+  return (
+    <>
+      <div className="space-y-3 mb-4 text-sm text-text-secondary">
+        <div className="flex gap-2.5">
+          <span className="text-red shrink-0 mt-0.5 font-semibold text-xs">PROBLEM</span>
+          <p className="leading-relaxed max-w-[58ch]">{project.problem}</p>
+        </div>
+        <div className="flex gap-2.5">
+          <span className="text-yellow shrink-0 mt-0.5 font-semibold text-xs">APPROACH</span>
+          <p className="leading-relaxed max-w-[58ch]">{project.approach}</p>
+        </div>
+        <div className="flex gap-2.5">
+          <span className="text-green shrink-0 mt-0.5 font-semibold text-xs">OUTCOME</span>
+          <p className="leading-relaxed max-w-[58ch]">{project.outcome}</p>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-1.5 mb-4">
+        {project.tech.map((tech) => (
+          <span
+            key={tech}
+            className="text-xs text-cyan bg-cyan/5 px-2 py-0.5 rounded border border-cyan/10 transition-all duration-200 hover:bg-cyan/10 hover:border-cyan/20"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-4 items-center text-sm">
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue hover:text-cyan transition-colors inline-flex items-center gap-1.5 link-hover"
+        >
+          GitHub
+          <svg
+            className="w-3 h-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M7 17L17 7M17 7H7M17 7v10"
+            />
+          </svg>
+        </a>
+        {"inspiredBy" in project &&
+          typeof project.inspiredBy === "string" && (
+            <a
+              href={project.inspiredBy}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-text-muted hover:text-cyan transition-colors link-hover"
+            >
+              inspired by a Kelsey Hightower talk
+            </a>
+          )}
+      </div>
+    </>
+  );
+}
+
 export default function Projects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
   const tilt = useCardTilt();
+  const [selected, setSelected] = useState(0);
+  const activeProject = projects[selected];
 
   return (
     <section
       id="projects"
-      className="py-28 md:py-36 px-6 relative bg-primary"
+      className="py-16 md:py-section-generous px-6 relative bg-primary tint-warm"
       ref={ref}
     >
+      {/* width: wide */}
       <div className="max-w-4xl mx-auto font-mono">
-        <SectionHeading number="03" title="Projects" />
+        <SectionHeading number="03" title="Projects" accent="yellow" />
 
-        <div className="space-y-8">
+        {/* mobile: stacked cards */}
+        <div className="space-y-8 md:hidden">
           {projects.map((project, index) => (
             <motion.article
               key={project.id}
@@ -80,11 +154,11 @@ export default function Projects() {
               transition={{
                 duration: 0.5,
                 delay: 0.15 + index * 0.15,
-                ease: [0.16, 1, 0.3, 1],
+                ease: EASE,
               }}
               onMouseMove={tilt.onMouseMove}
               onMouseLeave={tilt.onMouseLeave}
-              className="group bg-secondary/60 border border-border-subtle rounded-lg p-5 md:p-6 hover:border-border transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_24px_-8px_var(--accent-green)] will-change-transform"
+              className="group bg-secondary/60 border border-border-subtle rounded-lg p-5 hover:border-border transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_24px_-8px_var(--accent-green)] will-change-transform"
             >
               <div className="flex items-baseline gap-3 mb-3 flex-wrap">
                 <span className="text-yellow text-xs">*</span>
@@ -102,69 +176,74 @@ export default function Projects() {
                 </span>
               </div>
 
-              <div className="space-y-3 mb-4 text-sm text-text-secondary">
-                <div className="flex gap-2.5">
-                  <span className="text-red shrink-0 mt-0.5 font-semibold text-xs">PROBLEM</span>
-                  <p className="leading-relaxed max-w-[58ch]">{project.problem}</p>
-                </div>
-                <div className="flex gap-2.5">
-                  <span className="text-yellow shrink-0 mt-0.5 font-semibold text-xs">APPROACH</span>
-                  <p className="leading-relaxed max-w-[58ch]">{project.approach}</p>
-                </div>
-                <div className="flex gap-2.5">
-                  <span className="text-green shrink-0 mt-0.5 font-semibold text-xs">OUTCOME</span>
-                  <p className="leading-relaxed max-w-[58ch]">{project.outcome}</p>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 mb-4">
-                {project.tech.map((tech) => (
-                  <span
-                    key={tech}
-                    className="text-xs text-cyan bg-cyan/5 px-2 py-0.5 rounded border border-cyan/10 transition-all duration-200 hover:bg-cyan/10 hover:border-cyan/20"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap gap-4 items-center text-sm">
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue hover:text-cyan transition-colors inline-flex items-center gap-1.5 link-hover"
-                >
-                  GitHub
-                  <svg
-                    className="w-3 h-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M7 17L17 7M17 7H7M17 7v10"
-                    />
-                  </svg>
-                </a>
-                {"inspiredBy" in project &&
-                  typeof project.inspiredBy === "string" && (
-                    <a
-                      href={project.inspiredBy}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-text-muted hover:text-cyan transition-colors link-hover"
-                    >
-                      inspired by a Kelsey Hightower talk
-                    </a>
-                  )}
-              </div>
+              <ProjectBody project={project} />
             </motion.article>
           ))}
         </div>
+
+        {/* desktop: split pane */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="hidden md:flex gap-6"
+        >
+          <div className="w-64 shrink-0 space-y-1">
+            {projects.map((project, index) => (
+              <button
+                key={project.id}
+                onClick={() => setSelected(index)}
+                className={`w-full text-left px-3 py-2.5 rounded border transition-colors duration-200 cursor-pointer ${
+                  selected === index
+                    ? "border-border bg-secondary/60 text-text-primary"
+                    : "border-transparent text-text-muted hover:text-text-secondary hover:bg-secondary/30"
+                }`}
+              >
+                <div className="flex items-baseline gap-2">
+                  <span className={selected === index ? "text-yellow" : "text-text-muted"}>
+                    *
+                  </span>
+                  <span className="font-semibold text-sm">{project.name}</span>
+                </div>
+                <div className="text-xs text-text-muted mt-0.5 pl-4">
+                  {project.date} · {project.id.slice(0, 7)}
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex-1 min-w-0 border border-border-subtle rounded-lg overflow-hidden">
+            <div className="bg-tertiary/80 border-b border-border-subtle px-4 py-2.5 flex items-center gap-2">
+              <div className="flex gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-red/80" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow/80" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green/80" />
+              </div>
+              <span className="text-text-muted text-xs ml-2 font-mono tracking-wide">
+                {activeProject.id}.md
+              </span>
+            </div>
+            <div className="bg-secondary/60 p-6">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeProject.id}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.25, ease: EASE }}
+                >
+                  <h3
+                    className="font-bold text-text-primary tracking-[-0.02em] mb-3"
+                    style={{ fontSize: "clamp(1.05rem, 1.5vw, 1.2rem)" }}
+                  >
+                    {activeProject.name}
+                  </h3>
+                  <ProjectBody project={activeProject} />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}

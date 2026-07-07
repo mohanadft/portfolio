@@ -4,14 +4,24 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import SectionHeading from "./SectionHeading";
+import { EASE } from "@/lib/motion";
 
 const contributions = [
+  {
+    project: "Node.js",
+    description: "JavaScript runtime and ecosystem",
+    prs: ["5904", "5905"],
+    repo: "nodejs/nodejs.org",
+    tech: ["JavaScript", "Runtime", "Core"],
+    featured: true,
+  },
   {
     project: "MonkeyType",
     description: "Typing practice platform",
     prs: ["4614", "4667"],
     repo: "monkeytypegame/monkeytype",
     tech: ["TypeScript", "Frontend"],
+    featured: true,
   },
   {
     project: "ExpressoTS",
@@ -19,13 +29,7 @@ const contributions = [
     prs: ["101", "105", "118"],
     repo: "expressots/expressots",
     tech: ["TypeScript", "Backend", "Framework"],
-  },
-  {
-    project: "Node.js",
-    description: "JavaScript runtime and ecosystem",
-    prs: ["5904", "5905"],
-    repo: "nodejs/nodejs.org",
-    tech: ["JavaScript", "Runtime", "Core"],
+    featured: true,
   },
   {
     project: "Qwikx",
@@ -33,6 +37,7 @@ const contributions = [
     prs: ["14"],
     repo: "qwikifiers/qwik-nx",
     tech: ["TypeScript", "Frontend"],
+    featured: false,
   },
   {
     project: "ParsecCloud",
@@ -40,6 +45,7 @@ const contributions = [
     prs: ["5373"],
     repo: "Scille/parsec-cloud",
     tech: ["Cloud", "Collaboration"],
+    featured: false,
   },
   {
     project: "30-Seconds-of-Code",
@@ -47,8 +53,12 @@ const contributions = [
     prs: ["2020"],
     repo: "Chalarangelo/30-seconds-of-code",
     tech: ["Documentation", "Education"],
+    featured: false,
   },
 ];
+
+const featuredContributions = contributions.filter((c) => c.featured);
+const otherContributions = contributions.filter((c) => !c.featured);
 
 export default function OpenSource() {
   const ref = useRef(null);
@@ -59,11 +69,12 @@ export default function OpenSource() {
   return (
     <section
       id="opensource"
-      className="py-16 md:py-24 px-6 relative bg-secondary/30"
+      className="py-16 md:py-section-medium px-6 relative bg-secondary/30 tint-cool"
       ref={ref}
     >
-      <div className="max-w-5xl mx-auto font-mono">
-        <SectionHeading number="04" title="Open Source" />
+      {/* width: wide */}
+      <div className="max-w-4xl mx-auto font-mono">
+        <SectionHeading number="04" title="Open Source" accent="cyan" />
 
         <motion.div
           initial={{ opacity: 0 }}
@@ -75,30 +86,62 @@ export default function OpenSource() {
           <span className="text-yellow">{contributions.length} projects</span>
         </motion.div>
 
-        <div className="space-y-5">
-          {contributions.map((contrib, index) => (
+        <div className="grid sm:grid-cols-3 gap-3 mb-6">
+          {featuredContributions.map((contrib, index) => (
+            <motion.div
+              key={contrib.project}
+              initial={{ opacity: 0, y: 8 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 0.4,
+                delay: 0.15 + index * 0.06,
+                ease: EASE,
+              }}
+              className="bg-secondary/60 border border-border-subtle hover:border-border rounded-lg p-4 transition-colors duration-200"
+            >
+              <div className="text-green font-semibold text-base mb-0.5">
+                {contrib.project}
+              </div>
+              <div className="text-text-muted text-xs mb-2 truncate">
+                {contrib.repo}
+              </div>
+              <p className="text-text-secondary text-sm mb-3">
+                {contrib.description}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {contrib.prs.map((pr) => (
+                  <a
+                    key={pr}
+                    href={`https://github.com/${contrib.repo}/pull/${pr}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-purple bg-purple/8 px-1.5 py-0.5 rounded font-mono hover:bg-purple/15 hover:text-purple transition-all duration-200"
+                  >
+                    #{pr}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="space-y-2.5">
+          {otherContributions.map((contrib, index) => (
             <motion.div
               key={contrib.project}
               initial={{ opacity: 0, x: -8 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{
                 duration: 0.35,
-                delay: 0.15 + index * 0.04,
-                ease: [0.16, 1, 0.3, 1],
+                delay: 0.4 + index * 0.04,
+                ease: EASE,
               }}
-              className="group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4"
+              className="flex items-baseline gap-4"
             >
-              <div className="shrink-0 sm:w-32">
-                <span className="text-green font-semibold text-sm">
-                  {contrib.project}
-                </span>
-              </div>
-
-              <div className="text-text-secondary text-sm hidden sm:block flex-1 min-w-0 truncate">
-                {contrib.description}
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 mt-1 sm:mt-0 sm:ml-auto shrink-0">
+              <span className="text-text-secondary font-medium text-sm w-32 shrink-0 truncate">
+                {contrib.project}
+              </span>
+              <div className="flex flex-wrap gap-1.5 ml-auto shrink-0">
                 {contrib.prs.map((pr) => (
                   <a
                     key={pr}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { EASE } from "@/lib/motion";
 
 const sections = [
   { id: "about", label: "about" },
@@ -18,13 +19,17 @@ export default function Nav() {
   const [visible, setVisible] = useState(false);
   const [active, setActive] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollPct, setScrollPct] = useState(0);
   const visibleSections = useRef(new Set<string>());
 
   useEffect(() => {
     const onScroll = () => {
       setVisible(window.scrollY > window.innerHeight * NAV_SHOW_THRESHOLD);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollPct(max > 0 ? Math.round((window.scrollY / max) * 100) : 0);
     };
 
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -70,13 +75,14 @@ export default function Nav() {
   const activeLabel = sections.find((s) => s.id === active)?.label;
 
   return (
+    <>
     <AnimatePresence>
       {visible && (
         <motion.nav
           initial={{ y: -48, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -48, opacity: 0 }}
-          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.25, ease: EASE }}
           className="fixed top-0 left-0 right-0 z-40 bg-primary/90 backdrop-blur-md border-b border-border-subtle"
           aria-label="Section navigation"
         >
@@ -167,5 +173,17 @@ export default function Nav() {
         </motion.nav>
       )}
     </AnimatePresence>
+
+    <div
+      className="fixed bottom-0 left-0 right-0 z-40 bg-primary/90 backdrop-blur-md border-t border-border-subtle font-mono text-xs px-4 h-6 flex items-center justify-between"
+      aria-hidden="true"
+    >
+      <span className="truncate">
+        <span className="text-text-muted">mohanadft ~</span>{" "}
+        {activeLabel && <span className="text-green">[{activeLabel}]</span>}
+      </span>
+      <span className="text-text-muted shrink-0 ml-2">{scrollPct}%</span>
+    </div>
+    </>
   );
 }
