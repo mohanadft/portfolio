@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" data-phosphor="green" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -51,6 +51,8 @@ export default function RootLayout({
               (function() {
                 const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
                 document.documentElement.setAttribute('data-theme', theme);
+                const phosphor = localStorage.getItem('phosphor') || 'green';
+                document.documentElement.setAttribute('data-phosphor', phosphor);
               })();
             `,
           }}

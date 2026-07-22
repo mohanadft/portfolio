@@ -35,8 +35,8 @@
   --bg-elevated: oklch(0.995 0.003 90);
   --text-primary: oklch(0.18 0.01 250);
   --text-secondary: oklch(0.42 0.01 250);
-  /* matches the dark theme's green-shifted hue (160) instead of neutral 250 */
-  --text-muted: oklch(0.52 0.012 160);
+  /* matches the dark theme's green-shifted hue (160) instead of neutral 250; darkened to clear 4.5:1 contrast on bg-primary */
+  --text-muted: oklch(0.46 0.014 160);
   --border: oklch(0.84 0.006 90);
   --border-subtle: oklch(0.9 0.005 90);
   --accent-green: oklch(0.48 0.15 155);
@@ -54,6 +54,25 @@
   --watermark-opacity: 0.06;
   --hero-glow-strength: 4%;
   --hero-vignette-strength: 45%;
+}
+
+/* Amber "P3 phosphor" monitor mode — swaps the primary accent + its derived tokens */
+:root[data-phosphor="amber"] {
+  --accent-green: oklch(0.8 0.14 75);
+  --text-muted: oklch(0.62 0.03 75);
+  --scrollbar-thumb: oklch(0.8 0.14 75 / 0.25);
+  --scrollbar-thumb-hover: oklch(0.8 0.14 75 / 0.45);
+  --selection-bg: oklch(0.8 0.14 75 / 0.25);
+  --ambient-glow-color: oklch(0.8 0.14 75 / 0.04);
+}
+
+:root[data-theme="light"][data-phosphor="amber"] {
+  --accent-green: oklch(0.52 0.13 72);
+  --text-muted: oklch(0.48 0.05 72);
+  --scrollbar-thumb: oklch(0.52 0.13 72 / 0.3);
+  --scrollbar-thumb-hover: oklch(0.52 0.13 72 / 0.5);
+  --selection-bg: oklch(0.52 0.13 72 / 0.2);
+  --ambient-glow-color: oklch(0.52 0.13 72 / 0.03);
 }
 
 @theme inline {
@@ -182,8 +201,22 @@ input.terminal-input:focus-visible {
 }
 
 @keyframes pulse-border {
-  0%, 100% { border-color: oklch(0.75 0.19 152 / 0.15); }
-  50% { border-color: oklch(0.75 0.19 152 / 0.5); }
+  0%, 100% { border-color: color-mix(in oklch, var(--accent-green) 15%, transparent); }
+  50% { border-color: color-mix(in oklch, var(--accent-green) 50%, transparent); }
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--accent-green);
+  animation: status-pulse 2s ease-in-out infinite;
 }
 
 @keyframes scanline-flicker {

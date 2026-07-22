@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import Nav from "@/components/Nav";
 import ThemeToggle from "@/components/ThemeToggle";
+import PhosphorToggle from "@/components/PhosphorToggle";
 import AmbientGlow from "@/components/AmbientGlow";
 import ScrollProgress from "@/components/ScrollProgress";
 import BootSequence from "@/components/BootSequence";
@@ -18,6 +19,7 @@ export default function Home() {
       <AmbientGlow />
       <ScrollProgress />
       <ThemeToggle />
+      <PhosphorToggle />
       <Nav />
       <Hero />
       <About />
