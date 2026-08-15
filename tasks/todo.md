@@ -89,6 +89,13 @@ CSS transitions, so nothing imported it.
   slides in from the left on hover, no fade.
 - "What people I've worked with say ↓" link under the hero statement,
   pointing at section 05.
+- New favicon. Both old icons were wrong: `public/favicon.svg` was the
+  green `>_` terminal prompt, and `src/app/favicon.ico` was still the
+  stock create-next-app triangle (Next auto-serves that path, so the
+  boilerplate icon was the one browsers showed). Replaced both with an
+  ink "M" on a solid acid field, drawn as a path rather than a `<text>`
+  element so it doesn't depend on the viewer having Space Grotesk. The
+  `.ico` is regenerated from the same SVG at 16/32/48.
 
 **Not done — needs your direction:**
 - Responsive/mobile is a first pass only (single-column stacking,
