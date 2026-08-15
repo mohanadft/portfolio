@@ -1,35 +1,44 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useCallback, useState } from "react";
-import SectionHeading from "./SectionHeading";
-import { EASE } from "@/lib/motion";
+import { useState } from "react";
 
-const projects = [
+interface Project {
+  index: string;
+  name: string;
+  date: string;
+  problem: string;
+  approach: string;
+  outcome: string;
+  tech: string[];
+  url: string;
+  inspiredBy: string | null;
+}
+
+const PROJECTS: readonly Project[] = [
   {
-    id: "mini-osb",
+    index: "01",
     name: "mini-osb",
+    date: "May 2026",
     problem:
-      "Developers provisioning databases and caches for microservices face manual kubectl workflows: slow, error-prone, and hard to automate from CI/CD pipelines.",
+      "Standing up a Redis or Postgres for a microservice meant hand-running kubectl every time — slow, easy to fumble, and awkward to drive from CI.",
     approach:
-      "Built a lightweight Open Service Broker that provisions real Kubernetes pods (Redis, Postgres) through a declarative config file or GitHub webhook triggers, with a dashboard UI for visibility.",
+      "A small Open Service Broker that provisions real Kubernetes pods from a declarative config file or a GitHub webhook, with a dashboard so you can see what's actually running.",
     outcome:
-      "One-command service provisioning with an extensible catalog. Any new service type is a config entry, not a code change.",
+      "Provisioning is one command. Adding a new service type is a config entry, not a pull request against the broker.",
     tech: ["JavaScript", "HTML", "Kubernetes", "Open Service Broker API"],
     url: "https://github.com/mohanadft/mini-osb",
     inspiredBy: "https://www.youtube.com/watch?v=55pTFVoclvE",
-    date: "2026-05",
   },
   {
-    id: "contextly",
+    index: "02",
     name: "Contextly",
+    date: "Jan 2026",
     problem:
-      "Non-native English readers hit unfamiliar words and get dictionary definitions that ignore context. The meaning of 'bank' changes between a finance article and a geography paper.",
+      "Reading in a second language, a dictionary rarely helps mid-article. “bank” means one thing in a finance piece and another in a geography paper.",
     approach:
-      "Created a Chrome extension backed by HuggingFace Zephyr-7B that reads the surrounding paragraph and generates context-aware explanations in plain language.",
+      "A Chrome extension that sends the surrounding paragraph to HuggingFace Zephyr-7B and returns an explanation that fits the sentence you're actually reading.",
     outcome:
-      "Works across PDFs, articles, and documentation with no copy-pasting. Highlight a word and get an explanation that fits the text you're reading.",
+      "Works across PDFs, docs and articles with no copy-pasting. Highlight the word, get the meaning in context.",
     tech: [
       "JavaScript",
       "Chrome Extension",
@@ -38,230 +47,117 @@ const projects = [
       "HuggingFace Zephyr-7B",
     ],
     url: "https://github.com/mohanadft/contextly",
-    date: "2026-01",
+    inspiredBy: null,
   },
 ];
 
-type Project = (typeof projects)[number];
-
-function useCardTilt() {
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const el = e.currentTarget;
-    const rect = el.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    el.style.transform = `perspective(800px) rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`;
-  }, []);
-
-  const onMouseLeave = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = "";
-  }, []);
-
-  return { onMouseMove, onMouseLeave };
-}
-
-function ProjectBody({ project }: { project: Project }) {
-  return (
-    <>
-      <div className="space-y-3 mb-4 text-sm text-text-secondary">
-        <div className="flex gap-2.5">
-          <span className="text-red shrink-0 mt-0.5 font-semibold text-xs">PROBLEM</span>
-          <p className="leading-relaxed max-w-[58ch]">{project.problem}</p>
-        </div>
-        <div className="flex gap-2.5">
-          <span className="text-yellow shrink-0 mt-0.5 font-semibold text-xs">APPROACH</span>
-          <p className="leading-relaxed max-w-[58ch]">{project.approach}</p>
-        </div>
-        <div className="flex gap-2.5">
-          <span className="text-green shrink-0 mt-0.5 font-semibold text-xs">OUTCOME</span>
-          <p className="leading-relaxed max-w-[58ch]">{project.outcome}</p>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap gap-1.5 mb-4">
-        {project.tech.map((tech) => (
-          <span
-            key={tech}
-            className="text-xs text-cyan bg-cyan/5 px-2 py-0.5 rounded border border-cyan/10 transition-all duration-200 hover:bg-cyan/10 hover:border-cyan/20"
-          >
-            {tech}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex flex-wrap gap-4 items-center text-sm">
-        <a
-          href={project.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue hover:text-cyan transition-colors inline-flex items-center gap-1.5 link-hover"
-        >
-          GitHub
-          <svg
-            className="w-3 h-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M7 17L17 7M17 7H7M17 7v10"
-            />
-          </svg>
-        </a>
-        {"inspiredBy" in project &&
-          typeof project.inspiredBy === "string" && (
-            <a
-              href={project.inspiredBy}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-text-muted hover:text-cyan transition-colors link-hover"
-            >
-              inspired by a Kelsey Hightower talk
-            </a>
-          )}
-      </div>
-    </>
-  );
-}
+const COLUMN_LABEL = "eyebrow mb-3";
 
 export default function Projects() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const tilt = useCardTilt();
-  const [selected, setSelected] = useState(0);
-  const activeProject = projects[selected];
+  const [openProject, setOpenProject] = useState(0);
 
   return (
-    <section
-      id="projects"
-      className="py-16 md:py-section-generous px-6 relative bg-primary tint-warm"
-      ref={ref}
-    >
-      {/* width: wide */}
-      <div className="max-w-4xl mx-auto font-mono">
-        <SectionHeading number="03" title="Projects" accent="yellow" />
+    <section id="projects" className="border-t border-rule">
+      <div className="eyebrow px-[6vw] pt-28 pb-6">
+        <span className="text-acid">03</span> / Projects — built to scratch an
+        itch
+      </div>
 
-        {/* mobile: stacked cards */}
-        <div className="space-y-8 md:hidden">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.id}
-              initial={{ opacity: 0, scale: 0.97 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{
-                duration: 0.5,
-                delay: 0.15 + index * 0.15,
-                ease: EASE,
-              }}
-              onMouseMove={tilt.onMouseMove}
-              onMouseLeave={tilt.onMouseLeave}
-              className="group bg-secondary/60 border border-border-subtle rounded-lg p-5 hover:border-border transition-[border-color,box-shadow] duration-300 hover:shadow-[0_0_24px_-8px_var(--accent-green)] will-change-transform"
+      {PROJECTS.map((project, i) => {
+        const isOpen = openProject === i;
+        const panelId = `project-panel-${project.index}`;
+
+        return (
+          <div
+            key={project.name}
+            className={`group border-t border-l-[3px] border-rule transition-colors duration-[250ms] ${
+              isOpen
+                ? "border-l-acid bg-ink-deep"
+                : "border-l-transparent hover:bg-ink-deep"
+            }`}
+          >
+            <button
+              type="button"
+              onClick={() => setOpenProject(isOpen ? -1 : i)}
+              aria-expanded={isOpen}
+              aria-controls={panelId}
+              className="flex w-full cursor-pointer flex-wrap items-baseline gap-x-6 gap-y-2 px-[calc(6vw-3px)] py-8 text-left"
             >
-              <div className="flex items-baseline gap-3 mb-3 flex-wrap">
-                <span className="text-yellow text-xs">*</span>
-                <h3
-                  className="font-bold text-text-primary tracking-[-0.02em]"
-                  style={{ fontSize: "clamp(1.05rem, 1.5vw, 1.2rem)" }}
-                >
-                  {project.name}
-                </h3>
-                <span className="text-text-muted text-xs">
-                  {project.date}
-                </span>
-                <span className="ml-auto text-text-muted/30 text-[0.625rem] hidden sm:inline font-mono">
-                  {project.id.slice(0, 7)}
-                </span>
-              </div>
-
-              <ProjectBody project={project} />
-            </motion.article>
-          ))}
-        </div>
-
-        {/* desktop: split pane */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="hidden md:flex gap-6"
-        >
-          <div className="w-64 shrink-0 space-y-1">
-            {projects.map((project, index) => (
-              <button
-                key={project.id}
-                onClick={() => setSelected(index)}
-                className={`w-full text-left px-3 py-2.5 rounded border transition-colors duration-200 cursor-pointer ${
-                  selected === index
-                    ? "border-border bg-secondary/60 text-text-primary"
-                    : "border-transparent text-text-muted hover:text-text-secondary hover:bg-secondary/30"
+              <span
+                className={`font-mono text-xs ${isOpen ? "text-acid" : "text-muted"}`}
+              >
+                {project.index}
+              </span>
+              <h3
+                className={`text-[clamp(2rem,4.5vw,3.25rem)] leading-none font-medium tracking-[-0.035em] transition-colors duration-[250ms] ${
+                  isOpen ? "text-bone" : "text-bone-dim"
                 }`}
               >
-                <div className="flex items-baseline gap-2">
-                  <span className={selected === index ? "text-yellow" : "text-text-muted"}>
-                    *
-                  </span>
-                  <span className="font-semibold text-sm">{project.name}</span>
-                </div>
-                <div className="text-xs text-text-muted mt-0.5 pl-4">
-                  {project.date} · {project.id.slice(0, 7)}
-                </div>
-              </button>
-            ))}
-          </div>
-
-          <div className="flex-1 min-w-0 border border-border-subtle rounded-lg overflow-hidden">
-            <div className="bg-tertiary/80 border-b border-border-subtle px-4 py-2.5 flex items-center gap-2">
-              <div className="flex gap-1.5">
-                <div className="w-2.5 h-2.5 rounded-full bg-red/80" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow/80" />
-                <div className="w-2.5 h-2.5 rounded-full bg-green/80" />
-              </div>
-              <span className="text-text-muted text-xs ml-2 font-mono tracking-wide">
-                {activeProject.id}.md
+                {project.name}
+              </h3>
+              <span className="font-mono text-xs text-muted">{project.date}</span>
+              <span className="font-mono text-xs whitespace-pre-wrap text-muted sm:ml-auto">
+                {project.tech.join("  /  ")}
               </span>
-            </div>
-            <div className="bg-secondary/60 p-6">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeProject.id}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.25, ease: EASE }}
-                >
-                  <h3
-                    className="font-bold text-text-primary tracking-[-0.02em] mb-3"
-                    style={{ fontSize: "clamp(1.05rem, 1.5vw, 1.2rem)" }}
-                  >
-                    {activeProject.name}
-                  </h3>
-                  <ProjectBody project={activeProject} />
-                </motion.div>
-              </AnimatePresence>
+            </button>
+
+            <div
+              id={panelId}
+              className={`grid transition-[grid-template-rows,opacity] duration-[400ms] ease-out ${
+                isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="px-[calc(6vw-3px)] pb-8">
+                  <div className="grid grid-cols-1 gap-10 border-t border-rule pt-7 md:grid-cols-3">
+                    <div>
+                      <div className={COLUMN_LABEL}>The itch</div>
+                      <p className="leading-[1.6] text-pretty text-bone-dim">
+                        {project.problem}
+                      </p>
+                    </div>
+                    <div>
+                      <div className={COLUMN_LABEL}>What I built</div>
+                      <p className="leading-[1.6] text-pretty text-bone-dim">
+                        {project.approach}
+                      </p>
+                    </div>
+                    <div>
+                      <div className={COLUMN_LABEL}>Where it landed</div>
+                      <p className="leading-[1.6] text-pretty text-bone-dim">
+                        {project.outcome}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-7 flex flex-wrap items-baseline gap-6">
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="border-b border-acid pb-[3px] font-mono text-xs tracking-[0.08em] uppercase transition-colors duration-200"
+                    >
+                      Source ↗
+                    </a>
+                    {project.inspiredBy && (
+                      <a
+                        href={project.inspiredBy}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-mono text-xs text-muted transition-colors duration-200"
+                      >
+                        after a Kelsey Hightower talk ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </motion.div>
+        );
+      })}
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.5 }}
-          className="mt-10 text-text-muted text-xs"
-        >
-          <span className="text-green">{">"}</span> More on{" "}
-          <a
-            href="https://github.com/mohanadft"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue hover:text-cyan transition-colors link-hover"
-          >
-            github.com/mohanadft
-          </a>
-        </motion.div>
-      </div>
+      <div className="border-t border-rule" />
     </section>
   );
 }

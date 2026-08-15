@@ -1,226 +1,82 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
-import { useRef, useState, useCallback, useEffect } from "react";
-import { EASE } from "@/lib/motion";
-import TerminalWindow from "./TerminalWindow";
+import { useEffect, useRef, useState } from "react";
 
-const EXIT_DELAY_MS = 1400;
-const CLOSE_DELAY_MS = 700;
-
-const channels = [
-  {
-    label: "Email",
-    value: "mohanadfteha@gmail.com",
-    href: "mailto:mohanadfteha@gmail.com",
-    copyable: true,
-  },
-  {
-    label: "GitHub",
-    value: "github.com/mohanadft",
-    href: "https://github.com/mohanadft",
-  },
-  {
-    label: "LinkedIn",
-    value: "linkedin.com/in/mohanad-fteha",
-    href: "https://www.linkedin.com/in/mohanad-fteha",
-  },
-];
+const EMAIL = "mohanadfteha@gmail.com";
+const COPIED_RESET_MS = 2000;
 
 export default function Contact() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
   const [copied, setCopied] = useState(false);
-  const [exiting, setExiting] = useState(false);
-  const [closed, setClosed] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-  const copyEmail = useCallback(() => {
-    navigator.clipboard.writeText("mohanadfteha@gmail.com").then(() => {
+  useEffect(() => () => clearTimeout(timeoutRef.current), []);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!isInView) return;
-    const timer = setTimeout(() => setExiting(true), EXIT_DELAY_MS);
-    return () => clearTimeout(timer);
-  }, [isInView]);
-
-  useEffect(() => {
-    if (!exiting) return;
-    const timer = setTimeout(() => setClosed(true), CLOSE_DELAY_MS);
-    return () => clearTimeout(timer);
-  }, [exiting]);
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setCopied(false), COPIED_RESET_MS);
+    } catch {
+      // Clipboard unavailable (insecure context or denied permission) — the
+      // mailto link beside the button remains the working path.
+    }
+  };
 
   return (
     <section
       id="contact"
-      className="py-20 md:py-section-generous px-6 relative bg-secondary/30 overflow-hidden"
-      ref={ref}
+      className="border-t-2 border-acid px-[6vw] pt-28 pb-12"
     >
-      <motion.div
-        className="absolute inset-0 pointer-events-none hidden md:block"
-        animate={{ opacity: closed ? 0 : 1 }}
-        transition={{ duration: 1 }}
-        aria-hidden="true"
-      >
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-green/20 animate-[float_8s_ease-in-out_infinite]"
-            style={{
-              left: `${15 + i * 15}%`,
-              top: `${20 + (i % 3) * 25}%`,
-              animationDelay: `${i * 1.3}s`,
-            }}
-          />
-        ))}
-      </motion.div>
-      {/* width: narrow */}
-      <div className="max-w-2xl mx-auto font-mono relative">
-        <h2 className="sr-only">Contact</h2>
+      <div className="eyebrow mb-10">
+        <span className="text-acid">06</span> / Contact
+      </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: EASE }}
-          className="text-text-primary text-lg md:text-xl leading-relaxed mb-12"
+      <p className="mb-14 max-w-[26ch] text-[clamp(1.25rem,2.4vw,1.875rem)] leading-[1.3] tracking-[-0.02em]">
+        I build systems that don&apos;t wake people up at 3 AM. If that sounds
+        useful, my inbox is open.
+      </p>
+
+      <div className="flex flex-wrap items-baseline gap-6 border-b border-rule pb-8">
+        <a
+          href={`mailto:${EMAIL}`}
+          className="text-[clamp(1.75rem,5.5vw,4rem)] leading-none font-medium tracking-[-0.04em] [overflow-wrap:anywhere] transition-colors duration-200"
         >
-          I build systems that don&apos;t wake people up at 3 AM.
-          <br />
-          <span className="text-text-secondary">
-            If that sounds useful, let&apos;s talk.
-          </span>
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={
-            isInView
-              ? { opacity: 1, scale: exiting ? 0.99 : 1 }
-              : {}
-          }
-          transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
+          {EMAIL}
+        </a>
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="cursor-pointer border border-rule px-3 py-[0.4rem] font-mono text-xs tracking-[0.08em] text-muted uppercase transition-colors duration-200 hover:border-acid hover:text-acid"
         >
-          <TerminalWindow
-            title="mohanad@gaza ~"
-            dimmed={exiting}
-            bodyClassName="p-6 md:p-8 text-sm"
-          >
-            <div className="space-y-3">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.3, duration: 0.2 }}
-                className="text-green"
-              >
-                <span className="text-text-muted">$</span> whoami
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.45, duration: 0.2 }}
-                className="pl-4 text-text-secondary"
-              >
-                mohanad@gaza ~ still here
-              </motion.div>
+          {copied ? "Copied" : "Copy"}
+        </button>
+      </div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.6, duration: 0.2 }}
-                className="text-green pt-2"
-              >
-                <span className="text-text-muted">$</span> echo $CONTACT
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.75, duration: 0.3 }}
-                className="pl-4 space-y-2"
-              >
-                {channels.map((channel) => (
-                  <div
-                    key={channel.label}
-                    className="flex items-baseline gap-3 group"
-                  >
-                    <span className="text-text-muted text-xs w-16 shrink-0 uppercase tracking-wider">
-                      {channel.label}
-                    </span>
-                    <a
-                      href={channel.href}
-                      target={channel.label === "Email" ? undefined : "_blank"}
-                      rel={
-                        channel.label === "Email"
-                          ? undefined
-                          : "noopener noreferrer"
-                      }
-                      className="text-cyan hover:text-green transition-colors duration-200 text-sm"
-                    >
-                      {channel.value}
-                    </a>
-                    {channel.copyable && (
-                      <button
-                        onClick={copyEmail}
-                        className="text-text-muted hover:text-green transition-colors duration-200 text-xs cursor-pointer min-w-[44px] min-h-[44px] flex items-center justify-center"
-                        aria-label={
-                          copied ? "Email copied" : "Copy email to clipboard"
-                        }
-                      >
-                        {copied ? (
-                          <span className="text-green">copied</span>
-                        ) : (
-                          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            copy
-                          </span>
-                        )}
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={isInView ? { opacity: 1 } : {}}
-                transition={{ delay: 0.9, duration: 0.2 }}
-                className="text-green pt-2"
-              >
-                <span className="relative inline-block">
-                  <span className="text-text-muted">$</span> exit
-                  {exiting && (
-                    <motion.span
-                      className="absolute inset-0 bg-green origin-left"
-                      initial={{ scaleX: 0, opacity: 1 }}
-                      animate={{ scaleX: 1, opacity: 0 }}
-                      transition={{ duration: 0.5, ease: EASE }}
-                      aria-hidden="true"
-                    />
-                  )}
-                </span>
-              </motion.div>
-
-              <motion.div
-                animate={{ opacity: closed ? 1 : 0 }}
-                transition={{ duration: 0.4 }}
-                className="pl-4 text-text-muted text-xs"
-              >
-                Connection to mohanad@gaza closed.
-              </motion.div>
-            </div>
-          </TerminalWindow>
-        </motion.div>
-
-        <motion.p
-          animate={{ opacity: closed ? 1 : 0 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          className="text-center text-text-muted text-xs mt-8"
+      <div className="flex flex-wrap gap-10 border-b border-rule py-8 font-mono text-[0.8125rem]">
+        <a
+          href="https://github.com/mohanadft"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition-colors duration-200"
         >
-          mohanad fteha &copy; 2026{" "}
-          <span className="cursor-decay-blink text-green">_</span>
-        </motion.p>
+          github.com/mohanadft ↗
+        </a>
+        <a
+          href="https://www.linkedin.com/in/mohanad-fteha"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition-colors duration-200"
+        >
+          linkedin.com/in/mohanad-fteha ↗
+        </a>
+      </div>
+
+      <div className="eyebrow flex flex-wrap justify-between gap-4 pt-8">
+        <span>
+          <span className="text-acid">Open to work</span> — Gaza, Palestine
+        </span>
+        <span>Mohanad Fteha © 2026</span>
       </div>
     </section>
   );

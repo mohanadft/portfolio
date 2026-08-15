@@ -1,57 +1,109 @@
-# Portfolio — Step 1: Console chrome + Amber/Green phosphor toggle
+# Portfolio v2 redesign — implementation plan
 
-Direction chosen by Mohanad after a 4-agent brainstorm on differentiating the terminal
-portfolio from the genre's defaults:
-- **Structure:** "Just step 1" — add persistent console chrome (top identity bar + bottom
-  status bar) carrying recruiter-critical facts always on screen. Points toward the
-  larger "Control Plane" direction without committing to a rebuild.
-- **Palette:** Amber/green "monitor" phosphor toggle as an ownable signature flourish.
-
-Guiding rule (dual-legibility): anything a recruiter needs is rendered text on load;
-anything an engineer enjoys stays optional interaction.
+Source of truth: Claude Design project "Portfolio component recreation"
+(`design_handoff_portfolio_v2/README.md` + `Portfolio v2.dc.html`).
+Editorial/typographic direction replacing the CRT terminal theme. Single
+page, six numbered sections + hero, one accent color (`--acid`), no
+theme/phosphor toggles, no ambient terminal effects.
 
 ## Todo
 
-- [x] 1. Persistent top identity bar (`Nav.tsx`): always-visible `Mohanad Fteha · Backend &
-      Infra Engineer`; transparent at scroll-top, gains backdrop/border on scroll; section
-      links fade in on scroll; right padding reserved for the floating toggles.
-- [x] 2. Enhanced bottom status bar (`Nav.tsx`): `● Open to work` (pulsing dot) + `Gaza,
-      Palestine` on the left; active section + scroll % kept on the right; no longer
-      `aria-hidden` since it now carries meaningful info.
-- [x] 3. Amber/green phosphor toggle: `data-phosphor` attribute + pre-hydration script in
-      `layout.tsx`; amber token overrides (dark + light) in `globals.css`; new
-      `PhosphorToggle.tsx` mirroring `ThemeToggle.tsx`'s docking behavior; hardcoded green
-      keyframe literal converted to `var(--accent-green)` so it follows the toggle.
-- [x] 4. a11y fix: darkened light-theme `--text-muted` from ~4.0:1 to ~4.6:1 contrast.
-- [x] 5. `pnpm build` passes clean. Verified all 4 combinations (dark/light ×
-      green/amber) in-browser, plus mobile viewport (390px) — no collisions, toggle
-      docking works, status bar wraps correctly.
+- [ ] 1. `globals.css` — replace CRT token set with new tokens (`--ink`,
+      `--ink-deep`, `--bone`, `--bone-dim`, `--muted`, `--rule`, `--acid`);
+      drop dark/light + phosphor variants, CRT keyframes/classes
+      (scanline, watermark-pulse, hero-glow/vignette, link-glitch,
+      cursor-decay, noise-overlay, pulse-border, tint-cool/warm); keep
+      `prefers-reduced-motion` block, smooth scroll, `::selection`/
+      `:focus-visible` (updated to new tokens).
+- [ ] 2. `layout.tsx` — swap `Geist_Mono` for Space Grotesk + IBM Plex
+      Mono via `next/font/google`; remove theme/phosphor init script and
+      `data-theme`/`data-phosphor` attrs; remove `noise-overlay` div;
+      update metadata copy if needed to match new voice.
+- [ ] 3. New `SectionRail.tsx` (replaces `Nav.tsx`) — fixed left rail,
+      6 numerals, `IntersectionObserver` active-section tracking.
+- [ ] 4. Rewrite `Hero.tsx` — grid layout, meta bar, big name, statement,
+      bottom nav row, photo column with hover-reveal color filter.
+- [ ] 5. Rewrite `About.tsx` — sticky left column + stack table (data as
+      typed constant).
+- [ ] 6. New `Work.tsx` (replaces `Experience.tsx`) — indexed job log,
+      no bullets. Job copy unchanged from current `Experience.tsx`.
+- [ ] 7. Rewrite `Projects.tsx` — accordion (index 0 open by default,
+      click-to-close), 3-column body.
+- [ ] 8. Rewrite `OpenSource.tsx` — big "10" + contributions table with
+      PR chip links.
+- [ ] 9. New `Words.tsx` (replaces `Testimonials.tsx`) — wall layout,
+      inverted acid plate for Wasim Juned's quote.
+- [ ] 10. Rewrite `Contact.tsx` — statement, large mailto link, copy
+       button, social row, colophon.
+- [ ] 11. Delete: `BootSequence.tsx`, `AmbientGlow.tsx`,
+       `PhosphorToggle.tsx`, `ThemeToggle.tsx`, `TerminalWindow.tsx`,
+       `ScrollProgress.tsx`, `Nav.tsx`, `SectionHeading.tsx`,
+       `src/lib/session.ts`, `src/lib/motion.ts` (all unused once the
+       above lands — recheck before deleting).
+- [ ] 12. `page.tsx` — compose new component set.
+- [ ] 13. Responsive pass (first cut — README flags this as undesigned,
+       so keep it simple: single column stacking, sticky columns
+       dropped, accordion max-height raised) — flag for your review
+       separately since it's explicitly not signed off in the design.
+- [ ] 14. `pnpm lint` + `pnpm build`, then visual check in dev server
+       against the Claude Design reference at desktop width.
 
 ## Review
 
-**What changed:**
-- `src/components/Nav.tsx` — top nav is now always rendered (was gated behind a scroll
-  threshold with an `AnimatePresence` mount/unmount). It shows the identity always, and
-  reveals section links via an opacity transition on scroll instead of sliding the whole
-  bar in. The bottom status bar gained real content (availability + location) instead of
-  being purely decorative/`aria-hidden`.
-- `src/app/globals.css` — added `[data-phosphor="amber"]` overrides for both themes,
-  a `.status-dot` pulse utility, and fixed one a11y contrast issue in the light theme.
-- `src/app/layout.tsx` — added a second pre-hydration script (mirroring the existing theme
-  one) so the phosphor choice applies before first paint, no flash.
-- `src/components/PhosphorToggle.tsx` (new) — same structure/docking as `ThemeToggle.tsx`.
-- `src/app/page.tsx` — mounts `PhosphorToggle`.
+All sections implemented and building clean (`pnpm lint`, `pnpm build`).
 
-**Scope discipline:** touched only what the plan called for. Did not fix the pre-existing
-`react-hooks/set-state-in-effect` lint error in `ThemeToggle.tsx` (and now mirrored in
-`PhosphorToggle.tsx`) — confirmed via `git stash` that it already fails on `main` before
-any of these changes, so it's out of scope for this change.
+**Tokens & type.** `globals.css` reduced from ~380 lines to ~130 — the
+whole CRT token system (dual themes, phosphor variants, 8 keyframe
+animations, glow/vignette/noise/glitch classes) is gone, replaced by
+seven flat tokens. Fonts swapped to Space Grotesk + IBM Plex Mono.
+Kept: reduced-motion block, smooth scroll, skip link, `sr-only`.
+Added one shared `.eyebrow` class since the section label repeats
+seven times.
 
-**One snag during verification:** a stale `next dev` process from earlier in the session
-was serving an old build and didn't pick up the CSS changes via HMR. Killed it, cleared
-`.next`, and restarted — not a bug in the change itself, just a leftover dev-server issue.
+**Components.** New: `SectionRail`, `Work`, `Words`, `src/lib/sections.ts`
+(shared between the rail and the hero nav so the six sections are
+declared once). Rewritten: `Hero`, `About`, `Projects`, `OpenSource`,
+`Contact`, `not-found`. Deleted: `BootSequence`, `AmbientGlow`,
+`PhosphorToggle`, `ThemeToggle`, `TerminalWindow`, `ScrollProgress`,
+`Nav`, `SectionHeading`, `Experience`, `Testimonials`,
+`src/lib/session.ts`, `src/lib/motion.ts`.
 
-**Not done (deliberately, per the chosen scope):** the mini-osb reconciliation hero, the
-`:` command palette, and the resource-meter rail from the fuller "Control Plane" direction
-— those are documented as sequenced next steps in `~/.claude/plans/greedy-bubbling-reddy.md`
-if Mohanad wants to keep going.
+**framer-motion removed** as a dependency — the new design uses only
+CSS transitions, so nothing imported it.
+
+**Deviations from the handoff, and why:**
+- Projects accordion uses a `grid-template-rows: 1fr/0fr` transition
+  rather than the specified `max-height: 26rem`. Same animation, but
+  it can't clip long content and needs no magic height at mobile
+  widths — the README flagged the fixed height as a mobile problem.
+- The accordion row is a `<button>` rather than a clickable `<div>`,
+  with `aria-expanded`/`aria-controls`, so it's keyboard-operable.
+- `Contact`'s clipboard write is wrapped in try/catch; the `mailto:`
+  link is the fallback when the clipboard API is unavailable.
+- Hero photo uses `next/image` with `fill` (README asked for
+  `next/image`); the hover filter swap is a `group-hover` class rather
+  than the design file's `--photo-filter` custom property.
+
+**Additions beyond the handoff (your calls this session):**
+- Acid plate on the hero photo reading "Still looking forward." —
+  slides in from the left on hover, no fade.
+- "What people I've worked with say ↓" link under the hero statement,
+  pointing at section 05.
+
+**Not done — needs your direction:**
+- Responsive/mobile is a first pass only (single-column stacking,
+  sticky columns dropped, rail hidden below `lg`). The handoff
+  explicitly says breakpoint behaviour was never designed.
+- Garfield Liddon still has no title or LinkedIn URL; his attribution
+  reads "30 years in the concrete business", pulled from his own quote.
+
+## Notes
+
+- No Framer Motion in the new design — README doesn't call for
+  scroll-reveal animation, only CSS transitions (color, accordion
+  max-height, photo filter). Not reintroducing motion for its own sake.
+- `photo.jpg` and `favicon.svg` already exist in `public/` — no asset
+  changes needed.
+- Copy for hero/about/projects/contact is taken verbatim from
+  `Portfolio v2.dc.html`; Work section keeps the original résumé
+  wording from `Experience.tsx`; testimonials stay verbatim.

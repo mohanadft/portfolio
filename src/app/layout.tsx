@@ -1,19 +1,28 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 const SITE_URL = "https://mohanadfteha.me";
 
+const DESCRIPTION =
+  "Software engineer working on the half of the product you only notice when it breaks — APIs, queues, deploy pipelines. Three years, mostly Node and TypeScript, lately Rust.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Mohanad Fteha | Software Engineer",
-  description:
-    "Backend engineer specializing in serverless architectures, APIs, and infrastructure. Building scalable systems with Node.js, TypeScript, Rust, and AWS.",
+  description: DESCRIPTION,
   icons: {
     icon: "/favicon.svg",
   },
@@ -22,8 +31,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Mohanad Fteha | Software Engineer",
-    description:
-      "Backend engineer building scalable systems with Node.js, TypeScript, Rust, and AWS.",
+    description: DESCRIPTION,
     url: SITE_URL,
     siteName: "Mohanad Fteha",
     type: "website",
@@ -32,8 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mohanad Fteha | Software Engineer",
-    description:
-      "Backend engineer building scalable systems with Node.js, TypeScript, Rust, and AWS.",
+    description: DESCRIPTION,
   },
 };
 
@@ -43,20 +50,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark" data-phosphor="green" suppressHydrationWarning>
+    <html lang="en">
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-                document.documentElement.setAttribute('data-theme', theme);
-                const phosphor = localStorage.getItem('phosphor') || 'green';
-                document.documentElement.setAttribute('data-phosphor', phosphor);
-              })();
-            `,
-          }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -87,12 +82,11 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${geistMono.variable} antialiased`}>
+      <body className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} antialiased`}>
         <a href="#about" className="skip-link">
           Skip to content
         </a>
         {children}
-        <div className="noise-overlay" aria-hidden="true" />
       </body>
     </html>
   );
