@@ -2,52 +2,29 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-primary px-6">
-      <div className="max-w-xl w-full font-mono">
-        <div className="bg-tertiary/80 border border-border rounded-t-lg px-4 py-2.5 flex items-center gap-2">
-          <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-red/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-yellow/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-green/80" />
-          </div>
-          <span className="text-text-muted text-xs ml-2 tracking-wide">
-            bash
-          </span>
-        </div>
+    <main className="flex min-h-screen flex-col justify-center px-[6vw] py-28">
+      <div className="eyebrow border-b border-rule pb-[0.9rem]">
+        <span className="text-acid">404</span> / Not found
+      </div>
 
-        <div className="bg-secondary border-x border-b border-border rounded-b-lg p-6 md:p-8 text-sm space-y-4">
-          <div>
-            <span className="text-text-muted">$</span>{" "}
-            <span className="text-green">cd ~/page</span>
-          </div>
+      <h1 className="mt-12 text-[clamp(3.5rem,11.5vw,10rem)] leading-[0.84] font-medium tracking-[-0.045em]">
+        Not
+        <br />
+        here<span className="text-acid">.</span>
+      </h1>
 
-          <div className="text-red">
-            bash: cd: ~/page: No such file or directory
-          </div>
+      <p className="mt-12 max-w-[46ch] text-[clamp(1.0625rem,1.6vw,1.375rem)] leading-[1.45] text-pretty text-bone-dim">
+        The page you&apos;re looking for doesn&apos;t exist — moved, renamed, or
+        never written in the first place.
+      </p>
 
-          <div>
-            <span className="text-text-muted">$</span>{" "}
-            <span className="text-green">echo $?</span>
-          </div>
-
-          <div className="text-text-primary text-4xl font-bold tracking-tight">
-            404
-          </div>
-
-          <div className="text-text-secondary text-sm">
-            The page you&apos;re looking for doesn&apos;t exist.
-          </div>
-
-          <div className="pt-2">
-            <span className="text-text-muted">$</span>{" "}
-            <Link
-              href="/"
-              className="text-blue hover:text-cyan transition-colors link-hover"
-            >
-              cd ~/
-            </Link>
-          </div>
-        </div>
+      <div className="mt-12 border-t border-rule pt-4">
+        <Link
+          href="/"
+          className="border-b border-acid pb-[3px] font-mono text-xs tracking-[0.08em] uppercase transition-colors duration-200"
+        >
+          ← Back home
+        </Link>
       </div>
     </main>
   );
