@@ -41,7 +41,7 @@ export default function About() {
             <br />
             Three years, mostly Node and TypeScript.
             <br />
-            Currently at Tech for Palestine.
+            Most recently at Yaffa Solutions.
           </p>
         </div>
 
@@ -55,9 +55,9 @@ export default function About() {
             boring: adding tests to code that had none, dragging a Lambda&apos;s
             cold start down from painful to fine, writing the setup doc so the
             answer is there before anyone has to ask. At Yaffa Solutions I built
-            serverless microservices on AWS. At Tech for Palestine I spend as
-            much time reviewing other people&apos;s code and closing security
-            holes as writing my own.
+            serverless microservices on AWS and spent as much time reviewing
+            other people&apos;s code and closing security holes as writing my
+            own.
           </p>
           <p className="mb-12 max-w-[62ch] leading-[1.65] text-pretty text-bone-dim">
             I&apos;d rather ship something a stranger can maintain than something

@@ -9,19 +9,6 @@ interface Job {
 
 const JOBS: readonly Job[] = [
   {
-    company: "Tech for Palestine",
-    role: "Software Engineer",
-    year: "2025",
-    months: "Sep — present",
-    current: true,
-    highlights: [
-      "Built and launched an A/B testing framework across key conversion pages, integrating Plausible Analytics to surface donor behavior signals. Enabled data-driven product decisions that improved conversion rates by ~15%.",
-      "Led open-source code review and maintenance: triaged 50+ issues, reviewed community PRs, and enforced code quality standards across the repository.",
-      "Architected a CI security scanning pipeline and led 6 rounds of security hardening: patched 12+ medium/high-severity dependency vulnerabilities, fixed a Cloudflare CSP nonce bypass, and enforced constant-time secret comparison on all webhook endpoints.",
-      "Integrated Sentry error monitoring across server-side API routes and webhooks; debugged silent analytics event drops by tracing a Cloudflare Worker lifecycle issue, recovering ~20% of previously lost donation tracking events.",
-    ],
-  },
-  {
     company: "Yaffa Solutions",
     role: "Full Stack Software Engineer",
     year: "2025",
@@ -56,7 +43,7 @@ export default function Work() {
         <span>
           <span className="text-acid">02</span> / Work
         </span>
-        <span>2023 — present</span>
+        <span>2023 — 2025</span>
       </div>
 
       {JOBS.map((job) => (
