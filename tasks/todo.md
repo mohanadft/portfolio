@@ -1,116 +1,67 @@
-# Portfolio v2 redesign — implementation plan
+# Portfolio v3: "next level" plan
 
-Source of truth: Claude Design project "Portfolio component recreation"
-(`design_handoff_portfolio_v2/README.md` + `Portfolio v2.dc.html`).
-Editorial/typographic direction replacing the CRT terminal theme. Single
-page, six numbered sections + hero, one accent color (`--acid`), no
-theme/phosphor toggles, no ambient terminal effects.
+Goal: more interviews from recruiters and hiring managers who scan the site for
+30–90s. Make the design richer by showing backend work (direction A, "Request
+Path"), not by adding decoration. The v2 plan this file replaced is in git history.
 
-## Todo
+Sources: a code audit (build, lint, Playwright, Lighthouse), recruiter/backend
+portfolio research, and design research. Lighthouse mobile today: Perf 48,
+A11y 98, Best Practices 100, SEO 100 (LCP 12.3s, caused by the photo).
 
-- [ ] 1. `globals.css` — replace CRT token set with new tokens (`--ink`,
-      `--ink-deep`, `--bone`, `--bone-dim`, `--muted`, `--rule`, `--acid`);
-      drop dark/light + phosphor variants, CRT keyframes/classes
-      (scanline, watermark-pulse, hero-glow/vignette, link-glitch,
-      cursor-decay, noise-overlay, pulse-border, tint-cool/warm); keep
-      `prefers-reduced-motion` block, smooth scroll, `::selection`/
-      `:focus-visible` (updated to new tokens).
-- [ ] 2. `layout.tsx` — swap `Geist_Mono` for Space Grotesk + IBM Plex
-      Mono via `next/font/google`; remove theme/phosphor init script and
-      `data-theme`/`data-phosphor` attrs; remove `noise-overlay` div;
-      update metadata copy if needed to match new voice.
-- [ ] 3. New `SectionRail.tsx` (replaces `Nav.tsx`) — fixed left rail,
-      6 numerals, `IntersectionObserver` active-section tracking.
-- [ ] 4. Rewrite `Hero.tsx` — grid layout, meta bar, big name, statement,
-      bottom nav row, photo column with hover-reveal color filter.
-- [ ] 5. Rewrite `About.tsx` — sticky left column + stack table (data as
-      typed constant).
-- [ ] 6. New `Work.tsx` (replaces `Experience.tsx`) — indexed job log,
-      no bullets. Job copy unchanged from current `Experience.tsx`.
-- [ ] 7. Rewrite `Projects.tsx` — accordion (index 0 open by default,
-      click-to-close), 3-column body.
-- [ ] 8. Rewrite `OpenSource.tsx` — big "10" + contributions table with
-      PR chip links.
-- [ ] 9. New `Words.tsx` (replaces `Testimonials.tsx`) — wall layout,
-      inverted acid plate for Wasim Juned's quote.
-- [ ] 10. Rewrite `Contact.tsx` — statement, large mailto link, copy
-       button, social row, colophon.
-- [ ] 11. Delete: `BootSequence.tsx`, `AmbientGlow.tsx`,
-       `PhosphorToggle.tsx`, `ThemeToggle.tsx`, `TerminalWindow.tsx`,
-       `ScrollProgress.tsx`, `Nav.tsx`, `SectionHeading.tsx`,
-       `src/lib/session.ts`, `src/lib/motion.ts` (all unused once the
-       above lands — recheck before deleting).
-- [ ] 12. `page.tsx` — compose new component set.
-- [ ] 13. Responsive pass (first cut — README flags this as undesigned,
-       so keep it simple: single column stacking, sticky columns
-       dropped, accordion max-height raised) — flag for your review
-       separately since it's explicitly not signed off in the design.
-- [ ] 14. `pnpm lint` + `pnpm build`, then visual check in dev server
-       against the Claude Design reference at desktop width.
+Each phase is one small PR. Every phase ends with `pnpm lint` + `pnpm build`
+passing, plus a visual check.
+
+## Blocked on owner input
+- [ ] Correct LinkedIn URL: `/in/mohanadft` or `/in/mohanad-fteha`?
+- [ ] Résumé PDF (ATS-parsable, same facts as the site)
+- [ ] Real numbers for Work and Projects (latency, cost, throughput, test coverage)
+- [ ] Explanation of the "three years" claim vs ~14 months of listed roles, and the Sep 2025–now gap
+- [ ] Working hours/timezone, engagement type, and a payment route you have actually tested
+- [ ] Accurate architecture of mini-osb, Contextly, and the Yaffa Lambda authorizer (for diagrams)
+- [ ] Rust: evidence to add, or drop it from "core"?
+
+## Phase 1: Fix what's broken (no design change)
+- [ ] 1.1 `globals.css`: wrap the `a` / `a:hover` / `.eyebrow` rules in `@layer base`. Unlayered rules currently
+      override Tailwind colors: the rail's active state never shows, and the Wasim link turns invisible on hover.
+      Same PR: change the rail numerals from `text-rule` (1.42:1) to `text-muted`.
+- [ ] 1.2 `public/photo.jpg`: re-export ~800px wide as WebP, **strip the EXIF GPS location** (currently public),
+      shrink 1.6 MB to under 100 KB. This fixes the 12.3s LCP.
+- [ ] 1.3 LinkedIn URL: one shared constant used by `Contact.tsx` and the JSON-LD in `layout.tsx`
+- [ ] 1.4 `Projects.tsx`: `inert={!isOpen}` on the collapsed panel (focus currently lands on hidden links)
+- [ ] 1.5 `Words.tsx`: visible focus ring on the acid card link
+- [ ] 1.6 Headings: section eyebrows become `<h2>`; no `<h3>` inside `<button>` in Projects
+- [ ] 1.7 404 page: its own title; skip link targets `#main`, not `#about`
+- [ ] 1.8 Small items: `aria-live` on the Copy button, unique nav labels, drop the unused Plex 500 weight,
+      fixed sitemap date, add `pnpm lint` to CI
+
+## Phase 2: Recruiter conversion (content)
+- [ ] 2.1 Hero: plain summary line visible at 0ms
+      (role · years · stack · Gaza, UTC+2/+3 · open to remote) + Résumé button
+- [ ] 2.2 Résumé PDF in `public/`, linked from the hero and Contact
+- [ ] 2.3 Static 1200×630 OG image and `og:image`/`twitter:image` metadata (LinkedIn previews)
+- [ ] 2.4 "Working with me remotely" block in Contact: overlap hours, engagement type, tested payment route
+- [ ] 2.5 Work bullets rewritten as outcomes with numbers; fix the years claim
+- [ ] 2.6 Testimonials: give Garfield Liddon a role/company; check the "Qwikx" label; link each PR
+- [ ] 2.7 Privacy-friendly analytics (GoatCounter or Cloudflare Web Analytics)
+
+## Phase 3: Rich design, direction A "Request Path"
+Hard rules: final state readable without JS; hero text never delayed; at most one
+looping animation on screen; loops pause offscreen; a `matchMedia` reduced-motion
+gate for all JS motion; every diagram is `<svg role="img">` with a text
+alternative; vertical diagram layouts on mobile.
+- [ ] 3.0 Pick one animation library (GSAP + ScrollTrigger/DrawSVG, or Motion `useAnimate`) and add a shared reduced-motion hook
+- [ ] 3.1 Projects become case studies: problem, animated architecture diagram, 2–3 decisions with alternatives rejected, numbers, what broke
+- [ ] 3.2 Work: before→after metric bars drawn on scroll
+- [ ] 3.3 Hero: small live request-path diagram (acid packets) beside the lede
+- [ ] 3.4 Open Source: count-up plus a merge graph across the repos
+- [ ] 3.5 Contact: `200 OK` terminus; Copy button shows `201 Created`
+- [ ] 3.6 From direction C, only: hover-dimming on project rows, View Transition on the accordion
+- [ ] 3.7 Re-run Lighthouse; Performance must not drop below the Phase 1 result
+
+## Phase 4: Docs and writing
+- [ ] 4.1 Rewrite stale `CLAUDE.md`, `DESIGN.md`, `PRODUCT.md`, `.impeccable/design.json`, `README.md` to match the real code
+- [ ] 4.2 (Optional, highest long-term value) one deep technical post, e.g.
+      "Building an Open Service Broker: async provisioning and idempotency"
 
 ## Review
-
-All sections implemented and building clean (`pnpm lint`, `pnpm build`).
-
-**Tokens & type.** `globals.css` reduced from ~380 lines to ~130 — the
-whole CRT token system (dual themes, phosphor variants, 8 keyframe
-animations, glow/vignette/noise/glitch classes) is gone, replaced by
-seven flat tokens. Fonts swapped to Space Grotesk + IBM Plex Mono.
-Kept: reduced-motion block, smooth scroll, skip link, `sr-only`.
-Added one shared `.eyebrow` class since the section label repeats
-seven times.
-
-**Components.** New: `SectionRail`, `Work`, `Words`, `src/lib/sections.ts`
-(shared between the rail and the hero nav so the six sections are
-declared once). Rewritten: `Hero`, `About`, `Projects`, `OpenSource`,
-`Contact`, `not-found`. Deleted: `BootSequence`, `AmbientGlow`,
-`PhosphorToggle`, `ThemeToggle`, `TerminalWindow`, `ScrollProgress`,
-`Nav`, `SectionHeading`, `Experience`, `Testimonials`,
-`src/lib/session.ts`, `src/lib/motion.ts`.
-
-**framer-motion removed** as a dependency — the new design uses only
-CSS transitions, so nothing imported it.
-
-**Deviations from the handoff, and why:**
-- Projects accordion uses a `grid-template-rows: 1fr/0fr` transition
-  rather than the specified `max-height: 26rem`. Same animation, but
-  it can't clip long content and needs no magic height at mobile
-  widths — the README flagged the fixed height as a mobile problem.
-- The accordion row is a `<button>` rather than a clickable `<div>`,
-  with `aria-expanded`/`aria-controls`, so it's keyboard-operable.
-- `Contact`'s clipboard write is wrapped in try/catch; the `mailto:`
-  link is the fallback when the clipboard API is unavailable.
-- Hero photo uses `next/image` with `fill` (README asked for
-  `next/image`); the hover filter swap is a `group-hover` class rather
-  than the design file's `--photo-filter` custom property.
-
-**Additions beyond the handoff (your calls this session):**
-- Acid plate on the hero photo reading "Still looking forward." —
-  slides in from the left on hover, no fade.
-- "What people I've worked with say ↓" link under the hero statement,
-  pointing at section 05.
-- New favicon. Both old icons were wrong: `public/favicon.svg` was the
-  green `>_` terminal prompt, and `src/app/favicon.ico` was still the
-  stock create-next-app triangle (Next auto-serves that path, so the
-  boilerplate icon was the one browsers showed). Replaced both with an
-  ink "M" on a solid acid field, drawn as a path rather than a `<text>`
-  element so it doesn't depend on the viewer having Space Grotesk. The
-  `.ico` is regenerated from the same SVG at 16/32/48.
-
-**Not done — needs your direction:**
-- Responsive/mobile is a first pass only (single-column stacking,
-  sticky columns dropped, rail hidden below `lg`). The handoff
-  explicitly says breakpoint behaviour was never designed.
-- Garfield Liddon still has no title or LinkedIn URL; his attribution
-  reads "30 years in the concrete business", pulled from his own quote.
-
-## Notes
-
-- No Framer Motion in the new design — README doesn't call for
-  scroll-reveal animation, only CSS transitions (color, accordion
-  max-height, photo filter). Not reintroducing motion for its own sake.
-- `photo.jpg` and `favicon.svg` already exist in `public/` — no asset
-  changes needed.
-- Copy for hero/about/projects/contact is taken verbatim from
-  `Portfolio v2.dc.html`; Work section keeps the original résumé
-  wording from `Experience.tsx`; testimonials stay verbatim.
+_To be filled in after implementation._
