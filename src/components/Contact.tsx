@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { LINKEDIN_URL } from "@/lib/links";
 
 const EMAIL = "mohanadfteha@gmail.com";
 const COPIED_RESET_MS = 2000;
@@ -28,9 +29,9 @@ export default function Contact() {
       id="contact"
       className="border-t-2 border-acid px-[6vw] pt-28 pb-12"
     >
-      <div className="eyebrow mb-10">
+      <h2 className="eyebrow mb-10">
         <span className="text-acid">06</span> / Contact
-      </div>
+      </h2>
 
       <p className="mb-14 max-w-[26ch] text-[clamp(1.25rem,2.4vw,1.875rem)] leading-[1.3] tracking-[-0.02em]">
         I build systems that don&apos;t wake people up at 3 AM. If that sounds
@@ -49,7 +50,7 @@ export default function Contact() {
           onClick={handleCopy}
           className="cursor-pointer border border-rule px-3 py-[0.4rem] font-mono text-xs tracking-[0.08em] text-muted uppercase transition-colors duration-200 hover:border-acid hover:text-acid"
         >
-          {copied ? "Copied" : "Copy"}
+          <span aria-live="polite">{copied ? "Copied" : "Copy"}</span>
         </button>
       </div>
 
@@ -63,7 +64,7 @@ export default function Contact() {
           github.com/mohanadft ↗
         </a>
         <a
-          href="https://www.linkedin.com/in/mohanad-fteha"
+          href={LINKEDIN_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="transition-colors duration-200"

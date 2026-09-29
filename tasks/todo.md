@@ -12,7 +12,7 @@ Each phase is one small PR. Every phase ends with `pnpm lint` + `pnpm build`
 passing, plus a visual check.
 
 ## Blocked on owner input
-- [ ] Correct LinkedIn URL: `/in/mohanadft` or `/in/mohanad-fteha`?
+- [x] Correct LinkedIn URL: `/in/mohanad-fteha` (verified via the connected LinkedIn account)
 - [ ] Résumé PDF (ATS-parsable, same facts as the site)
 - [ ] Real numbers for Work and Projects (latency, cost, throughput, test coverage)
 - [ ] Explanation of the "three years" claim vs ~14 months of listed roles, and the Sep 2025–now gap
@@ -21,17 +21,17 @@ passing, plus a visual check.
 - [ ] Rust: evidence to add, or drop it from "core"?
 
 ## Phase 1: Fix what's broken (no design change)
-- [ ] 1.1 `globals.css`: wrap the `a` / `a:hover` / `.eyebrow` rules in `@layer base`. Unlayered rules currently
+- [x] 1.1 `globals.css`: wrap the `a` / `a:hover` / `.eyebrow` rules in `@layer base`. Unlayered rules currently
       override Tailwind colors: the rail's active state never shows, and the Wasim link turns invisible on hover.
       Same PR: change the rail numerals from `text-rule` (1.42:1) to `text-muted`.
-- [ ] 1.2 `public/photo.jpg`: re-export ~800px wide as WebP, **strip the EXIF GPS location** (currently public),
+- [x] 1.2 `public/photo.jpg`: re-export ~800px wide as WebP, **strip the EXIF GPS location** (currently public),
       shrink 1.6 MB to under 100 KB. This fixes the 12.3s LCP.
-- [ ] 1.3 LinkedIn URL: one shared constant used by `Contact.tsx` and the JSON-LD in `layout.tsx`
-- [ ] 1.4 `Projects.tsx`: `inert={!isOpen}` on the collapsed panel (focus currently lands on hidden links)
-- [ ] 1.5 `Words.tsx`: visible focus ring on the acid card link
-- [ ] 1.6 Headings: section eyebrows become `<h2>`; no `<h3>` inside `<button>` in Projects
-- [ ] 1.7 404 page: its own title; skip link targets `#main`, not `#about`
-- [ ] 1.8 Small items: `aria-live` on the Copy button, unique nav labels, drop the unused Plex 500 weight,
+- [x] 1.3 LinkedIn URL: one shared constant used by `Contact.tsx` and the JSON-LD in `layout.tsx`
+- [x] 1.4 `Projects.tsx`: `inert={!isOpen}` on the collapsed panel (focus currently lands on hidden links)
+- [x] 1.5 `Words.tsx`: visible focus ring on the acid card link
+- [x] 1.6 Headings: section eyebrows become `<h2>`; no `<h3>` inside `<button>` in Projects
+- [x] 1.7 404 page: its own title; skip link targets `#main`, not `#about`
+- [x] 1.8 Small items: `aria-live` on the Copy button, unique nav labels, drop the unused Plex 500 weight,
       fixed sitemap date, add `pnpm lint` to CI
 
 ## Phase 2: Recruiter conversion (content)
@@ -64,4 +64,22 @@ alternative; vertical diagram layouts on mobile.
       "Building an Open Service Broker: async provisioning and idempotency"
 
 ## Review
-_To be filled in after implementation._
+
+### Phase 1 (done)
+- **CSS layers:** the global `a`, `a:hover` and `:focus-visible` rules are now in `@layer base`, and `.eyebrow` is in
+  `@layer components`, so Tailwind utilities win again. The rail's active numeral turns acid, the hero Contact
+  link is acid, and the Wasim link no longer disappears on hover. Links with an explicit text color got
+  `hover:text-acid` so they keep a hover state. Inactive rail numerals use `text-muted` (4.7:1 contrast).
+- **Photo:** `photo.jpg` (1.6 MB, 2320×3088, GPS in EXIF) replaced by `photo.webp` (97 KB, 1200×1597, no metadata).
+  The old JPEG is still in git history, and in the history of the deployed GitHub Pages repo.
+- **LinkedIn:** shared `LINKEDIN_URL` in `src/lib/links.ts`, used by Contact and JSON-LD.
+- **Accessibility:** `inert` on collapsed project panels; ink focus ring on the acid card; section labels are `<h2>`;
+  the project accordion is now `<h3><button>` (a heading can't sit inside a button); skip link → `#main`;
+  404 page has its own title; Copy button result is announced (`aria-live`); rail nav renamed "Section rail".
+- **Misc:** dropped the unused Plex Mono 500 weight; removed the per-build `lastModified` from the sitemap;
+  CI runs `pnpm lint` before the build.
+
+Verified: `pnpm lint` and `pnpm build` clean; Playwright checks the heading order, rail state, link colors,
+keyboard focus on every tab stop, the inert panel, the 404 title, and zero console errors.
+Lighthouse mobile (local server, no gzip): Performance 48 → 76, Accessibility 98 → 100, Best Practices 100, SEO 100.
+LCP 12.3s → 4.8s.

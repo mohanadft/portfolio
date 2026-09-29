@@ -35,7 +35,7 @@ export default function SectionRail() {
 
   return (
     <nav
-      aria-label="Sections"
+      aria-label="Section rail"
       className="fixed left-7 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-[0.85rem] font-mono text-[0.6875rem] tracking-[0.1em] lg:flex"
     >
       {SECTIONS.map((section) => (
@@ -45,7 +45,7 @@ export default function SectionRail() {
           title={section.label}
           aria-current={active === section.id ? "true" : undefined}
           className={`transition-colors duration-200 ${
-            active === section.id ? "text-acid" : "text-rule"
+            active === section.id ? "text-acid" : "text-muted hover:text-acid"
           }`}
         >
           {section.num}

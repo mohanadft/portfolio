@@ -62,7 +62,7 @@ export default function Hero() {
 
       <div className="group relative order-first h-[50vh] border-rule lg:order-none lg:h-auto lg:border-l">
         <Image
-          src="/photo.jpg"
+          src="/photo.webp"
           alt="Mohanad Fteha"
           fill
           priority

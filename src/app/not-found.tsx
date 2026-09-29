@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Not found | Mohanad Fteha",
+};
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen flex-col justify-center px-[6vw] py-28">
+    <main id="main" className="flex min-h-screen flex-col justify-center px-[6vw] py-28">
       <div className="eyebrow border-b border-rule pb-[0.9rem]">
         <span className="text-acid">404</span> / Not found
       </div>

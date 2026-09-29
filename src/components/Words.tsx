@@ -7,10 +7,10 @@ export default function Words() {
       id="words"
       className="border-t border-rule bg-ink-deep px-[6vw] py-28"
     >
-      <div className="eyebrow mb-14">
+      <h2 className="eyebrow mb-14">
         <span className="text-acid">05</span> / Words from people I&apos;ve
         worked with
-      </div>
+      </h2>
 
       <div className="grid max-w-[84rem] grid-cols-1 items-start gap-6 lg:grid-cols-[1.35fr_1fr]">
         <blockquote className={CARD}>
@@ -42,7 +42,7 @@ export default function Words() {
                 href="https://www.linkedin.com/in/wasimjuned/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="border-b border-[color-mix(in_oklch,var(--ink)_40%,transparent)] pb-0.5 text-ink hover:text-ink"
+                className="border-b border-[color-mix(in_oklch,var(--ink)_40%,transparent)] pb-0.5 text-ink hover:text-ink focus-visible:outline-ink"
               >
                 Wasim Juned ↗
               </a>
@@ -61,7 +61,7 @@ export default function Words() {
                 href="https://www.linkedin.com/in/mbarhoush"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-bone transition-colors duration-200"
+                className="text-bone transition-colors duration-200 hover:text-acid"
               >
                 Mohammad Barhoush ↗
               </a>{" "}

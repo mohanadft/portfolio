@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { LINKEDIN_URL } from "@/lib/links";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -11,7 +12,7 @@ const spaceGrotesk = Space_Grotesk({
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400"],
 });
 
 const SITE_URL = "https://mohanadfteha.me";
@@ -76,14 +77,14 @@ export default function RootLayout({
               },
               sameAs: [
                 "https://github.com/mohanadft",
-                "https://www.linkedin.com/in/mohanadft",
+                LINKEDIN_URL,
               ],
             }),
           }}
         />
       </head>
       <body className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} antialiased`}>
-        <a href="#about" className="skip-link">
+        <a href="#main" className="skip-link">
           Skip to content
         </a>
         {children}
