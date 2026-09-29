@@ -77,7 +77,7 @@ export default function Contact() {
         <span>
           <span className="text-acid">Open to work</span> — Gaza, Palestine
         </span>
-        <span>Mohanad Fteha © 2026</span>
+        <span>Mohanad Fteiha © 2026</span>
       </div>
     </section>
   );

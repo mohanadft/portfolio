@@ -6,7 +6,7 @@ export default function Hero() {
     <section className="grid min-h-screen grid-cols-1 lg:grid-cols-[1fr_24rem]">
       <div className="grid min-w-0 grid-rows-[auto_1fr_auto] px-[6vw] pt-8 pb-10 lg:pr-[4vw]">
         <div className="flex flex-wrap justify-between gap-x-8 gap-y-2 border-b border-rule pb-4 font-mono text-[0.6875rem] tracking-[0.14em] text-muted uppercase">
-          <span className="text-bone">Mohanad Fteha</span>
+          <span className="text-bone">Mohanad Fteiha</span>
           <span>Software Engineer</span>
           <span>Gaza, Palestine</span>
           <span className="inline-flex items-center gap-2 text-acid">
@@ -22,7 +22,7 @@ export default function Hero() {
           <h1 className="text-[clamp(3.5rem,11.5vw,10rem)] leading-[0.84] font-medium tracking-[-0.045em]">
             Mohanad
             <br />
-            Fteha<span className="text-acid">.</span>
+            Fteiha<span className="text-acid">.</span>
           </h1>
           <p className="mt-12 max-w-[46ch] text-[clamp(1.0625rem,1.6vw,1.375rem)] leading-[1.45] text-pretty text-bone-dim">
             I work on the half of the product you only notice when it breaks —
@@ -63,7 +63,7 @@ export default function Hero() {
       <div className="group relative order-first h-[50vh] border-rule lg:order-none lg:h-auto lg:border-l">
         <Image
           src="/photo.webp"
-          alt="Mohanad Fteha"
+          alt="Mohanad Fteiha"
           fill
           priority
           sizes="(min-width: 1024px) 24rem, 100vw"

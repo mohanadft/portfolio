@@ -15,7 +15,7 @@ export default function Words() {
       <div className="grid max-w-[84rem] grid-cols-1 items-start gap-6 lg:grid-cols-[1.35fr_1fr]">
         <blockquote className={CARD}>
           <p className="m-0 leading-[1.6] text-pretty text-bone">
-            “From day one, Mohanad Fteha impressed me with his initiative and
+            “From day one, Mohanad Fteiha impressed me with his initiative and
             sharp analytical mind. Despite being the youngest member of our team,
             he took it upon himself to quickly master the domain knowledge of our
             industry. With over 30 years of experience in the concrete business,

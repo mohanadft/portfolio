@@ -22,7 +22,7 @@ const DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Mohanad Fteha | Software Engineer",
+  title: "Mohanad Fteiha | Software Engineer",
   description: DESCRIPTION,
   icons: {
     icon: "/favicon.svg",
@@ -31,16 +31,16 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "Mohanad Fteha | Software Engineer",
+    title: "Mohanad Fteiha | Software Engineer",
     description: DESCRIPTION,
     url: SITE_URL,
-    siteName: "Mohanad Fteha",
+    siteName: "Mohanad Fteiha",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mohanad Fteha | Software Engineer",
+    title: "Mohanad Fteiha | Software Engineer",
     description: DESCRIPTION,
   },
 };
@@ -59,7 +59,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Mohanad Fteha",
+              name: "Mohanad Fteiha",
               url: SITE_URL,
               jobTitle: "Software Engineer",
               knowsAbout: [
