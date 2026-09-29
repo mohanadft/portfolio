@@ -1,5 +1,5 @@
 ---
-name: Mohanad Fteha Portfolio
+name: Mohanad Fteiha Portfolio
 description: A backend engineer's terminal-themed portfolio with phosphor warmth and structural precision.
 colors:
   phosphor-green: "oklch(0.75 0.19 152)"
@@ -96,7 +96,7 @@ components:
     backgroundColor: "{colors.phosphor-green}"
 ---
 
-# Design System: Mohanad Fteha Portfolio
+# Design System: Mohanad Fteiha Portfolio
 
 ## 1. Overview
 

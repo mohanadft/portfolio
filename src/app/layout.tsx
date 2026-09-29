@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { LINKEDIN_URL } from "@/lib/links";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -11,7 +12,7 @@ const spaceGrotesk = Space_Grotesk({
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400"],
 });
 
 const SITE_URL = "https://mohanadfteha.me";
@@ -21,7 +22,7 @@ const DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Mohanad Fteha | Software Engineer",
+  title: "Mohanad Fteiha | Software Engineer",
   description: DESCRIPTION,
   icons: {
     icon: "/favicon.svg",
@@ -30,16 +31,16 @@ export const metadata: Metadata = {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: "Mohanad Fteha | Software Engineer",
+    title: "Mohanad Fteiha | Software Engineer",
     description: DESCRIPTION,
     url: SITE_URL,
-    siteName: "Mohanad Fteha",
+    siteName: "Mohanad Fteiha",
     type: "website",
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mohanad Fteha | Software Engineer",
+    title: "Mohanad Fteiha | Software Engineer",
     description: DESCRIPTION,
   },
 };
@@ -58,7 +59,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Mohanad Fteha",
+              name: "Mohanad Fteiha",
               url: SITE_URL,
               jobTitle: "Software Engineer",
               knowsAbout: [
@@ -76,14 +77,14 @@ export default function RootLayout({
               },
               sameAs: [
                 "https://github.com/mohanadft",
-                "https://www.linkedin.com/in/mohanadft",
+                LINKEDIN_URL,
               ],
             }),
           }}
         />
       </head>
       <body className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} antialiased`}>
-        <a href="#about" className="skip-link">
+        <a href="#main" className="skip-link">
           Skip to content
         </a>
         {children}

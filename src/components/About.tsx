@@ -33,9 +33,9 @@ export default function About() {
     <section id="about" className="border-t border-rule px-[6vw] py-28">
       <div className="grid max-w-[84rem] grid-cols-1 items-start gap-12 lg:grid-cols-[19rem_1fr] lg:gap-[4.5rem]">
         <div className="lg:sticky lg:top-16">
-          <div className="eyebrow border-b border-rule pb-[0.9rem]">
+          <h2 className="eyebrow border-b border-rule pb-[0.9rem]">
             <span className="text-acid">01</span> / About
-          </div>
+          </h2>
           <p className="mt-6 font-mono text-[0.8125rem] leading-[1.7] text-bone-dim">
             Software engineer, backend-focused.
             <br />

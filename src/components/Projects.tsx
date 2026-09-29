@@ -58,10 +58,10 @@ export default function Projects() {
 
   return (
     <section id="projects" className="border-t border-rule">
-      <div className="eyebrow px-[6vw] pt-28 pb-6">
+      <h2 className="eyebrow px-[6vw] pt-28 pb-6">
         <span className="text-acid">03</span> / Projects — built to scratch an
         itch
-      </div>
+      </h2>
 
       {PROJECTS.map((project, i) => {
         const isOpen = openProject === i;
@@ -76,33 +76,36 @@ export default function Projects() {
                 : "border-l-transparent hover:bg-ink-deep"
             }`}
           >
-            <button
-              type="button"
-              onClick={() => setOpenProject(isOpen ? -1 : i)}
-              aria-expanded={isOpen}
-              aria-controls={panelId}
-              className="flex w-full cursor-pointer flex-wrap items-baseline gap-x-6 gap-y-2 px-[calc(6vw-3px)] py-8 text-left"
-            >
-              <span
-                className={`font-mono text-xs ${isOpen ? "text-acid" : "text-muted"}`}
+            <h3>
+              <button
+                type="button"
+                onClick={() => setOpenProject(isOpen ? -1 : i)}
+                aria-expanded={isOpen}
+                aria-controls={panelId}
+                className="flex w-full cursor-pointer flex-wrap items-baseline gap-x-6 gap-y-2 px-[calc(6vw-3px)] py-8 text-left"
               >
-                {project.index}
-              </span>
-              <h3
-                className={`text-[clamp(2rem,4.5vw,3.25rem)] leading-none font-medium tracking-[-0.035em] transition-colors duration-[250ms] ${
-                  isOpen ? "text-bone" : "text-bone-dim"
-                }`}
-              >
-                {project.name}
-              </h3>
-              <span className="font-mono text-xs text-muted">{project.date}</span>
-              <span className="font-mono text-xs whitespace-pre-wrap text-muted sm:ml-auto">
-                {project.tech.join("  /  ")}
-              </span>
-            </button>
+                <span
+                  className={`font-mono text-xs ${isOpen ? "text-acid" : "text-muted"}`}
+                >
+                  {project.index}
+                </span>
+                <span
+                  className={`text-[clamp(2rem,4.5vw,3.25rem)] leading-none font-medium tracking-[-0.035em] transition-colors duration-[250ms] ${
+                    isOpen ? "text-bone" : "text-bone-dim"
+                  }`}
+                >
+                  {project.name}
+                </span>
+                <span className="font-mono text-xs text-muted">{project.date}</span>
+                <span className="font-mono text-xs whitespace-pre-wrap text-muted sm:ml-auto">
+                  {project.tech.join("  /  ")}
+                </span>
+              </button>
+            </h3>
 
             <div
               id={panelId}
+              inert={!isOpen}
               className={`grid transition-[grid-template-rows,opacity] duration-[400ms] ease-out ${
                 isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               }`}
@@ -144,7 +147,7 @@ export default function Projects() {
                         href={project.inspiredBy}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-mono text-xs text-muted transition-colors duration-200"
+                        className="font-mono text-xs text-muted transition-colors duration-200 hover:text-acid"
                       >
                         after a Kelsey Hightower talk ↗
                       </a>

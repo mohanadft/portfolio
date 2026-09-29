@@ -40,9 +40,9 @@ export default function Work() {
       className="border-t border-rule bg-ink-deep px-[6vw] py-28"
     >
       <div className="eyebrow mb-14 flex items-baseline justify-between">
-        <span>
+        <h2>
           <span className="text-acid">02</span> / Work
-        </span>
+        </h2>
         <span>2023 — 2025</span>
       </div>
 

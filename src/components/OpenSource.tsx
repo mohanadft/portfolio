@@ -27,9 +27,9 @@ export default function OpenSource() {
     <section id="opensource" className="px-[6vw] py-28">
       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[19rem_1fr] lg:gap-[4.5rem]">
         <div>
-          <div className="eyebrow">
+          <h2 className="eyebrow">
             <span className="text-acid">04</span> / Open source
-          </div>
+          </h2>
           <div className="mt-4 text-[clamp(4rem,9vw,7rem)] leading-none font-medium tracking-[-0.05em] text-acid">
             {TOTAL_PRS}
           </div>
